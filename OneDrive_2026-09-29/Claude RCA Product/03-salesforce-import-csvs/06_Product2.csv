@@ -1,0 +1,2 @@
+Name,IsActive,DisplayUrl,ConfigureDuringSale,Product_Family_ROD__c,ProductCode,Type,RCA_Product__c,Internal_Product_Description__c,Description,Configurable_Product__c,AvailabilityDate,Product_Owner__r.Email,BasedOn.Code
+ECO Roof Ventilator CO,TRUE,,Allowed,,CO,,true,"ECO flat-roof ventilator – configurable via RCA. Version 3E/3S/2V. Throat sizes 426–2326 mm wide, 705–3498 mm long.",Natural ventilator for smoke and heat exhaust (SHEVS). Pneumatic or electric control. Certified according to EN 12101-2.,true,2025-01-01,,

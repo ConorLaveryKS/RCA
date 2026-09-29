@@ -1,0 +1,791 @@
+// ═══════════════════════════════════════════════════════════════════════════
+//  ECO Roof Ventilator CO – Constraint Model
+//  Nextview Consulting | Revenue Cloud Advanced Configurator
+//  Base structure auto-generated from PCM Visual Builder
+//  Constraints added manually – validated against CML User Guide
+// ═══════════════════════════════════════════════════════════════════════════
+
+type LineItem;
+
+type ECORoofVentilatorCO : LineItem {
+
+    // ──────────────────────────────────────────────────────────────────────
+    //  INPUT ATTRIBUTES  (from PCM – do not modify names or domains)
+    // ──────────────────────────────────────────────────────────────────────
+    @(defaultValue = "P1BD")
+    string ECO_Control = ["HE", "HI", "L", "P1O", "P2O", "P1C", "P2C", "P1O4", "P2O4", "P1C4", "P2C4", "P1BD", "P2BD", "M1B24", "M2B24", "M1C24", "M2C24", "M1O24", "M2O24", "M1B24M", "M2B24M", "M1B24K", "M2B24K", "M1B230", "M2B230", "M1C230", "M2C230", "M1O230", "M2O230", "M1B230J", "M2B230J", "MP1OSH", "MP2OSH", "MP1OSP", "MP2OSP", "M1B24J", "M2B24J", "P1OSH", "P2OSH", "P1OSP", "P2OSP", "P1BDD", "P2BDD", "P1OSHD", "P2OSHD", "P1OSPD", "P2OSPD", "M1C24J", "M2C24J", "M1C230J", "M2C230J"];
+
+    @(defaultValue = "FS68")
+    string ECO_ThermalRelease = ["FX", "F72", "F93", "F141", "F182", "F72S", "F93S", "F141S", "F182S", "1F72", "1F93", "1F141", "1F182", "1F72S", "1F93S", "1F141S", "1F182S", "2F72", "2F93", "2F141", "2F182", "2F72S", "2F93S", "2F141S", "2F182S", "FV68", "FV93", "FS68", "FS93", "FS141", "FS182", "FS68S", "FS93S", "FS141S", "FS182S"];
+
+    string ECO_ThroatWidth = ["6", "7", "9", "12", "13", "18", "19", "21", "22", "23", "25", "10", "15", "16"];
+
+    @(defaultValue = "3E")
+    string ECO_Version = ["3E", "3S", "2V", "3D"];
+
+    @(defaultValue = "F")
+    string ECO_AssemblySituation = ["F", "W", "S"];
+
+    string ECO_ThroatLength = ["11", "14", "17", "26", "27", "29", "31", "34", "35", "36", "38", "10", "13", "15", "18", "19", "21", "22", "23", "25", "30", "32"];
+
+    @(defaultValue = "T(-15)")
+    string ECO_AmbientTemp = ["X", "T(00)", "T(-05)", "T(-15)", "T(-25)"];
+
+    @(defaultValue = "X")
+    string ECO_Insulation = ["X", "I"];
+
+    @(defaultValue = "X")
+    string ECO_Coverage = ["P", "C", "X"];
+
+    @(defaultValue = "X")
+    string ECO_Finish = ["PG", "PS", "PM", "X", "S"];
+
+    @(defaultValue = "X")
+    string ECO_BurglarGuards = ["S", "X"];
+
+    @(defaultValue = "X")
+    string ECO_Guards = ["IG", "IS", "BG", "X"];
+
+    @(defaultValue = "No")
+    string ECO_LiftingEyes = ["No", "Yes"];
+
+    @(defaultValue = "X")
+    string ECO_InsulatedAdapter = ["A", "X"];
+
+    @(defaultValue = "STD")
+    string ECO_BaseType = ["STD", "CB2", "CB3", "CB4", "UB1", "UB2", "UB3", "UB4", "UB5"];
+
+    @(defaultValue = "X")
+    string ECO_UpstandDesign = ["S250", "S350", "C250", "C350", "X"];
+
+    @(defaultValue = "N5")
+    string ECO_FlangeEdgeType = ["N1-D", "N1-D4", "N1-U", "N1-U4", "N1-16", "N1-24", "N1-AZ", "N2", "N3", "N4", "N5", "N6-L", "N6-R", "N6-LR", "N6-T", "N6-B", "N6-TB", "N7", "N8-L", "N8-R", "N8-LR", "N8-T", "N8-B", "N8-TB", "N9-D", "N9-U", "N10", "N11", "NS"];
+
+    @(defaultValue = "X")
+    string ECO_RemovableLouvre = ["X", "R"];
+
+    @(defaultValue = "POR")
+    string ECO_LouvreType = ["A1B", "A1X", "A2BD", "A2XD", "A2B", "A2X", "A2I", "PCR", "POR", "PC16", "PO16", "GWR", "GLR", "GTR"];
+
+    string ECO_RALColour;
+
+    // ──────────────────────────────────────────────────────────────────────
+    //  OUTPUT ATTRIBUTES  (calculated – not user-editable)
+    //  Declared by PCM; values set entirely by action/constraint rules below
+    // ──────────────────────────────────────────────────────────────────────
+    decimal(2) ECO_NumLouvres;
+    decimal(2) ECO_GeomAreaAv;
+    decimal(2) ECO_AeroAreaAa;
+    string     ECO_SnowLoad;
+    string     ECO_WindLoad;
+    string     ECO_AmbientTempClass;
+    decimal(2) ECO_ReleaseTemp;
+    string     ECO_OpenPressVent;
+    string     ECO_OpenPressSmoke;
+    string     ECO_CO2Bottle;
+    string     ECO_Weight;
+    string     ECO_UValue;
+
+    // ──────────────────────────────────────────────────────────────────────
+    //  INTERNAL PROXY VARIABLES
+    //  Hidden from UI; used to convert string codes to numeric mm values
+    //  and to carry the integer release temperature for CO2 bottle logic.
+    // ──────────────────────────────────────────────────────────────────────
+    @(hidden = true)
+    decimal(0) ECO_ThroatWidth_mm;
+
+    @(hidden = true)
+    decimal(0) ECO_ThroatLength_mm;
+
+    @(hidden = true)
+    decimal(0) ECO_ReleaseTemp_int;
+
+
+    // ══════════════════════════════════════════════════════════════════════
+    //  1.  THROAT CODE → MM  (table constraints)
+    //
+    //  Source: text!B24:C37 (width) and text!B42:C63 (length)
+    //  Maps the 1–2 digit picklist code to the actual throat dimension in mm.
+    //  Used by all downstream calculations.
+    // ══════════════════════════════════════════════════════════════════════
+    constraint(table(ECO_ThroatWidth, ECO_ThroatWidth_mm,
+        {"6",  426},  {"7",  576},  {"9",  726},  {"10", 876},
+        {"12", 1026}, {"13", 1176}, {"15", 1326}, {"16", 1476},
+        {"18", 1626}, {"19", 1776}, {"21", 1926}, {"22", 2000},
+        {"23", 2126}, {"25", 2326}),
+        "ECO_ThroatWidth code to mm");
+
+    constraint(table(ECO_ThroatLength, ECO_ThroatLength_mm,
+        {"10", 705},  {"11", 838},  {"13", 971},  {"14", 1104},
+        {"15", 1237}, {"17", 1370}, {"18", 1503}, {"19", 1636},
+        {"21", 1769}, {"22", 1902}, {"23", 2035}, {"25", 2168},
+        {"26", 2301}, {"27", 2434}, {"29", 2567}, {"30", 2700},
+        {"31", 2833}, {"32", 2966}, {"34", 3099}, {"35", 3232},
+        {"36", 3365}, {"38", 3498}),
+        "ECO_ThroatLength code to mm");
+
+
+    // ══════════════════════════════════════════════════════════════════════
+    //  2.  NUMBER OF LOUVRES
+    //
+    //  Source: Input!C42
+    //  Formula: (ECO_ThroatLength_mm - 40) / 133
+    //  Example: length code 15 → 1237 mm → (1237-40)/133 = 9.0 louvres
+    // ══════════════════════════════════════════════════════════════════════
+    action(true,
+           ECO_NumLouvres = (ECO_ThroatLength_mm - 40) / 133);
+
+
+    // ══════════════════════════════════════════════════════════════════════
+    //  3.  GEOMETRIC AREA Av  (m²)
+    //
+    //  Source: aerodynamic!C365
+    //  Approximation: Width_mm × Length_mm / 1 000 000
+    //  Full accuracy requires Apex callout replicating the aerodynamic HLOOKUP.
+    // ══════════════════════════════════════════════════════════════════════
+    action(true,
+           ECO_GeomAreaAv = ROUND((ECO_ThroatWidth_mm * ECO_ThroatLength_mm) / 1000000, 2));
+
+
+    // ══════════════════════════════════════════════════════════════════════
+    //  4.  AERODYNAMIC AREA Aa  (m²)
+    //
+    //  Source: aerodynamic!B388
+    //  Formula: Av × Cv_louvre × Cv_guard
+    //
+    //  Cv by louvre family (from aerodynamic table row 376):
+    //    A1B / A1X              → 0.60
+    //    A2BD / A2XD / A2B / A2X → 0.65
+    //    A2I                    → 0.72
+    //    PCR / POR              → 0.62
+    //    PC16 / PO16            → 0.60
+    //    GWR                    → 0.60
+    //    GLR / GTR              → 0.58
+    //
+    //  Guard reduction (aerodynamic!F384 lookup):
+    //    X  → × 1.00   (no correction)
+    //    BG → × 0.95   (bird guard −5%)
+    //    IS → × 0.84   (stainless insect mesh −16%)
+    //    IG → × 0.75   (fabric insect mesh −25%)
+    //
+    //  Each action rule combines both factors in one expression so no
+    //  variable references itself (avoids circular assignment).
+    //  7 louvre families × 4 guard options = 28 mutually exclusive rules.
+    // ══════════════════════════════════════════════════════════════════════
+
+    // ── A1B / A1X  (Cv = 0.60) ──────────────────────────────────────────
+    action((ECO_LouvreType == "A1B" || ECO_LouvreType == "A1X") && ECO_Guards == "X",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.60, 2));
+    action((ECO_LouvreType == "A1B" || ECO_LouvreType == "A1X") && ECO_Guards == "BG",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.60 * 0.95, 2));
+    action((ECO_LouvreType == "A1B" || ECO_LouvreType == "A1X") && ECO_Guards == "IS",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.60 * 0.84, 2));
+    action((ECO_LouvreType == "A1B" || ECO_LouvreType == "A1X") && ECO_Guards == "IG",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.60 * 0.75, 2));
+
+    // ── A2BD / A2XD / A2B / A2X  (Cv = 0.65) ───────────────────────────
+    action((ECO_LouvreType == "A2BD" || ECO_LouvreType == "A2XD" ||
+            ECO_LouvreType == "A2B"  || ECO_LouvreType == "A2X") && ECO_Guards == "X",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.65, 2));
+    action((ECO_LouvreType == "A2BD" || ECO_LouvreType == "A2XD" ||
+            ECO_LouvreType == "A2B"  || ECO_LouvreType == "A2X") && ECO_Guards == "BG",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.65 * 0.95, 2));
+    action((ECO_LouvreType == "A2BD" || ECO_LouvreType == "A2XD" ||
+            ECO_LouvreType == "A2B"  || ECO_LouvreType == "A2X") && ECO_Guards == "IS",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.65 * 0.84, 2));
+    action((ECO_LouvreType == "A2BD" || ECO_LouvreType == "A2XD" ||
+            ECO_LouvreType == "A2B"  || ECO_LouvreType == "A2X") && ECO_Guards == "IG",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.65 * 0.75, 2));
+
+    // ── A2I insulated aluminium  (Cv = 0.72) ────────────────────────────
+    action(ECO_LouvreType == "A2I" && ECO_Guards == "X",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.72, 2));
+    action(ECO_LouvreType == "A2I" && ECO_Guards == "BG",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.72 * 0.95, 2));
+    action(ECO_LouvreType == "A2I" && ECO_Guards == "IS",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.72 * 0.84, 2));
+    action(ECO_LouvreType == "A2I" && ECO_Guards == "IG",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.72 * 0.75, 2));
+
+    // ── PCR / POR  9 mm polycarbonate  (Cv = 0.62) ──────────────────────
+    action((ECO_LouvreType == "PCR" || ECO_LouvreType == "POR") && ECO_Guards == "X",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.62, 2));
+    action((ECO_LouvreType == "PCR" || ECO_LouvreType == "POR") && ECO_Guards == "BG",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.62 * 0.95, 2));
+    action((ECO_LouvreType == "PCR" || ECO_LouvreType == "POR") && ECO_Guards == "IS",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.62 * 0.84, 2));
+    action((ECO_LouvreType == "PCR" || ECO_LouvreType == "POR") && ECO_Guards == "IG",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.62 * 0.75, 2));
+
+    // ── PC16 / PO16  16 mm polycarbonate  (Cv = 0.60) ───────────────────
+    action((ECO_LouvreType == "PC16" || ECO_LouvreType == "PO16") && ECO_Guards == "X",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.60, 2));
+    action((ECO_LouvreType == "PC16" || ECO_LouvreType == "PO16") && ECO_Guards == "BG",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.60 * 0.95, 2));
+    action((ECO_LouvreType == "PC16" || ECO_LouvreType == "PO16") && ECO_Guards == "IS",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.60 * 0.84, 2));
+    action((ECO_LouvreType == "PC16" || ECO_LouvreType == "PO16") && ECO_Guards == "IG",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.60 * 0.75, 2));
+
+    // ── GWR  wired glass  (Cv = 0.60) ───────────────────────────────────
+    action(ECO_LouvreType == "GWR" && ECO_Guards == "X",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.60, 2));
+    action(ECO_LouvreType == "GWR" && ECO_Guards == "BG",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.60 * 0.95, 2));
+    action(ECO_LouvreType == "GWR" && ECO_Guards == "IS",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.60 * 0.84, 2));
+    action(ECO_LouvreType == "GWR" && ECO_Guards == "IG",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.60 * 0.75, 2));
+
+    // ── GLR / GTR  toughened glass  (Cv = 0.58) ─────────────────────────
+    action((ECO_LouvreType == "GLR" || ECO_LouvreType == "GTR") && ECO_Guards == "X",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.58, 2));
+    action((ECO_LouvreType == "GLR" || ECO_LouvreType == "GTR") && ECO_Guards == "BG",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.58 * 0.95, 2));
+    action((ECO_LouvreType == "GLR" || ECO_LouvreType == "GTR") && ECO_Guards == "IS",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.58 * 0.84, 2));
+    action((ECO_LouvreType == "GLR" || ECO_LouvreType == "GTR") && ECO_Guards == "IG",
+           ECO_AeroAreaAa = ROUND(ECO_GeomAreaAv * 0.58 * 0.75, 2));
+
+
+    // ══════════════════════════════════════════════════════════════════════
+    //  5.  RELEASE TEMPERATURE  (°C)
+    //
+    //  Source: CO2-bottles!D7  (array formula)
+    //  Maps ThermalRelease picklist code → temperature used for CO2 logic.
+    //  FX / FV** → 0  (no release element)
+    // ══════════════════════════════════════════════════════════════════════
+    constraint(table(ECO_ThermalRelease, ECO_ReleaseTemp_int,
+        {"FX",     0},
+        // 68 °C family
+        {"FV68",  68}, {"FS68",  68}, {"FS68S",  68},
+        {"F72",   68}, {"F72S",  68},
+        {"1F72",  68}, {"1F72S", 68},
+        {"2F72",  68}, {"2F72S", 68},
+        // 93 °C family
+        {"FV93",  93}, {"FS93",  93}, {"FS93S",  93},
+        {"F93",   93}, {"F93S",  93},
+        {"1F93",  93}, {"1F93S", 93},
+        {"2F93",  93}, {"2F93S", 93},
+        // 141 °C family
+        {"FS141",  141}, {"FS141S", 141},
+        {"F141",   141}, {"F141S",  141},
+        {"1F141",  141}, {"1F141S", 141},
+        {"2F141",  141}, {"2F141S", 141},
+        // 182 °C family
+        {"FS182",  182}, {"FS182S", 182},
+        {"F182",   182}, {"F182S",  182},
+        {"1F182",  182}, {"1F182S", 182},
+        {"2F182",  182}, {"2F182S", 182}),
+        "ThermalRelease code to release temperature deg C");
+
+    action(true, ECO_ReleaseTemp = ECO_ReleaseTemp_int);
+
+
+    // ══════════════════════════════════════════════════════════════════════
+    //  6.  AMBIENT TEMPERATURE CLASS
+    //
+    //  Source: T(xx)!E72
+    //  Validates the selected ECO_AmbientTemp against what is certified
+    //  for the chosen control type.
+    //  Manual (HE/HI/L)     → always "X"
+    //  Pneumatic (P*/MP*)   → all classes certified
+    //  Electric (M*)        → T(00)/T(-05)/T(-15) certified; T(-25) → "X"
+    // ══════════════════════════════════════════════════════════════════════
+
+    // Manual controls → no temperature class
+    action(ECO_Control == "HE" || ECO_Control == "HI" || ECO_Control == "L",
+           ECO_AmbientTempClass = "X");
+
+    // User selected no class
+    action(ECO_AmbientTemp == "X" &&
+           ECO_Control != "HE" && ECO_Control != "HI" && ECO_Control != "L",
+           ECO_AmbientTempClass = "X");
+
+    // Pneumatic controls → pass selected class through
+    action((ECO_Control == "P1O"    || ECO_Control == "P2O"    ||
+            ECO_Control == "P1C"    || ECO_Control == "P2C"    ||
+            ECO_Control == "P1O4"   || ECO_Control == "P2O4"   ||
+            ECO_Control == "P1C4"   || ECO_Control == "P2C4"   ||
+            ECO_Control == "P1BD"   || ECO_Control == "P2BD"   ||
+            ECO_Control == "P1OSH"  || ECO_Control == "P2OSH"  ||
+            ECO_Control == "P1OSP"  || ECO_Control == "P2OSP"  ||
+            ECO_Control == "P1BDD"  || ECO_Control == "P2BDD"  ||
+            ECO_Control == "P1OSHD" || ECO_Control == "P2OSHD" ||
+            ECO_Control == "P1OSPD" || ECO_Control == "P2OSPD" ||
+            ECO_Control == "MP1OSH" || ECO_Control == "MP2OSH" ||
+            ECO_Control == "MP1OSP" || ECO_Control == "MP2OSP") &&
+           ECO_AmbientTemp != "X",
+           ECO_AmbientTempClass = ECO_AmbientTemp);
+
+    // Electric motors → T(-25) not certified
+    action((ECO_Control == "M1B24"   || ECO_Control == "M2B24"   ||
+            ECO_Control == "M1C24"   || ECO_Control == "M2C24"   ||
+            ECO_Control == "M1O24"   || ECO_Control == "M2O24"   ||
+            ECO_Control == "M1B24M"  || ECO_Control == "M2B24M"  ||
+            ECO_Control == "M1C24J"  || ECO_Control == "M2C24J"  ||
+            ECO_Control == "M1B24K"  || ECO_Control == "M2B24K"  ||
+            ECO_Control == "M1B230"  || ECO_Control == "M2B230"  ||
+            ECO_Control == "M1C230"  || ECO_Control == "M2C230"  ||
+            ECO_Control == "M1O230"  || ECO_Control == "M2O230"  ||
+            ECO_Control == "M1B230J" || ECO_Control == "M2B230J" ||
+            ECO_Control == "M1C230J" || ECO_Control == "M2C230J" ||
+            ECO_Control == "M1B24J"  || ECO_Control == "M2B24J") &&
+           (ECO_AmbientTemp == "T(00)"  ||
+            ECO_AmbientTemp == "T(-05)" ||
+            ECO_AmbientTemp == "T(-15)"),
+           ECO_AmbientTempClass = ECO_AmbientTemp);
+
+    action((ECO_Control == "M1B24"   || ECO_Control == "M2B24"   ||
+            ECO_Control == "M1C24"   || ECO_Control == "M2C24"   ||
+            ECO_Control == "M1O24"   || ECO_Control == "M2O24"   ||
+            ECO_Control == "M1B24M"  || ECO_Control == "M2B24M"  ||
+            ECO_Control == "M1C24J"  || ECO_Control == "M2C24J"  ||
+            ECO_Control == "M1B24K"  || ECO_Control == "M2B24K"  ||
+            ECO_Control == "M1B230"  || ECO_Control == "M2B230"  ||
+            ECO_Control == "M1C230"  || ECO_Control == "M2C230"  ||
+            ECO_Control == "M1O230"  || ECO_Control == "M2O230"  ||
+            ECO_Control == "M1B230J" || ECO_Control == "M2B230J" ||
+            ECO_Control == "M1C230J" || ECO_Control == "M2C230J" ||
+            ECO_Control == "M1B24J"  || ECO_Control == "M2B24J") &&
+           ECO_AmbientTemp == "T(-25)",
+           ECO_AmbientTempClass = "X");
+
+    message((ECO_Control == "M1B24"   || ECO_Control == "M2B24"   ||
+             ECO_Control == "M1C24"   || ECO_Control == "M2C24"   ||
+             ECO_Control == "M1O24"   || ECO_Control == "M2O24"   ||
+             ECO_Control == "M1B24M"  || ECO_Control == "M2B24M"  ||
+             ECO_Control == "M1B230"  || ECO_Control == "M2B230"  ||
+             ECO_Control == "M1C230"  || ECO_Control == "M2C230"  ||
+             ECO_Control == "M1O230"  || ECO_Control == "M2O230") &&
+            ECO_AmbientTemp == "T(-25)",
+            "T(-25) is not certified for electric motor drives. T(-15) is the lowest certified class.",
+            "Warning");
+
+
+    // ══════════════════════════════════════════════════════════════════════
+    //  7.  CO2 BOTTLE SIZE  (g)
+    //
+    //  Source: CO2-bottles!AF109
+    //  Output values: "X" (no bottle), "20", "28", "40"
+    //
+    //  Logic:
+    //    Manual / single-acting pneumatic / electric → "X"
+    //    FX or FV** thermal release → "X" regardless of control
+    //    Fusible-link F** / 1F** / 2F** with locked/OS controls → "X"
+    //    FS68/FS93 TVV + locked/OS + small unit → "20"
+    //    FS68/FS93 TVV + locked/OS + large unit → "40"
+    //    FS141/FS182 TVV + locked/OS → "28"  (corrected from "20")
+    // ══════════════════════════════════════════════════════════════════════
+
+    // Controls that never need CO2
+    action(ECO_Control == "HE"      || ECO_Control == "HI"      ||
+           ECO_Control == "L"       ||
+           ECO_Control == "P1O"     || ECO_Control == "P2O"     ||
+           ECO_Control == "P1C"     || ECO_Control == "P2C"     ||
+           ECO_Control == "P1O4"    || ECO_Control == "P2O4"    ||
+           ECO_Control == "P1C4"    || ECO_Control == "P2C4"    ||
+           ECO_Control == "M1B24"   || ECO_Control == "M2B24"   ||
+           ECO_Control == "M1C24"   || ECO_Control == "M2C24"   ||
+           ECO_Control == "M1O24"   || ECO_Control == "M2O24"   ||
+           ECO_Control == "M1B24M"  || ECO_Control == "M2B24M"  ||
+           ECO_Control == "M1C24J"  || ECO_Control == "M2C24J"  ||
+           ECO_Control == "M1B24K"  || ECO_Control == "M2B24K"  ||
+           ECO_Control == "M1B230"  || ECO_Control == "M2B230"  ||
+           ECO_Control == "M1C230"  || ECO_Control == "M2C230"  ||
+           ECO_Control == "M1O230"  || ECO_Control == "M2O230"  ||
+           ECO_Control == "M1B230J" || ECO_Control == "M2B230J" ||
+           ECO_Control == "M1C230J" || ECO_Control == "M2C230J" ||
+           ECO_Control == "M1B24J"  || ECO_Control == "M2B24J",
+           ECO_CO2Bottle = "X");
+
+    // No thermal release or exhaust-valve types → no CO2
+    action(ECO_ThermalRelease == "FX"  ||
+           ECO_ThermalRelease == "FV68" ||
+           ECO_ThermalRelease == "FV93",
+           ECO_CO2Bottle = "X");
+
+    // Locked/OS controls + fusible-link release (F*, 1F*, 2F*) → no CO2
+    action((ECO_Control == "P1BD"   || ECO_Control == "P2BD"   ||
+            ECO_Control == "P1OSH"  || ECO_Control == "P2OSH"  ||
+            ECO_Control == "P1OSP"  || ECO_Control == "P2OSP"  ||
+            ECO_Control == "P1BDD"  || ECO_Control == "P2BDD"  ||
+            ECO_Control == "P1OSHD" || ECO_Control == "P2OSHD" ||
+            ECO_Control == "P1OSPD" || ECO_Control == "P2OSPD" ||
+            ECO_Control == "MP1OSH" || ECO_Control == "MP2OSH" ||
+            ECO_Control == "MP1OSP" || ECO_Control == "MP2OSP") &&
+           (ECO_ThermalRelease == "F72"    || ECO_ThermalRelease == "F72S"   ||
+            ECO_ThermalRelease == "F93"    || ECO_ThermalRelease == "F93S"   ||
+            ECO_ThermalRelease == "F141"   || ECO_ThermalRelease == "F141S"  ||
+            ECO_ThermalRelease == "F182"   || ECO_ThermalRelease == "F182S"  ||
+            ECO_ThermalRelease == "1F72"   || ECO_ThermalRelease == "1F72S"  ||
+            ECO_ThermalRelease == "1F93"   || ECO_ThermalRelease == "1F93S"  ||
+            ECO_ThermalRelease == "1F141"  || ECO_ThermalRelease == "1F141S" ||
+            ECO_ThermalRelease == "1F182"  || ECO_ThermalRelease == "1F182S" ||
+            ECO_ThermalRelease == "2F72"   || ECO_ThermalRelease == "2F72S"  ||
+            ECO_ThermalRelease == "2F93"   || ECO_ThermalRelease == "2F93S"  ||
+            ECO_ThermalRelease == "2F141"  || ECO_ThermalRelease == "2F141S" ||
+            ECO_ThermalRelease == "2F182"  || ECO_ThermalRelease == "2F182S"),
+           ECO_CO2Bottle = "X");
+
+    // FS68/FS93 TVV + locked/OS + small/medium unit → 20 g
+    action((ECO_Control == "P1BD"   || ECO_Control == "P2BD"   ||
+            ECO_Control == "P1OSH"  || ECO_Control == "P2OSH"  ||
+            ECO_Control == "P1OSP"  || ECO_Control == "P2OSP"  ||
+            ECO_Control == "P1BDD"  || ECO_Control == "P2BDD"  ||
+            ECO_Control == "P1OSHD" || ECO_Control == "P2OSHD" ||
+            ECO_Control == "P1OSPD" || ECO_Control == "P2OSPD" ||
+            ECO_Control == "MP1OSH" || ECO_Control == "MP2OSH" ||
+            ECO_Control == "MP1OSP" || ECO_Control == "MP2OSP") &&
+           (ECO_ThermalRelease == "FS68"  || ECO_ThermalRelease == "FS68S" ||
+            ECO_ThermalRelease == "FS93"  || ECO_ThermalRelease == "FS93S") &&
+           ECO_ThroatWidth_mm < 1926 && ECO_ThroatLength_mm < 3099,
+           ECO_CO2Bottle = "20");
+
+    // FS68/FS93 TVV + locked/OS + large unit → 40 g
+    action((ECO_Control == "P1BD"   || ECO_Control == "P2BD"   ||
+            ECO_Control == "P1OSH"  || ECO_Control == "P2OSH"  ||
+            ECO_Control == "P1OSP"  || ECO_Control == "P2OSP"  ||
+            ECO_Control == "MP1OSH" || ECO_Control == "MP2OSH" ||
+            ECO_Control == "MP1OSP" || ECO_Control == "MP2OSP") &&
+           (ECO_ThermalRelease == "FS68"  || ECO_ThermalRelease == "FS68S" ||
+            ECO_ThermalRelease == "FS93"  || ECO_ThermalRelease == "FS93S") &&
+           (ECO_ThroatWidth_mm >= 1926 || ECO_ThroatLength_mm >= 3099),
+           ECO_CO2Bottle = "40");
+
+    // FS141/FS182 TVV → 28 g  (corrected from 20 g per CO2-bottles!AF109)
+    action((ECO_Control == "P1BD"   || ECO_Control == "P2BD"   ||
+            ECO_Control == "P1OSH"  || ECO_Control == "P2OSH"  ||
+            ECO_Control == "P1OSP"  || ECO_Control == "P2OSP"  ||
+            ECO_Control == "P1BDD"  || ECO_Control == "P2BDD"  ||
+            ECO_Control == "P1OSHD" || ECO_Control == "P2OSHD" ||
+            ECO_Control == "P1OSPD" || ECO_Control == "P2OSPD" ||
+            ECO_Control == "MP1OSH" || ECO_Control == "MP2OSH" ||
+            ECO_Control == "MP1OSP" || ECO_Control == "MP2OSP") &&
+           (ECO_ThermalRelease == "FS141"  || ECO_ThermalRelease == "FS141S" ||
+            ECO_ThermalRelease == "FS182"  || ECO_ThermalRelease == "FS182S"),
+           ECO_CO2Bottle = "28");
+
+
+    // ══════════════════════════════════════════════════════════════════════
+    //  8.  OPENING PRESSURES  (bar or "X")
+    //
+    //  Source: Input!C49 (ventilation) and Input!C50 (smoke/RWA)
+    //  Formula: MAX(2, pressure_from_snow_table)
+    //
+    //  Only P*BD, P*OSH, P*OSP, P*BDD, P*OSHD, P*OSPD, MP*OSH, MP*OSP
+    //  have a pressure-dependent snow system → pressure value shown.
+    //  All other controls → "X".
+    //
+    //  Smoke pressure is size-dependent (3 bands from pressure table):
+    //    Width ≤ 1326 mm AND Length ≤ 2035 mm → 2 bar
+    //    Width 1476–1776 mm OR Length 2168–2567 mm → 4.9 bar
+    //    Width ≥ 1926 mm OR Length ≥ 2700 mm → 9.8 bar
+    // ══════════════════════════════════════════════════════════════════════
+
+    // Non-pressure controls → "X" for both pressures
+    action(ECO_Control == "HE"      || ECO_Control == "HI"      ||
+           ECO_Control == "L"       ||
+           ECO_Control == "P1O"     || ECO_Control == "P2O"     ||
+           ECO_Control == "P1C"     || ECO_Control == "P2C"     ||
+           ECO_Control == "P1O4"    || ECO_Control == "P2O4"    ||
+           ECO_Control == "P1C4"    || ECO_Control == "P2C4"    ||
+           ECO_Control == "M1B24"   || ECO_Control == "M2B24"   ||
+           ECO_Control == "M1C24"   || ECO_Control == "M2C24"   ||
+           ECO_Control == "M1O24"   || ECO_Control == "M2O24"   ||
+           ECO_Control == "M1B24M"  || ECO_Control == "M2B24M"  ||
+           ECO_Control == "M1C24J"  || ECO_Control == "M2C24J"  ||
+           ECO_Control == "M1B24K"  || ECO_Control == "M2B24K"  ||
+           ECO_Control == "M1B230"  || ECO_Control == "M2B230"  ||
+           ECO_Control == "M1C230"  || ECO_Control == "M2C230"  ||
+           ECO_Control == "M1O230"  || ECO_Control == "M2O230"  ||
+           ECO_Control == "M1B230J" || ECO_Control == "M2B230J" ||
+           ECO_Control == "M1C230J" || ECO_Control == "M2C230J" ||
+           ECO_Control == "M1B24J"  || ECO_Control == "M2B24J",
+           ECO_OpenPressVent = "X");
+
+    action(ECO_Control == "HE"      || ECO_Control == "HI"      ||
+           ECO_Control == "L"       ||
+           ECO_Control == "P1O"     || ECO_Control == "P2O"     ||
+           ECO_Control == "P1C"     || ECO_Control == "P2C"     ||
+           ECO_Control == "P1O4"    || ECO_Control == "P2O4"    ||
+           ECO_Control == "P1C4"    || ECO_Control == "P2C4"    ||
+           ECO_Control == "M1B24"   || ECO_Control == "M2B24"   ||
+           ECO_Control == "M1C24"   || ECO_Control == "M2C24"   ||
+           ECO_Control == "M1O24"   || ECO_Control == "M2O24"   ||
+           ECO_Control == "M1B24M"  || ECO_Control == "M2B24M"  ||
+           ECO_Control == "M1C24J"  || ECO_Control == "M2C24J"  ||
+           ECO_Control == "M1B24K"  || ECO_Control == "M2B24K"  ||
+           ECO_Control == "M1B230"  || ECO_Control == "M2B230"  ||
+           ECO_Control == "M1C230"  || ECO_Control == "M2C230"  ||
+           ECO_Control == "M1O230"  || ECO_Control == "M2O230"  ||
+           ECO_Control == "M1B230J" || ECO_Control == "M2B230J" ||
+           ECO_Control == "M1C230J" || ECO_Control == "M2C230J" ||
+           ECO_Control == "M1B24J"  || ECO_Control == "M2B24J",
+           ECO_OpenPressSmoke = "X");
+
+    // Pressure-dependent controls → ventilation always 2 bar (minimum)
+    action((ECO_Control == "P1BD"   || ECO_Control == "P2BD"   ||
+            ECO_Control == "P1OSH"  || ECO_Control == "P2OSH"  ||
+            ECO_Control == "P1OSP"  || ECO_Control == "P2OSP"  ||
+            ECO_Control == "P1BDD"  || ECO_Control == "P2BDD"  ||
+            ECO_Control == "P1OSHD" || ECO_Control == "P2OSHD" ||
+            ECO_Control == "P1OSPD" || ECO_Control == "P2OSPD" ||
+            ECO_Control == "MP1OSH" || ECO_Control == "MP2OSH" ||
+            ECO_Control == "MP1OSP" || ECO_Control == "MP2OSP"),
+           ECO_OpenPressVent = "2");
+
+    // Smoke pressure – small unit
+    action((ECO_Control == "P1BD"   || ECO_Control == "P2BD"   ||
+            ECO_Control == "P1OSH"  || ECO_Control == "P2OSH"  ||
+            ECO_Control == "P1OSP"  || ECO_Control == "P2OSP"  ||
+            ECO_Control == "P1BDD"  || ECO_Control == "P2BDD"  ||
+            ECO_Control == "P1OSHD" || ECO_Control == "P2OSHD" ||
+            ECO_Control == "P1OSPD" || ECO_Control == "P2OSPD" ||
+            ECO_Control == "MP1OSH" || ECO_Control == "MP2OSH" ||
+            ECO_Control == "MP1OSP" || ECO_Control == "MP2OSP") &&
+           ECO_ThroatWidth_mm <= 1326 && ECO_ThroatLength_mm <= 2035,
+           ECO_OpenPressSmoke = "2");
+
+    // Smoke pressure – medium unit
+    action((ECO_Control == "P1BD"   || ECO_Control == "P2BD"   ||
+            ECO_Control == "P1OSH"  || ECO_Control == "P2OSH"  ||
+            ECO_Control == "P1OSP"  || ECO_Control == "P2OSP"  ||
+            ECO_Control == "MP1OSH" || ECO_Control == "MP2OSH" ||
+            ECO_Control == "MP1OSP" || ECO_Control == "MP2OSP") &&
+           ((ECO_ThroatWidth_mm >= 1476 && ECO_ThroatWidth_mm <= 1776) ||
+            (ECO_ThroatLength_mm >= 2168 && ECO_ThroatLength_mm <= 2567)),
+           ECO_OpenPressSmoke = "4.9");
+
+    // Smoke pressure – large unit
+    action((ECO_Control == "P1BD"   || ECO_Control == "P2BD"   ||
+            ECO_Control == "P1OSH"  || ECO_Control == "P2OSH"  ||
+            ECO_Control == "P1OSP"  || ECO_Control == "P2OSP"  ||
+            ECO_Control == "MP1OSH" || ECO_Control == "MP2OSH" ||
+            ECO_Control == "MP1OSP" || ECO_Control == "MP2OSP") &&
+           (ECO_ThroatWidth_mm >= 1926 || ECO_ThroatLength_mm >= 2700),
+           ECO_OpenPressSmoke = "9.8");
+
+
+    // ══════════════════════════════════════════════════════════════════════
+    //  9.  WIND LOAD CLASS  (N/m²)
+    //
+    //  Source: wind loads!AE136
+    //  Classes: "1500" / "3000" / "4000"
+    // ══════════════════════════════════════════════════════════════════════
+    action(ECO_LouvreType == "A1B"  || ECO_LouvreType == "A1X"  ||
+           ECO_LouvreType == "A2BD" || ECO_LouvreType == "A2XD" ||
+           ECO_LouvreType == "A2B"  || ECO_LouvreType == "A2X"  ||
+           ECO_LouvreType == "A2I",
+           ECO_WindLoad = "4000");
+
+    action((ECO_LouvreType == "PCR" || ECO_LouvreType == "POR") &&
+           ECO_ThroatWidth_mm <= 1776 && ECO_ThroatLength_mm <= 2700,
+           ECO_WindLoad = "4000");
+
+    action((ECO_LouvreType == "PCR" || ECO_LouvreType == "POR") &&
+           (ECO_ThroatWidth_mm > 1776 || ECO_ThroatLength_mm > 2700),
+           ECO_WindLoad = "3000");
+
+    action(ECO_LouvreType == "PC16" || ECO_LouvreType == "PO16",
+           ECO_WindLoad = "1500");
+
+    action(ECO_LouvreType == "GWR" &&
+           ECO_ThroatWidth_mm <= 1326 && ECO_ThroatLength_mm <= 2168,
+           ECO_WindLoad = "3000");
+
+    action(ECO_LouvreType == "GWR" &&
+           (ECO_ThroatWidth_mm > 1326 || ECO_ThroatLength_mm > 2168),
+           ECO_WindLoad = "1500");
+
+    action(ECO_LouvreType == "GLR" || ECO_LouvreType == "GTR",
+           ECO_WindLoad = "1500");
+
+
+    // ══════════════════════════════════════════════════════════════════════
+    //  10. SNOW LOAD  (N/m²)
+    //
+    //  Source: snow loads!AA513
+    //  Representative certified values by control family × size.
+    //  Full table (500+ rows) requires Apex callout for production accuracy.
+    // ══════════════════════════════════════════════════════════════════════
+
+    // Locked/OS controls + 3E/3S/3D → highest snow load
+    action((ECO_Control == "P1BD"   || ECO_Control == "P2BD"   ||
+            ECO_Control == "P1OSH"  || ECO_Control == "P2OSH"  ||
+            ECO_Control == "P1OSP"  || ECO_Control == "P2OSP"  ||
+            ECO_Control == "P1BDD"  || ECO_Control == "P2BDD"  ||
+            ECO_Control == "P1OSHD" || ECO_Control == "P2OSHD" ||
+            ECO_Control == "P1OSPD" || ECO_Control == "P2OSPD" ||
+            ECO_Control == "MP1OSH" || ECO_Control == "MP2OSH" ||
+            ECO_Control == "MP1OSP" || ECO_Control == "MP2OSP") &&
+           ECO_Version != "2V" &&
+           ECO_ThroatWidth_mm <= 1326 && ECO_ThroatLength_mm <= 2035,
+           ECO_SnowLoad = "1618");
+
+    action((ECO_Control == "P1BD"   || ECO_Control == "P2BD"   ||
+            ECO_Control == "P1OSH"  || ECO_Control == "P2OSH"  ||
+            ECO_Control == "P1OSP"  || ECO_Control == "P2OSP"  ||
+            ECO_Control == "P1BDD"  || ECO_Control == "P2BDD"  ||
+            ECO_Control == "P1OSHD" || ECO_Control == "P2OSHD" ||
+            ECO_Control == "P1OSPD" || ECO_Control == "P2OSPD" ||
+            ECO_Control == "MP1OSH" || ECO_Control == "MP2OSH" ||
+            ECO_Control == "MP1OSP" || ECO_Control == "MP2OSP") &&
+           ECO_Version != "2V" &&
+           (ECO_ThroatWidth_mm > 1326 || ECO_ThroatLength_mm > 2035),
+           ECO_SnowLoad = "1000");
+
+    // Single-acting pneumatic
+    action((ECO_Control == "P1O"  || ECO_Control == "P2O"  ||
+            ECO_Control == "P1C"  || ECO_Control == "P2C"  ||
+            ECO_Control == "P1O4" || ECO_Control == "P2O4" ||
+            ECO_Control == "P1C4" || ECO_Control == "P2C4") &&
+           ECO_Version != "2V",
+           ECO_SnowLoad = "500");
+
+    // Electric motors
+    action((ECO_Control == "M1B24"   || ECO_Control == "M2B24"   ||
+            ECO_Control == "M1C24"   || ECO_Control == "M2C24"   ||
+            ECO_Control == "M1O24"   || ECO_Control == "M2O24"   ||
+            ECO_Control == "M1B24M"  || ECO_Control == "M2B24M"  ||
+            ECO_Control == "M1C24J"  || ECO_Control == "M2C24J"  ||
+            ECO_Control == "M1B24K"  || ECO_Control == "M2B24K"  ||
+            ECO_Control == "M1B230"  || ECO_Control == "M2B230"  ||
+            ECO_Control == "M1C230"  || ECO_Control == "M2C230"  ||
+            ECO_Control == "M1O230"  || ECO_Control == "M2O230"  ||
+            ECO_Control == "M1B230J" || ECO_Control == "M2B230J" ||
+            ECO_Control == "M1C230J" || ECO_Control == "M2C230J" ||
+            ECO_Control == "M1B24J"  || ECO_Control == "M2B24J") &&
+           ECO_Version != "2V",
+           ECO_SnowLoad = "250");
+
+    // Manual controls
+    action((ECO_Control == "HE" || ECO_Control == "HI" || ECO_Control == "L") &&
+           ECO_Version != "2V",
+           ECO_SnowLoad = "250");
+
+    // 2V (VdS) version – own certification
+    action(ECO_Version == "2V",
+           ECO_SnowLoad = "1500");
+
+
+    // ══════════════════════════════════════════════════════════════════════
+    //  11. U-VALUE  W/(m²K)
+    //
+    //  Source: U-values!K79
+    //  CB* conical bases → "X" (no U-value certified)
+    //  STD / UB* bases → area-weighted value by [LouvreType × Insulation]
+    //  Values from reference size 15×15 (flat roof, no upstand)
+    // ══════════════════════════════════════════════════════════════════════
+    action(ECO_BaseType == "CB2" || ECO_BaseType == "CB3" || ECO_BaseType == "CB4",
+           ECO_UValue = "X");
+
+    constraint(
+        ECO_BaseType != "CB2" && ECO_BaseType != "CB3" && ECO_BaseType != "CB4" ->
+        table(ECO_LouvreType, ECO_Insulation, ECO_UValue,
+            // Without insulation
+            {"A1B",  "X", "5.51"}, {"A1X",  "X", "5.51"},
+            {"A2BD", "X", "4.62"}, {"A2XD", "X", "4.62"},
+            {"A2B",  "X", "4.62"}, {"A2X",  "X", "4.62"},
+            {"A2I",  "X", "1.87"},
+            {"PCR",  "X", "5.72"}, {"POR",  "X", "5.72"},
+            {"PC16", "X", "3.43"}, {"PO16", "X", "3.43"},
+            {"GWR",  "X", "4.18"},
+            {"GLR",  "X", "3.86"}, {"GTR",  "X", "3.86"},
+            // With insulation
+            {"A1B",  "I", "2.43"}, {"A1X",  "I", "2.43"},
+            {"A2BD", "I", "2.30"}, {"A2XD", "I", "2.30"},
+            {"A2B",  "I", "2.30"}, {"A2X",  "I", "2.30"},
+            {"A2I",  "I", "1.41"},
+            {"PCR",  "I", "2.48"}, {"POR",  "I", "2.48"},
+            {"PC16", "I", "1.98"}, {"PO16", "I", "1.98"},
+            {"GWR",  "I", "2.17"},
+            {"GLR",  "I", "2.10"}, {"GTR",  "I", "2.10"}),
+        "U-value by louvre type and insulation (STD and UB bases only)");
+
+
+    // ══════════════════════════════════════════════════════════════════════
+    //  12. WEIGHT
+    //
+    //  Source: weight!C352 = base + insulation addon + control addon
+    //  Full weight tables require Apex invocable action.
+    //  Sentinel "X" shown until Apex override is configured.
+    // ══════════════════════════════════════════════════════════════════════
+    action(true, ECO_Weight = "X");
+
+    message(true,
+            "Weight is determined from the factory weight table. Implement via Apex invocable action.",
+            "Info");
+
+
+    // ══════════════════════════════════════════════════════════════════════
+    //  13. BUSINESS RULES  (configuration constraints)
+    //
+    //  Using constraint(condition -> restriction, "message") throughout
+    //  because exclude() and require() only accept relation[Type] arguments,
+    //  not attribute value expressions.
+    // ══════════════════════════════════════════════════════════════════════
+
+    // ── Version 3S-only options ────────────────────────────────────────
+    constraint(ECO_Version != "3S" ->
+               ECO_Guards != "IG" && ECO_Guards != "IS" && ECO_Guards != "BG",
+               "External guards IG/IS/BG are only available with version 3S.");
+
+    constraint(ECO_Version != "3S" ->
+               ECO_BurglarGuards != "S",
+               "Burglar guard S is only available with version 3S.");
+
+    constraint(ECO_Version != "3S" ->
+               ECO_BaseType != "CB3" && ECO_BaseType != "CB4",
+               "CB3 and CB4 base types are only available with version 3S.");
+
+    // ── Wall installation ──────────────────────────────────────────────
+    constraint(ECO_AssemblySituation == "W" -> ECO_UpstandDesign == "X",
+               "Upstand is not used for wall installation. Select Without upstand X.");
+
+    constraint(ECO_Version == "2V" -> ECO_AssemblySituation != "W",
+               "Version 2V is not certified for wall installation.");
+
+    // ── CB* base restrictions ──────────────────────────────────────────
+    constraint((ECO_BaseType == "CB2" || ECO_BaseType == "CB3" || ECO_BaseType == "CB4") ->
+               ECO_InsulatedAdapter != "A",
+               "Insulated adapter is not available with conical base types CB2/CB3/CB4.");
+
+    // ── PC16 / PO16 louvre restriction ────────────────────────────────
+    constraint((ECO_LouvreType == "PC16" || ECO_LouvreType == "PO16") ->
+               ECO_RemovableLouvre != "R",
+               "Externally removable louvre is not available with PC16 or PO16 louvre type.");
+
+    // ── Finish / Coverage dependency ───────────────────────────────────
+    constraint(ECO_Finish == "X" -> ECO_Coverage == "X",
+               "Paint coverage can only be specified when a paint finish is selected.");
+
+    constraint(ECO_Coverage != "X" -> ECO_Finish != "X",
+               "A paint finish must be selected when specifying coverage.");
+
+    // ── Informational messages ─────────────────────────────────────────
+    message(ECO_Finish != "X" && ECO_RALColour == "",
+            "Please specify a RAL colour number for the selected paint finish.",
+            "Warning");
+
+    message(ECO_BaseType == "CB2" || ECO_BaseType == "CB3" || ECO_BaseType == "CB4",
+            "U-value is not certified for conical upstand base types. ECO_UValue shows X.",
+            "Info");
+
+    message(ECO_AeroAreaAa < 0.50,
+            "Aerodynamic area Aa is below 0.50 m2. Please verify smoke exhaust requirements are met.",
+            "Warning");
+
+    message(ECO_ThroatWidth_mm >= 2000 || ECO_ThroatLength_mm >= 3000,
+            "Large-format unit selected. Please confirm structural suitability and contact the factory.",
+            "Info");
+
+    message(ECO_LiftingEyes == "Yes",
+            "Factory-fitted lifting eyes add approximately 2 to 4 kg and require pre-order confirmation.",
+            "Info");
+
+    message(ECO_InsulatedAdapter == "A" && ECO_Insulation == "X",
+            "Insulated adapter A is selected without body insulation I. Confirm this is intentional.",
+            "Warning");
+
+}

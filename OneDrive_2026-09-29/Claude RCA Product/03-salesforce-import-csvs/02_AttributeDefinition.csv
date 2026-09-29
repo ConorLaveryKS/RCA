@@ -1,0 +1,21 @@
+Name,CurrencyIsoCode,UnitOfMeasureId,Label,Description,DataType,IsActive,IsRequired,DefaultValue,SourceSystemIdentifier,ValueDescription,Picklist.Code,DefaultHelpText,Code,DeveloperName
+Version,EUR,,Version,Product version (EN/Standard/VDS),Picklist,TRUE,TRUE,3E,,,ECO Version,,ECO_Version,ECO_Version
+Throat Width,EUR,,Throat Width,Nominal throat width in mm,Picklist,TRUE,TRUE,,,,ECO Throat Width,,ECO_ThroatWidth,ECO_ThroatWidth
+Throat Length,EUR,,Throat Length,Nominal throat length in mm,Picklist,TRUE,TRUE,,,,ECO Throat Length,,ECO_ThroatLength,ECO_ThroatLength
+Louvre Type,EUR,,Louvre Type,Filling material of the louvre,Picklist,TRUE,TRUE,POR,,,ECO Louvre Type,,ECO_LouvreType,ECO_LouvreType
+Control,EUR,,Control,Actuation / drive mechanism,Picklist,TRUE,TRUE,P1BD,,,ECO Control,,ECO_Control,ECO_Control
+Thermal Release,EUR,,Thermal Release,Thermal release mechanism and temperature,Picklist,TRUE,TRUE,FS68,,,ECO Thermal Release,,ECO_ThermalRelease,ECO_ThermalRelease
+Ambient Air Temperature,EUR,,Ambient Air Temperature,Min. interior temperature class,Picklist,TRUE,TRUE,T(-15),,,ECO Ambient Temp,,ECO_AmbientTemp,ECO_AmbientTemp
+Removable Louvre,EUR,,Removable Louvre,Externally removable louvre option,Picklist,TRUE,FALSE,X,,,ECO Removable Louvre,,ECO_RemovableLouvre,ECO_RemovableLouvre
+Insulation,EUR,,Insulation,Body insulation option,Picklist,TRUE,FALSE,X,,,ECO Insulation,,ECO_Insulation,ECO_Insulation
+Base Type,EUR,,Base Type,Height and shape of the base,Picklist,TRUE,TRUE,STD,,,ECO Base Type,,ECO_BaseType,ECO_BaseType
+Flange Edge Type,EUR,,Flange Edge Type,Flange / fixing detail at roof interface,Picklist,TRUE,TRUE,N5,,,ECO Flange Edge Type,,ECO_FlangeEdgeType,ECO_FlangeEdgeType
+Insulated Adapter,EUR,,Insulated Adapter,Insulated adapter option (4 sides),Picklist,TRUE,FALSE,X,,,ECO Insulated Adapter,,ECO_InsulatedAdapter,ECO_InsulatedAdapter
+Guards,EUR,,Guards,External insect / bird guard option,Picklist,TRUE,FALSE,X,,,ECO Guards,,ECO_Guards,ECO_Guards
+Burglar Guards,EUR,,Burglar Guards,Internal security guard option,Picklist,TRUE,FALSE,X,,,ECO Burglar Guards,,ECO_BurglarGuards,ECO_BurglarGuards
+Finish,EUR,,Finish,Surface finish / paint system,Picklist,TRUE,FALSE,X,,,ECO Finish,,ECO_Finish,ECO_Finish
+Coverage,EUR,,Coverage,Extent of paint coverage,Picklist,TRUE,FALSE,X,,,ECO Coverage,,ECO_Coverage,ECO_Coverage
+RAL Colour,EUR,,RAL Colour,RAL colour number (when finish is painted),Text,TRUE,FALSE,,,,,,ECO_RALColour,ECO_RALColour
+Upstand Design,EUR,,Upstand Design,Upstand / costière type and height,Picklist,TRUE,FALSE,X,,,ECO Upstand Design,,ECO_UpstandDesign,ECO_UpstandDesign
+Assembly Situation,EUR,,Assembly Situation,Installation context (flat roof / wall / shed),Picklist,TRUE,TRUE,F,,,ECO Assembly Situation,,ECO_AssemblySituation,ECO_AssemblySituation
+Lifting Eyes,EUR,,Lifting Eyes,Factory-fitted lifting eyes option,Picklist,TRUE,FALSE,No,,,ECO Lifting Eyes,,ECO_LiftingEyes,ECO_LiftingEyes

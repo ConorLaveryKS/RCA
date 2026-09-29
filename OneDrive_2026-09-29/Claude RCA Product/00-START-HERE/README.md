@@ -1,0 +1,78 @@
+# Kingspan → Salesforce RCA — Product Onboarding Project
+
+Everything from the ECO Roof Ventilator (CO) onboarding, organized so you can
+**reuse it for the next product**. This is the complete record: the reusable
+skill, the finished deliverables, the demo, the presentations, and the
+documentation.
+
+---
+
+## 🚀 If you just want to onboard a new product
+
+1. Open **`01-skill/kingspan-rca-product-onboarding/SKILL.md`** — that is the
+   repeatable process.
+2. Give Claude: the new product's configurator `.xlsm` **+** the template in
+   `02-product-template/` as the reference format.
+3. Claude follows the 6-phase process, using the scripts and references in the
+   skill folder to avoid re-hitting the errors we already solved.
+
+Everything else in this folder is the worked ECO example you can copy from.
+
+---
+
+## 📁 Folder guide
+
+| Folder | What's in it | When you need it |
+|---|---|---|
+| `00-START-HERE/` | This README | Now |
+| `01-skill/` | **The reusable skill** — process, scripts, references, demo, worked example | Every new product |
+| `02-product-template/` | The 10-sheet Excel Product Price Template (ECO, filled) | As the reference format for a new product |
+| `03-salesforce-import-csvs/` | All 11 numbered import CSVs + supplementary output-attribute CSVs + the picklist FIXES file | To see exactly what the import files look like |
+| `04-cml-constraint-model/` | The FINAL CML model + full version history | To copy CML patterns; to understand what changed and why |
+| `05-demo-for-customers/` | Anonymized demo configurator (AirCore) | To demo the capability to other customers |
+| `06-presentations/` | 4 decks: customer use-case, management, detailed, session summary | For BD, internal, and management conversations |
+| `07-documentation/` | Written session summary | For the full narrative and credit/time figures |
+
+---
+
+## 🧭 What was built (the ECO worked example)
+
+Starting from a complex Excel configurator (11 formula sheets, hundreds of
+interdependent formulas), the following were produced for the ECO Roof
+Ventilator CO:
+
+- **Product Price Template** — 20 attributes, 213 picklist values, 10 sheets.
+- **11 Salesforce import CSVs** — numbered in dependency order, import-ready.
+- **CML constraint model** — 14 sections, 5,236 pre-computed table entries,
+  33 business-rule validations, 12 calculated output fields.
+
+### The journey (why the version history matters)
+The CML model took 4 iterations to reach a valid state. Each version fixed a
+distinct Salesforce error — these are the traps the skill now helps you avoid:
+
+| Version | Fixed |
+|---|---|
+| v1 → v2 | `@(readOnly)` and `.startsWith()` not supported |
+| v2 → v3 | `action()` cannot set attribute values |
+| v3 → v3b | `@(hidden)` not supported on attributes; `ROUND()` not supported |
+| v3b → FINAL | "Reached limit of tree nodes for search" — replaced decimal arithmetic with 5,236 pre-computed table entries; added 33 column-G validations |
+
+---
+
+## 📊 Headline outcome
+
+| Metric | Result |
+|---|---|
+| Time | ~3 hours vs. an estimated 2–3 days (~90% faster) |
+| Cost | ~€20 AI credits vs. ~€3,000–5,000 consultant time |
+| Accuracy | 213 values + 308 sizes generated & cross-checked; 33 rules enforced |
+| Reusability | 1 skill → every future product is faster |
+
+---
+
+## ⚠️ Notes
+- Source configurator files (the original Kingspan `.xlsm`) are **not** included —
+  they were read-only inputs. Point Claude at your own copy when reusing.
+- The demo in `05-demo-for-customers/` is **fictional** (AirCore / Meridian
+  Building Systems) and safe to show externally.
+- Presentations are Nextview-branded and normalized for Google Slides.
