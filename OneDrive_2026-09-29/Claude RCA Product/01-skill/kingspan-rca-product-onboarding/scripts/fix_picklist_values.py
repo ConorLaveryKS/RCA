@@ -8,27 +8,34 @@ Fix the two recurring AttributePicklistValue import errors:
   STRING_TOO_LONG   – Name must be <= 80 characters
 
 Usage:
-    python fix_picklist_values.py INPUT_APV.csv OUTPUT_FIXES.csv
+    python fix_picklist_values.py INPUT_APV.csv OUTPUT_FIXES.csv [--collide CODES.txt]
 
-Reads an AttributePicklistValue CSV, applies:
-  1. A per-picklist Code prefix so codes are globally unique
-     (derived from the picklist code initials, e.g. "ECO Throat Width" -> "TW").
-  2. Name / DisplayValue truncation to 80 chars.
-Writes only the rows that CHANGED to OUTPUT_FIXES.csv, ready for re-import.
+    --collide CODES.txt   optional list of codes (one per line) that already exist
+                          in the org, or that the import rejected with
+                          DUPLICATE_VALUE. These are prefixed as well.
 
-The picklist-facing `Value` field is preserved unchanged; only the internal
-`Code` key is prefixed. Adjust ABBREV below to control the prefixes.
+A Code is prefixed when it appears in more than one picklist in the input file,
+or when it is listed in --collide. Numeric size codes get a bare prefix
+("10" -> "TW10"); everything else gets PREFIX_ + upper-case code
+("X" -> "RL_X", "No" -> "LE_NO"). Name / DisplayValue over 80 characters are
+shortened. Only the changed rows are written to OUTPUT_FIXES.csv.
+
+The picklist-facing `Value` and `Abbreviation` stay the original code (used in
+the product code string); only the internal `Code` key is prefixed. Adjust
+ABBREV below to control the prefixes.
 """
 import sys, csv, re
+from collections import defaultdict
 
 MAX_NAME = 80
 
 # Explicit abbreviations for known picklists (extend as needed).
-# Key = a substring that appears in the picklist code; value = the Code prefix.
+# Key = a substring of the picklist code; first match wins, so list more
+# specific keys first ("burglar guards" before "guards").
 ABBREV = {
     "throat width": "TW", "throat length": "TL",
-    "removable louvre": "RL", "insulation": "INS", "insulated adapter": "IA",
-    "guards": "GD", "burglar": "BGA", "finish": "FIN", "coverage": "COV",
+    "removable louvre": "RL", "insulated adapter": "IA", "insulation": "INS",
+    "burglar": "BGA", "guards": "GD", "finish": "FIN", "coverage": "COV",
     "upstand": "UD", "assembly": "AS", "lifting": "LE",
     "width": "W", "length": "L", "panel": "PN", "control": "CT",
     "base": "BS", "release": "RL2", "version": "VR",
@@ -40,21 +47,24 @@ def prefix_for(picklist_code):
     for key, ab in ABBREV.items():
         if key in pc:
             return ab
-    # fallback: initials of the picklist code words
-    words = re.sub(r"[^A-Za-z ]", "", picklist_code or "").split()
+    # fallback: initials of the picklist words, skipping the product prefix
+    words = re.sub(r"[^A-Za-z ]", "", picklist_code or "").split()[1:]
     return "".join(w[0] for w in words[:3]).upper() or "PL"
+
+
+def prefixed(pfx, code):
+    return f"{pfx}{code}" if code.isdigit() else f"{pfx}_{code.upper()}"
 
 
 # Common abbreviations to shorten long Names
 SHORTEN = [
-    ("pneumatic cylinder", "pneum. cyl."),
     ("pneumatic cylinders", "pneum. cyl."),
+    ("pneumatic cylinder", "pneum. cyl."),
     ("electric motors", "elec. motors"),
     ("electric motor", "elec. motor"),
     ("pressure", "pres."),
-    ("spring return", "spring ret."),
-    ("with sprinkler shield", "w/ sprinkler shield"),
     ("assisting spring", "assist. spring"),
+    ("with sprinkler shield", "w/ sprinkler shield"),
     ("positions", "pos."),
 ]
 
@@ -69,65 +79,58 @@ def shorten(text):
 
 
 def main():
-    if len(sys.argv) < 3:
+    args = sys.argv[1:]
+    collide = set()
+    if "--collide" in args:
+        i = args.index("--collide")
+        with open(args[i + 1], encoding="utf-8") as f:
+            collide = {line.strip() for line in f if line.strip()}
+        del args[i:i + 2]
+    if len(args) < 2:
         print(__doc__)
         sys.exit(1)
-    src, dst = sys.argv[1], sys.argv[2]
+    src, dst = args[0], args[1]
 
-    with open(src, newline="", encoding="utf-8") as f:
-        reader = csv.reader(f)
-        rows = list(reader)
-
+    with open(src, newline="", encoding="utf-8-sig") as f:
+        rows = list(csv.reader(f))
     header = rows[0]
-    # locate columns (tolerant of header naming)
-    def col(*names):
-        for i, h in enumerate(header):
-            for n in names:
-                if n.lower() in h.lower():
-                    return i
-        return None
 
-    ci_pl   = col("Picklist")
+    def col(*names):
+        for n in names:
+            if n in header:
+                return header.index(n)
+        sys.exit(f"Column {names} not found in header {header}")
+
+    ci_pl = col("Picklist.Code", "Picklist:AttributePicklist:Code")
     ci_code = col("Code")
     ci_name = col("Name")
     ci_disp = col("DisplayValue")
-    ci_val  = col("Value")
+
+    picklists = defaultdict(set)
+    for row in rows[1:]:
+        picklists[row[ci_code]].add(row[ci_pl])
+    clash = {c for c, pls in picklists.items() if len(pls) > 1} | collide
 
     fixes = [header]
-    n_dupe, n_long = 0, 0
-
+    n_dupe = n_long = 0
     for row in rows[1:]:
-        changed = False
         new = list(row)
-
-        # 1. prefix Code for global uniqueness
-        if ci_pl is not None and ci_code is not None:
-            pl = row[ci_pl]; code = row[ci_code]
-            pfx = prefix_for(pl)
-            if code and not code.startswith(pfx + "_") and not code.startswith(pfx):
-                new[ci_code] = f"{pfx}_{code}"
-                # preserve original in Value if present and empty-safe
-                if ci_val is not None and not row[ci_val]:
-                    new[ci_val] = code
-                changed = True
-                n_dupe += 1
-
-        # 2. truncate Name / DisplayValue to 80
-        for ci in [ci_name, ci_disp]:
-            if ci is not None and row[ci] and len(row[ci]) > MAX_NAME:
+        if row[ci_code] in clash:
+            new[ci_code] = prefixed(prefix_for(row[ci_pl]), row[ci_code])
+            n_dupe += 1
+        for ci in (ci_name, ci_disp):
+            if len(row[ci]) > MAX_NAME:
                 new[ci] = shorten(row[ci])
-                changed = True
                 n_long += 1
-
-        if changed:
+        if new != row:
             fixes.append(new)
 
     with open(dst, "w", newline="", encoding="utf-8") as f:
-        csv.writer(f, quoting=csv.QUOTE_ALL).writerows(fixes)
+        csv.writer(f, lineterminator="\r\n").writerows(fixes)
 
     print(f"Wrote {len(fixes)-1} fixed rows to {dst}")
     print(f"  Code prefixes applied : {n_dupe}")
-    print(f"  Names truncated       : {n_long}")
+    print(f"  Names shortened       : {n_long}")
 
 
 if __name__ == "__main__":

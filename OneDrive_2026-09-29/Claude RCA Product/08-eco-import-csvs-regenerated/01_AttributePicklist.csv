@@ -1,0 +1,20 @@
+Name,Code,Description,Status,DataType,CurrencyIsoCode
+ECO Version,ECO Version,Device version (EN/Standard/VDS/DIN),Active,Text,EUR
+ECO Throat Width,ECO Throat Width,Nominal throat width codes,Active,Text,EUR
+ECO Throat Length,ECO Throat Length,Nominal throat length codes,Active,Text,EUR
+ECO Louvre Type,ECO Louvre Type,Filling / louvre material type,Active,Text,EUR
+ECO Control,ECO Control,Actuation / drive type,Active,Text,EUR
+ECO Thermal Release,ECO Thermal Release,Thermal release type and temperature,Active,Text,EUR
+ECO Ambient Temp,ECO Ambient Temp,Min. interior temperature class,Active,Text,EUR
+ECO Removable Louvre,ECO Removable Louvre,Externally removable louvre,Active,Text,EUR
+ECO Insulation,ECO Insulation,Body insulation option,Active,Text,EUR
+ECO Base Type,ECO Base Type,Base height and shape,Active,Text,EUR
+ECO Flange Edge Type,ECO Flange Edge Type,Flange / fixing detail,Active,Text,EUR
+ECO Insulated Adapter,ECO Insulated Adapter,Insulated adapter option,Active,Text,EUR
+ECO Guards,ECO Guards,External insect / bird guard,Active,Text,EUR
+ECO Burglar Guards,ECO Burglar Guards,Internal security guard,Active,Text,EUR
+ECO Finish,ECO Finish,Surface finish / paint system,Active,Text,EUR
+ECO Coverage,ECO Coverage,Extent of paint coverage,Active,Text,EUR
+ECO Upstand Design,ECO Upstand Design,Upstand type and height,Active,Text,EUR
+ECO Assembly Situation,ECO Assembly Situation,Installation context,Active,Text,EUR
+ECO Lifting Eyes,ECO Lifting Eyes,Lifting eyes option,Active,Text,EUR

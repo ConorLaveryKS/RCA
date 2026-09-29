@@ -1,0 +1,214 @@
+Name,CurrencyIsoCode,Picklist.Code,Abbreviation,Status,Code,DisplayValue,IsDefault,Sequence,Value
+EN version,EUR,ECO Version,3E,Active,3E,EN version,true,10,3E
+Standard version,EUR,ECO Version,3S,Active,3S,Standard version,false,11,3S
+VDS version,EUR,ECO Version,2V,Active,2V,VDS version,false,12,2V
+EN version (formerly DIN version),EUR,ECO Version,3D,Active,3D,EN version (formerly DIN version),false,13,3D
+426 mm,EUR,ECO Throat Width,6,Active,6,426 mm,false,10,6
+576 mm,EUR,ECO Throat Width,7,Active,7,576 mm,false,11,7
+726 mm,EUR,ECO Throat Width,9,Active,9,726 mm,false,12,9
+876 mm,EUR,ECO Throat Width,10,Active,10,876 mm,false,13,10
+1026 mm,EUR,ECO Throat Width,12,Active,12,1026 mm,false,14,12
+1176 mm,EUR,ECO Throat Width,13,Active,13,1176 mm,false,15,13
+1326 mm,EUR,ECO Throat Width,15,Active,15,1326 mm,false,16,15
+1476 mm,EUR,ECO Throat Width,16,Active,16,1476 mm,false,17,16
+1626 mm,EUR,ECO Throat Width,18,Active,18,1626 mm,false,18,18
+1776 mm,EUR,ECO Throat Width,19,Active,19,1776 mm,false,19,19
+1926 mm,EUR,ECO Throat Width,21,Active,21,1926 mm,false,20,21
+2000 mm,EUR,ECO Throat Width,22,Active,22,2000 mm,false,21,22
+2126 mm,EUR,ECO Throat Width,23,Active,23,2126 mm,false,22,23
+2326 mm,EUR,ECO Throat Width,25,Active,25,2326 mm,false,23,25
+705 mm,EUR,ECO Throat Length,10,Active,10,705 mm,false,10,10
+838 mm,EUR,ECO Throat Length,11,Active,11,838 mm,false,11,11
+971 mm,EUR,ECO Throat Length,13,Active,13,971 mm,false,12,13
+1104 mm,EUR,ECO Throat Length,14,Active,14,1104 mm,false,13,14
+1237 mm,EUR,ECO Throat Length,15,Active,15,1237 mm,false,14,15
+1370 mm,EUR,ECO Throat Length,17,Active,17,1370 mm,false,15,17
+1503 mm,EUR,ECO Throat Length,18,Active,18,1503 mm,false,16,18
+1636 mm,EUR,ECO Throat Length,19,Active,19,1636 mm,false,17,19
+1769 mm,EUR,ECO Throat Length,21,Active,21,1769 mm,false,18,21
+1902 mm,EUR,ECO Throat Length,22,Active,22,1902 mm,false,19,22
+2035 mm,EUR,ECO Throat Length,23,Active,23,2035 mm,false,20,23
+2168 mm,EUR,ECO Throat Length,25,Active,25,2168 mm,false,21,25
+2301 mm,EUR,ECO Throat Length,26,Active,26,2301 mm,false,22,26
+2434 mm,EUR,ECO Throat Length,27,Active,27,2434 mm,false,23,27
+2567 mm,EUR,ECO Throat Length,29,Active,29,2567 mm,false,24,29
+2700 mm,EUR,ECO Throat Length,30,Active,30,2700 mm,false,25,30
+2833 mm,EUR,ECO Throat Length,31,Active,31,2833 mm,false,26,31
+2966 mm,EUR,ECO Throat Length,32,Active,32,2966 mm,false,27,32
+3099 mm,EUR,ECO Throat Length,34,Active,34,3099 mm,false,28,34
+3232 mm,EUR,ECO Throat Length,35,Active,35,3232 mm,false,29,35
+3365 mm,EUR,ECO Throat Length,36,Active,36,3365 mm,false,30,36
+3498 mm,EUR,ECO Throat Length,38,Active,38,3498 mm,false,31,38
+Single skin aluminium louvre with pile weather seal,EUR,ECO Louvre Type,A1B,Active,A1B,Single skin aluminium louvre with pile weather seal,false,10,A1B
+Single skin aluminium louvre without pile weather seal,EUR,ECO Louvre Type,A1X,Active,A1X,Single skin aluminium louvre without pile weather seal,false,11,A1X
+Double skin aluminium louvre with brush weather seal; DIN louvre,EUR,ECO Louvre Type,A2BD,Active,A2BD,Double skin aluminium louvre with brush weather seal; DIN louvre,false,12,A2BD
+Double skin aluminium louvre without brush weather seal; DIN louvre,EUR,ECO Louvre Type,A2XD,Active,A2XD,Double skin aluminium louvre without brush weather seal; DIN louvre,false,13,A2XD
+Double skin aluminium louvre with pile weather seal,EUR,ECO Louvre Type,A2B,Active,A2B,Double skin aluminium louvre with pile weather seal,false,14,A2B
+Double skin aluminium louvre without pile weather seal,EUR,ECO Louvre Type,A2X,Active,A2X,Double skin aluminium louvre without pile weather seal,false,15,A2X
+Double skin insulated aluminium louvre with pile weather seal,EUR,ECO Louvre Type,A2I,Active,A2I,Double skin insulated aluminium louvre with pile weather seal,false,16,A2I
+9 mm clear polycarbonate louvre with rubber weather seal,EUR,ECO Louvre Type,PCR,Active,PCR,9 mm clear polycarbonate louvre with rubber weather seal,false,17,PCR
+9 mm opaque polycarbonate louvre with rubber weather seal,EUR,ECO Louvre Type,POR,Active,POR,9 mm opaque polycarbonate louvre with rubber weather seal,true,18,POR
+16 mm clear polycarbonate louvre with rubber weather seal,EUR,ECO Louvre Type,PC16,Active,PC16,16 mm clear polycarbonate louvre with rubber weather seal,false,19,PC16
+16 mm opaque polycarbonate louvre with rubber weather seal,EUR,ECO Louvre Type,PO16,Active,PO16,16 mm opaque polycarbonate louvre with rubber weather seal,false,20,PO16
+7 mm wired (float) glass louvre with rubber weather seal,EUR,ECO Louvre Type,GWR,Active,GWR,7 mm wired (float) glass louvre with rubber weather seal,false,21,GWR
+6 mm toughened laminated glass louvre,EUR,ECO Louvre Type,GLR,Active,GLR,6 mm toughened laminated glass louvre,false,22,GLR
+6 mm toughened glass louvre,EUR,ECO Louvre Type,GTR,Active,GTR,6 mm toughened glass louvre,false,23,GTR
+"Cable control adjacent to vent, external",EUR,ECO Control,HE,Active,HE,"Cable control adjacent to vent, external",false,10,HE
+"Control bar fitted to vent for manual control, internal",EUR,ECO Control,HI,Active,HI,"Control bar fitted to vent for manual control, internal",false,11,HI
+"Cable control adjacent to vent, internal (requires winch or handle)",EUR,ECO Control,L,Active,L,"Cable control adjacent to vent, internal (requires winch or handle)",false,12,L
+"1 pneumatic cylinder, pressure to open, spring to close",EUR,ECO Control,P1O,Active,P1O,"1 pneumatic cylinder, pressure to open, spring to close",false,13,P1O
+"2 pneumatic cylinders, pressure to open, spring to close",EUR,ECO Control,P2O,Active,P2O,"2 pneumatic cylinders, pressure to open, spring to close",false,14,P2O
+"1 pneumatic cylinder, pressure to close, spring to open",EUR,ECO Control,P1C,Active,P1C,"1 pneumatic cylinder, pressure to close, spring to open",false,15,P1C
+"2 pneumatic cylinders, pressure to close, spring to open",EUR,ECO Control,P2C,Active,P2C,"2 pneumatic cylinders, pressure to close, spring to open",false,16,P2C
+"1 pneumatic cylinder, 4 position, pressure to open, spring to close",EUR,ECO Control,P1O4,Active,P1O4,"1 pneumatic cylinder, 4 position, pressure to open, spring to close",false,17,P1O4
+"2 pneumatic cylinders, 4 position, pressure to open, spring to close",EUR,ECO Control,P2O4,Active,P2O4,"2 pneumatic cylinders, 4 position, pressure to open, spring to close",false,18,P2O4
+"1 pneumatic cylinder, 4 position, pressure to close, spring to open",EUR,ECO Control,P1C4,Active,P1C4,"1 pneumatic cylinder, 4 position, pressure to close, spring to open",false,19,P1C4
+"2 pneumatic cylinders, 4 position, pressure to close, spring to open",EUR,ECO Control,P2C4,Active,P2C4,"2 pneumatic cylinders, 4 position, pressure to close, spring to open",false,20,P2C4
+"1 pneumatic cylinder, pressure to open and close, locked in both end positions",EUR,ECO Control,P1BD,Active,P1BD,"1 pneumatic cylinder, pressure to open and close, locked in both end positions",true,21,P1BD
+"2 pneumatic cylinders, pressure to open and close, locked in both end positions",EUR,ECO Control,P2BD,Active,P2BD,"2 pneumatic cylinders, pressure to open and close, locked in both end positions",false,22,P2BD
+"1 pneumatic cylinder, pressure to open, spring to close, locking 8-10 bar, hand reset",EUR,ECO Control,P1OSH,Active,P1OSH,"1 pneumatic cylinder, pressure to open, spring to close, locking 8-10 bar, hand reset",false,23,P1OSH
+"2 pneumatic cylinders, pressure to open, spring to close, locking 8-10 bar, hand reset",EUR,ECO Control,P2OSH,Active,P2OSH,"2 pneumatic cylinders, pressure to open, spring to close, locking 8-10 bar, hand reset",false,24,P2OSH
+"1 pneumatic cylinder, pressure to open, spring to close, locking 8-10 bar, pneu. reset",EUR,ECO Control,P1OSP,Active,P1OSP,"1 pneumatic cylinder, pressure to open, spring to close, locking 8-10 bar, pneu. reset",false,25,P1OSP
+"2 pneumatic cylinders, pressure to open, spring to close, locking 8-10 bar, pneu. reset",EUR,ECO Control,P2OSP,Active,P2OSP,"2 pneumatic cylinders, pressure to open, spring to close, locking 8-10 bar, pneu. reset",false,26,P2OSP
+"1 pneumatic cylinder, pressure to open and close, locked in both end positions (3D)",EUR,ECO Control,P1BDD,Active,P1BDD,"1 pneumatic cylinder, pressure to open and close, locked in both end positions (3D)",false,27,P1BDD
+"2 pneumatic cylinders, pressure to open and close, locked in both end positions (3D)",EUR,ECO Control,P2BDD,Active,P2BDD,"2 pneumatic cylinders, pressure to open and close, locked in both end positions (3D)",false,28,P2BDD
+"1 pneumatic cylinder, pressure to open, spring to close, locking 8-10 bar, hand reset (3D)",EUR,ECO Control,P1OSHD,Active,P1OSHD,"1 pneumatic cylinder, pressure to open, spring to close, locking 8-10 bar, hand reset (3D)",false,29,P1OSHD
+"2 pneumatic cylinders, pressure to open, spring to close, locking 8-10 bar, hand reset (3D)",EUR,ECO Control,P2OSHD,Active,P2OSHD,"2 pneumatic cylinders, pressure to open, spring to close, locking 8-10 bar, hand reset (3D)",false,30,P2OSHD
+"1 pneumatic cylinder, pressure to open, spring to close, locking 8-10 bar, pneu. reset (3D)",EUR,ECO Control,P1OSPD,Active,P1OSPD,"1 pneumatic cylinder, pressure to open, spring to close, locking 8-10 bar, pneu. reset (3D)",false,31,P1OSPD
+"2 pneumatic cylinders, pressure to open, spring to close, locking 8-10 bar, pneu. reset (3D)",EUR,ECO Control,P2OSPD,Active,P2OSPD,"2 pneumatic cylinders, pressure to open, spring to close, locking 8-10 bar, pneu. reset (3D)",false,32,P2OSPD
+"1 electric motor 24V, power to open & power to close",EUR,ECO Control,M1B24,Active,M1B24,"1 electric motor 24V, power to open & power to close",false,33,M1B24
+"2 electric motors 24V, power to open & power to close",EUR,ECO Control,M2B24,Active,M2B24,"2 electric motors 24V, power to open & power to close",false,34,M2B24
+"1 spring return electric motor 24V, power to close & spring to open",EUR,ECO Control,M1C24,Active,M1C24,"1 spring return electric motor 24V, power to close & spring to open",false,35,M1C24
+"2 spring return electric motors 24V, power to close & spring to open",EUR,ECO Control,M2C24,Active,M2C24,"2 spring return electric motors 24V, power to close & spring to open",false,36,M2C24
+"1 spring return electric motor 24V, spring to close & power to open",EUR,ECO Control,M1O24,Active,M1O24,"1 spring return electric motor 24V, spring to close & power to open",false,37,M1O24
+"2 spring return electric motors 24V, spring to close & power to open",EUR,ECO Control,M2O24,Active,M2O24,"2 spring return electric motors 24V, spring to close & power to open",false,38,M2O24
+"1 linear electric motor 24V, power to open & power to close",EUR,ECO Control,M1B24M,Active,M1B24M,"1 linear electric motor 24V, power to open & power to close",false,39,M1B24M
+"2 linear electric motors 24V, power to open & power to close",EUR,ECO Control,M2B24M,Active,M2B24M,"2 linear electric motors 24V, power to open & power to close",false,40,M2B24M
+"1 spring return electric motor 24V with assisting spring, power to close & spring to open",EUR,ECO Control,M1C24J,Active,M1C24J,"1 spring return electric motor 24V with assisting spring, power to close & spring to open",false,41,M1C24J
+"2 spring return electric motors 24V with assisting spring, power to close & spring to open",EUR,ECO Control,M2C24J,Active,M2C24J,"2 spring return electric motors 24V with assisting spring, power to close & spring to open",false,42,M2C24J
+"1 linear electric motor 24V (GRASL), power to open & power to close",EUR,ECO Control,M1B24K,Active,M1B24K,"1 linear electric motor 24V (GRASL), power to open & power to close",false,43,M1B24K
+"2 linear electric motors 24V (GRASL), power to open & power to close",EUR,ECO Control,M2B24K,Active,M2B24K,"2 linear electric motors 24V (GRASL), power to open & power to close",false,44,M2B24K
+"1 electric motor 230V, power to open & power to close",EUR,ECO Control,M1B230,Active,M1B230,"1 electric motor 230V, power to open & power to close",false,45,M1B230
+"2 electric motors 230V, power to open & power to close",EUR,ECO Control,M2B230,Active,M2B230,"2 electric motors 230V, power to open & power to close",false,46,M2B230
+"1 spring return electric motor 230V, power to close & spring to open",EUR,ECO Control,M1C230,Active,M1C230,"1 spring return electric motor 230V, power to close & spring to open",false,47,M1C230
+"2 spring return electric motors 230V, power to close & spring to open",EUR,ECO Control,M2C230,Active,M2C230,"2 spring return electric motors 230V, power to close & spring to open",false,48,M2C230
+"1 spring return electric motor 230V, spring to close & power to open",EUR,ECO Control,M1O230,Active,M1O230,"1 spring return electric motor 230V, spring to close & power to open",false,49,M1O230
+"2 spring return electric motors 230V, spring to close & power to open",EUR,ECO Control,M2O230,Active,M2O230,"2 spring return electric motors 230V, spring to close & power to open",false,50,M2O230
+"1 linear electric motor 230V (Jofo), power to open & power to close",EUR,ECO Control,M1B230J,Active,M1B230J,"1 linear electric motor 230V (Jofo), power to open & power to close",false,51,M1B230J
+"2 linear electric motors 230V (Jofo), power to open & power to close",EUR,ECO Control,M2B230J,Active,M2B230J,"2 linear electric motors 230V (Jofo), power to open & power to close",false,52,M2B230J
+"1 spring return electric motor 230V with assisting spring, power to close & spring to open",EUR,ECO Control,M1C230J,Active,M1C230J,"1 spring return electric motor 230V with assisting spring, power to close & spring to open",false,53,M1C230J
+"2 spring return electric motors 230V with assisting spring, power to close & spring to open",EUR,ECO Control,M2C230J,Active,M2C230J,"2 spring return electric motors 230V with assisting spring, power to close & spring to open",false,54,M2C230J
+"1 pneumatic cyl. + 1 linear elec. motor 230V, locking at 11.6 bar, hand reset",EUR,ECO Control,MP1OSH,Active,MP1OSH,"1 pneumatic cyl. + 1 linear elec. motor 230V, locking at 11.6 bar, hand reset",false,55,MP1OSH
+"2 pneumatic cyl. + 2 linear elec. motors 230V, locking at 11.6 bar, hand reset",EUR,ECO Control,MP2OSH,Active,MP2OSH,"2 pneumatic cyl. + 2 linear elec. motors 230V, locking at 11.6 bar, hand reset",false,56,MP2OSH
+"1 pneumatic cyl. + 1 linear elec. motor 230V, locking at 11.6 bar, pneu. reset",EUR,ECO Control,MP1OSP,Active,MP1OSP,"1 pneumatic cyl. + 1 linear elec. motor 230V, locking at 11.6 bar, pneu. reset",false,57,MP1OSP
+"2 pneumatic cyl. + 2 linear elec. motors 230V, locking at 11.6 bar, pneu. reset",EUR,ECO Control,MP2OSP,Active,MP2OSP,"2 pneumatic cyl. + 2 linear elec. motors 230V, locking at 11.6 bar, pneu. reset",false,58,MP2OSP
+"1 spring return electric motor 24V (Joventa), power to close & spring to open",EUR,ECO Control,M1B24J,Active,M1B24J,"1 spring return electric motor 24V (Joventa), power to close & spring to open",false,59,M1B24J
+"2 spring return electric motors 24V (Joventa), power to close & spring to open",EUR,ECO Control,M2B24J,Active,M2B24J,"2 spring return electric motors 24V (Joventa), power to close & spring to open",false,60,M2B24J
+Without fusible link,EUR,ECO Thermal Release,FX,Active,FX,Without fusible link,false,10,FX
+"Fusible link, release temp. 72 °C",EUR,ECO Thermal Release,F72,Active,F72,"Fusible link, release temp. 72 °C",false,11,F72
+"Fusible link, release temp. 93 °C",EUR,ECO Thermal Release,F93,Active,F93,"Fusible link, release temp. 93 °C",false,12,F93
+"Fusible link, release temp. 141 °C",EUR,ECO Thermal Release,F141,Active,F141,"Fusible link, release temp. 141 °C",false,13,F141
+"Fusible link, release temp. 182 °C",EUR,ECO Thermal Release,F182,Active,F182,"Fusible link, release temp. 182 °C",false,14,F182
+"Fusible link, release temp. 72 °C, with sprinkler shield",EUR,ECO Thermal Release,F72S,Active,F72S,"Fusible link, release temp. 72 °C, with sprinkler shield",false,15,F72S
+"Fusible link, release temp. 93 °C, with sprinkler shield",EUR,ECO Thermal Release,F93S,Active,F93S,"Fusible link, release temp. 93 °C, with sprinkler shield",false,16,F93S
+"Fusible link, release temp. 141 °C, with sprinkler shield",EUR,ECO Thermal Release,F141S,Active,F141S,"Fusible link, release temp. 141 °C, with sprinkler shield",false,17,F141S
+"Fusible link, release temp. 182 °C, with sprinkler shield",EUR,ECO Thermal Release,F182S,Active,F182S,"Fusible link, release temp. 182 °C, with sprinkler shield",false,18,F182S
+"1 Fire override assembly, release temp. 72 °C",EUR,ECO Thermal Release,1F72,Active,1F72,"1 Fire override assembly, release temp. 72 °C",false,19,1F72
+"1 Fire override assembly, release temp. 93 °C",EUR,ECO Thermal Release,1F93,Active,1F93,"1 Fire override assembly, release temp. 93 °C",false,20,1F93
+"1 Fire override assembly, release temp. 141 °C",EUR,ECO Thermal Release,1F141,Active,1F141,"1 Fire override assembly, release temp. 141 °C",false,21,1F141
+"1 Fire override assembly, release temp. 182 °C",EUR,ECO Thermal Release,1F182,Active,1F182,"1 Fire override assembly, release temp. 182 °C",false,22,1F182
+"1 Fire override assembly, release temp. 72 °C, with sprinkler shield",EUR,ECO Thermal Release,1F72S,Active,1F72S,"1 Fire override assembly, release temp. 72 °C, with sprinkler shield",false,23,1F72S
+"1 Fire override assembly, release temp. 93 °C, with sprinkler shield",EUR,ECO Thermal Release,1F93S,Active,1F93S,"1 Fire override assembly, release temp. 93 °C, with sprinkler shield",false,24,1F93S
+"1 Fire override assembly, release temp. 141 °C, with sprinkler shield",EUR,ECO Thermal Release,1F141S,Active,1F141S,"1 Fire override assembly, release temp. 141 °C, with sprinkler shield",false,25,1F141S
+"1 Fire override assembly, release temp. 182 °C, with sprinkler shield",EUR,ECO Thermal Release,1F182S,Active,1F182S,"1 Fire override assembly, release temp. 182 °C, with sprinkler shield",false,26,1F182S
+"2 Fire override assembly, release temp. 72 °C",EUR,ECO Thermal Release,2F72,Active,2F72,"2 Fire override assembly, release temp. 72 °C",false,27,2F72
+"2 Fire override assembly, release temp. 93 °C",EUR,ECO Thermal Release,2F93,Active,2F93,"2 Fire override assembly, release temp. 93 °C",false,28,2F93
+"2 Fire override assembly, release temp. 141 °C",EUR,ECO Thermal Release,2F141,Active,2F141,"2 Fire override assembly, release temp. 141 °C",false,29,2F141
+"2 Fire override assembly, release temp. 182 °C",EUR,ECO Thermal Release,2F182,Active,2F182,"2 Fire override assembly, release temp. 182 °C",false,30,2F182
+"2 Fire override assembly, release temp. 72 °C, with sprinkler shield",EUR,ECO Thermal Release,2F72S,Active,2F72S,"2 Fire override assembly, release temp. 72 °C, with sprinkler shield",false,31,2F72S
+"2 Fire override assembly, release temp. 93 °C, with sprinkler shield",EUR,ECO Thermal Release,2F93S,Active,2F93S,"2 Fire override assembly, release temp. 93 °C, with sprinkler shield",false,32,2F93S
+"2 Fire override assembly, release temp. 141 °C, with sprinkler shield",EUR,ECO Thermal Release,2F141S,Active,2F141S,"2 Fire override assembly, release temp. 141 °C, with sprinkler shield",false,33,2F141S
+"2 Fire override assembly, release temp. 182 °C, with sprinkler shield",EUR,ECO Thermal Release,2F182S,Active,2F182S,"2 Fire override assembly, release temp. 182 °C, with sprinkler shield",false,34,2F182S
+Fusible exhaust valve 68 °C release temp.,EUR,ECO Thermal Release,FV68,Active,FV68,Fusible exhaust valve 68 °C release temp.,false,35,FV68
+Fusible exhaust valve 93 °C release temp.,EUR,ECO Thermal Release,FV93,Active,FV93,Fusible exhaust valve 93 °C release temp.,false,36,FV93
+"TVV, release temp. 68 °C",EUR,ECO Thermal Release,FS68,Active,FS68,"TVV, release temp. 68 °C",true,37,FS68
+"TVV, release temp. 93 °C",EUR,ECO Thermal Release,FS93,Active,FS93,"TVV, release temp. 93 °C",false,38,FS93
+"TVV, release temp. 141 °C",EUR,ECO Thermal Release,FS141,Active,FS141,"TVV, release temp. 141 °C",false,39,FS141
+"TVV, release temp. 182 °C",EUR,ECO Thermal Release,FS182,Active,FS182,"TVV, release temp. 182 °C",false,40,FS182
+"TVV, release temp. 68 °C, with sprinkler shield",EUR,ECO Thermal Release,FS68S,Active,FS68S,"TVV, release temp. 68 °C, with sprinkler shield",false,41,FS68S
+"TVV, release temp. 93 °C, with sprinkler shield",EUR,ECO Thermal Release,FS93S,Active,FS93S,"TVV, release temp. 93 °C, with sprinkler shield",false,42,FS93S
+"TVV, release temp. 141 °C, with sprinkler shield",EUR,ECO Thermal Release,FS141S,Active,FS141S,"TVV, release temp. 141 °C, with sprinkler shield",false,43,FS141S
+"TVV, release temp. 182 °C, with sprinkler shield",EUR,ECO Thermal Release,FS182S,Active,FS182S,"TVV, release temp. 182 °C, with sprinkler shield",false,44,FS182S
+No temperature class present,EUR,ECO Ambient Temp,X,Active,X,No temperature class present,false,10,X
+Suitable for interior temperatures > 0 °C,EUR,ECO Ambient Temp,T(00),Active,T(00),Suitable for interior temperatures > 0 °C,false,11,T(00)
+Suitable for interior temperatures > -5 °C,EUR,ECO Ambient Temp,T(-05),Active,T(-05),Suitable for interior temperatures > -5 °C,false,12,T(-05)
+Suitable for interior temperatures > -15 °C,EUR,ECO Ambient Temp,T(-15),Active,T(-15),Suitable for interior temperatures > -15 °C,true,13,T(-15)
+Suitable for interior temperatures > -25 °C,EUR,ECO Ambient Temp,T(-25),Active,T(-25),Suitable for interior temperatures > -25 °C,false,14,T(-25)
+No louvres removable from the exterior,EUR,ECO Removable Louvre,X,Active,X,No louvres removable from the exterior,true,10,X
+Externally removable louvre – first louvre from top,EUR,ECO Removable Louvre,R,Active,R,Externally removable louvre – first louvre from top,false,11,R
+Without insulation,EUR,ECO Insulation,X,Active,X,Without insulation,true,10,X
+Provided with insulation affixed from the outside,EUR,ECO Insulation,I,Active,I,Provided with insulation affixed from the outside,false,11,I
+Standard base height (vent-/base height 278/78 mm),EUR,ECO Base Type,STD,Active,STD,Standard base height (vent-/base height 278/78 mm),true,10,STD
+Conical upstand base (vent-/base height 353/153 mm),EUR,ECO Base Type,CB2,Active,CB2,Conical upstand base (vent-/base height 353/153 mm),false,11,CB2
+"Conical upstand base (vent-/base height 368/168 mm), only for 3S-version",EUR,ECO Base Type,CB3,Active,CB3,"Conical upstand base (vent-/base height 368/168 mm), only for 3S-version",false,12,CB3
+"Conical upstand base (vent-/base height 428/228 mm), only for 3S-version",EUR,ECO Base Type,CB4,Active,CB4,"Conical upstand base (vent-/base height 428/228 mm), only for 3S-version",false,13,CB4
+Straight upstand base (vent-/base height 310/110 mm),EUR,ECO Base Type,UB1,Active,UB1,Straight upstand base (vent-/base height 310/110 mm),false,14,UB1
+Straight upstand base (vent-/base height 353/153 mm),EUR,ECO Base Type,UB2,Active,UB2,Straight upstand base (vent-/base height 353/153 mm),false,15,UB2
+Straight upstand base (vent-/base height 368/168 mm),EUR,ECO Base Type,UB3,Active,UB3,Straight upstand base (vent-/base height 368/168 mm),false,16,UB3
+Straight upstand base (vent-/base height 428/228 mm),EUR,ECO Base Type,UB4,Active,UB4,Straight upstand base (vent-/base height 428/228 mm),false,17,UB4
+Straight upstand base (vent-/base height 578/378 mm),EUR,ECO Base Type,UB5,Active,UB5,Straight upstand base (vent-/base height 578/378 mm),false,18,UB5
+"Flange for glazing, turned down and back 25 mm, sides only",EUR,ECO Flange Edge Type,N1-D,Active,N1-D,"Flange for glazing, turned down and back 25 mm, sides only",false,10,N1-D
+"Flange for glazing, turned down and back 25 mm, all round",EUR,ECO Flange Edge Type,N1-D4,Active,N1-D4,"Flange for glazing, turned down and back 25 mm, all round",false,11,N1-D4
+"Flange for glazing, turned up and back 25 mm, sides only",EUR,ECO Flange Edge Type,N1-U,Active,N1-U,"Flange for glazing, turned up and back 25 mm, sides only",false,12,N1-U
+"Flange for glazing, turned up and back 25 mm, all round",EUR,ECO Flange Edge Type,N1-U4,Active,N1-U4,"Flange for glazing, turned up and back 25 mm, all round",false,13,N1-U4
+"Flange for glazing, turned down and back 16 mm, all round",EUR,ECO Flange Edge Type,N1-16,Active,N1-16,"Flange for glazing, turned down and back 16 mm, all round",false,14,N1-16
+"Flange for glazing, turned down and back 24 mm, all round",EUR,ECO Flange Edge Type,N1-24,Active,N1-24,"Flange for glazing, turned down and back 24 mm, all round",false,15,N1-24
+Flange for fixing into Azur,EUR,ECO Flange Edge Type,N1-AZ,Active,N1-AZ,Flange for fixing into Azur,false,16,N1-AZ
+"Flange for fixing under sheeting, turned up 45° 25 mm",EUR,ECO Flange Edge Type,N2,Active,N2,"Flange for fixing under sheeting, turned up 45° 25 mm",false,17,N2
+"Flange for fixing onto sheeting, turned down 45° 25 mm",EUR,ECO Flange Edge Type,N3,Active,N3,"Flange for fixing onto sheeting, turned down 45° 25 mm",false,18,N3
+"Flange for fixing onto framework, flat",EUR,ECO Flange Edge Type,N4,Active,N4,"Flange for fixing onto framework, flat",false,19,N4
+"Flange for fixing onto upstands, turned down 26.5 mm",EUR,ECO Flange Edge Type,N5,Active,N5,"Flange for fixing onto upstands, turned down 26.5 mm",true,20,N5
+Flange turned up 60 mm on left side for fixing into daylighting systems,EUR,ECO Flange Edge Type,N6-L,Active,N6-L,Flange turned up 60 mm on left side for fixing into daylighting systems,false,21,N6-L
+Flange turned up 60 mm on right side for fixing into daylighting systems,EUR,ECO Flange Edge Type,N6-R,Active,N6-R,Flange turned up 60 mm on right side for fixing into daylighting systems,false,22,N6-R
+Flange turned up 60 mm on both sides for fixing into daylighting systems,EUR,ECO Flange Edge Type,N6-LR,Active,N6-LR,Flange turned up 60 mm on both sides for fixing into daylighting systems,false,23,N6-LR
+Flange turned up 60 mm on top edge for fixing into daylighting systems,EUR,ECO Flange Edge Type,N6-T,Active,N6-T,Flange turned up 60 mm on top edge for fixing into daylighting systems,false,24,N6-T
+Flange turned up 60 mm on bottom edge for fixing into daylighting systems,EUR,ECO Flange Edge Type,N6-B,Active,N6-B,Flange turned up 60 mm on bottom edge for fixing into daylighting systems,false,25,N6-B
+Flange turned up 60 mm on bottom & top edges for fixing into daylighting systems,EUR,ECO Flange Edge Type,N6-TB,Active,N6-TB,Flange turned up 60 mm on bottom & top edges for fixing into daylighting systems,false,26,N6-TB
+"Flange for fixing onto sheeting, turned down 50 mm",EUR,ECO Flange Edge Type,N7,Active,N7,"Flange for fixing onto sheeting, turned down 50 mm",false,27,N7
+Flange turned up on left side for fixing to adjacent vents,EUR,ECO Flange Edge Type,N8-L,Active,N8-L,Flange turned up on left side for fixing to adjacent vents,false,28,N8-L
+Flange turned up on right side for fixing to adjacent vents,EUR,ECO Flange Edge Type,N8-R,Active,N8-R,Flange turned up on right side for fixing to adjacent vents,false,29,N8-R
+Flange turned up on both sides for fixing to adjacent vents,EUR,ECO Flange Edge Type,N8-LR,Active,N8-LR,Flange turned up on both sides for fixing to adjacent vents,false,30,N8-LR
+Flange turned up on top edge for fixing to adjacent vents,EUR,ECO Flange Edge Type,N8-T,Active,N8-T,Flange turned up on top edge for fixing to adjacent vents,false,31,N8-T
+Flange turned up on bottom edge for fixing to adjacent vents,EUR,ECO Flange Edge Type,N8-B,Active,N8-B,Flange turned up on bottom edge for fixing to adjacent vents,false,32,N8-B
+Flange turned up on bottom & top edges for fixing to adjacent vents,EUR,ECO Flange Edge Type,N8-TB,Active,N8-TB,Flange turned up on bottom & top edges for fixing to adjacent vents,false,33,N8-TB
+Flange turned down 15 mm 15° all round,EUR,ECO Flange Edge Type,N9-D,Active,N9-D,Flange turned down 15 mm 15° all round,false,34,N9-D
+Flange turned up 15 mm 15° all round,EUR,ECO Flange Edge Type,N9-U,Active,N9-U,Flange turned up 15 mm 15° all round,false,35,N9-U
+Flange turned out 10 mm 45° all round,EUR,ECO Flange Edge Type,N10,Active,N10,Flange turned out 10 mm 45° all round,false,36,N10
+"Flange for fixing onto upstands, turned down 132 mm",EUR,ECO Flange Edge Type,N11,Active,N11,"Flange for fixing onto upstands, turned down 132 mm",false,37,N11
+Special flange (drawing required),EUR,ECO Flange Edge Type,NS,Active,NS,Special flange (drawing required),false,38,NS
+No insulated adapter,EUR,ECO Insulated Adapter,X,Active,X,No insulated adapter,true,10,X
+Insulated adapter – 4 sides,EUR,ECO Insulated Adapter,A,Active,A,Insulated adapter – 4 sides,false,11,A
+No guard,EUR,ECO Guards,X,Active,X,No guard,true,10,X
+External fabric insect mesh – only 3S vents,EUR,ECO Guards,IG,Active,IG,External fabric insect mesh – only 3S vents,false,11,IG
+External stainless steel insect mesh – only 3S vents,EUR,ECO Guards,IS,Active,IS,External stainless steel insect mesh – only 3S vents,false,12,IS
+External galvanised steel bird guard – only 3S vents,EUR,ECO Guards,BG,Active,BG,External galvanised steel bird guard – only 3S vents,false,13,BG
+No guard,EUR,ECO Burglar Guards,X,Active,X,No guard,true,10,X
+Guard welded within the base frame – only 3S vents,EUR,ECO Burglar Guards,S,Active,S,Guard welded within the base frame – only 3S vents,false,11,S
+Mill finish (natural aluminium),EUR,ECO Finish,X,Active,X,Mill finish (natural aluminium),true,10,X
+Special paint finish,EUR,ECO Finish,S,Active,S,Special paint finish,false,11,S
+"Polyester powder finish, gloss 90% ± 10%, high gloss",EUR,ECO Finish,PG,Active,PG,"Polyester powder finish, gloss 90% ± 10%, high gloss",false,12,PG
+"Polyester powder finish, gloss 70% ± 10%, semi gloss",EUR,ECO Finish,PS,Active,PS,"Polyester powder finish, gloss 70% ± 10%, semi gloss",false,13,PS
+"Polyester powder finish, gloss 30% ± 10%, matt",EUR,ECO Finish,PM,Active,PM,"Polyester powder finish, gloss 30% ± 10%, matt",false,14,PM
+Mill finish (natural aluminium),EUR,ECO Coverage,X,Active,X,Mill finish (natural aluminium),true,10,X
+Partly painted (all except polycarbonate louvre frames),EUR,ECO Coverage,P,Active,P,Partly painted (all except polycarbonate louvre frames),false,11,P
+Completely painted,EUR,ECO Coverage,C,Active,C,Completely painted,false,12,C
+Without upstand,EUR,ECO Upstand Design,X,Active,X,Without upstand,true,10,X
+"Straight upstand, 250 mm high",EUR,ECO Upstand Design,S250,Active,S250,"Straight upstand, 250 mm high",false,11,S250
+"Straight upstand, 350 mm high",EUR,ECO Upstand Design,S350,Active,S350,"Straight upstand, 350 mm high",false,12,S350
+"Conical upstand, 250 mm high",EUR,ECO Upstand Design,C250,Active,C250,"Conical upstand, 250 mm high",false,13,C250
+"Conical upstand, 350 mm high",EUR,ECO Upstand Design,C350,Active,C350,"Conical upstand, 350 mm high",false,14,C350
+Flat roof,EUR,ECO Assembly Situation,F,Active,F,Flat roof,true,10,F
+Wall,EUR,ECO Assembly Situation,W,Active,W,Wall,false,11,W
+Shed roof,EUR,ECO Assembly Situation,S,Active,S,Shed roof,false,12,S
+No lifting eyes,EUR,ECO Lifting Eyes,No,Active,No,No lifting eyes,true,10,No
+4 Lifting eyes for horizontal lifting,EUR,ECO Lifting Eyes,Yes,Active,Yes,4 Lifting eyes for horizontal lifting,false,11,Yes

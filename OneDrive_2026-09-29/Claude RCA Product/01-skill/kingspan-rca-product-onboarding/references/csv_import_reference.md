@@ -16,21 +16,26 @@ Import in this exact order — each object depends on the ones above it.
 | 10 | PricebookEntry | `PricebookEntry` | Placeholder until factory pricing |
 | 11 | Attribute_Pricing__c | `Attribute_Pricing__c` | Attribute-level pricing |
 
-Write CSVs with `csv.QUOTE_ALL`, UTF-8. Column headers must match the SOQL field
-names in the org's query set (e.g. `Picklist:AttributePicklist:Code`).
+Write CSVs UTF-8, minimal quoting, CRLF line endings (this is what
+`generate_import_csvs.py` produces and what imported cleanly for ECO). Column headers
+must match the field names in the org's query set; ECO used dot notation for
+lookups (`Picklist.Code`). The ECO FIXES file used `Picklist:AttributePicklist:Code`
+and also imported, so either form works.
 
 ## Key column sets
 
 **01 AttributePicklist:** `Name, Code, Description, Status, DataType, CurrencyIsoCode`
 
-**02 AttributeDefinition:** `Name, CurrencyIsoCode, Label, Description, DataType,
-IsActive, IsRequired, DefaultValue, Picklist.Code, Code, DeveloperName`
+**02 AttributeDefinition:** `Name, CurrencyIsoCode, UnitOfMeasureId, Label, Description,
+DataType, IsActive, IsRequired, DefaultValue, SourceSystemIdentifier, ValueDescription,
+Picklist.Code, DefaultHelpText, Code, DeveloperName` (02b output attributes use the same columns)
 
-**03 AttributePicklistValue:** `Name, CurrencyIsoCode, Picklist:AttributePicklist:Code,
+**03 AttributePicklistValue:** `Name, CurrencyIsoCode, Picklist.Code,
 Abbreviation, Status, Code, DisplayValue, IsDefault, Sequence, Value`
 
-**06 Product2:** `Name, IsActive, DisplayUrl, ConfigureDuringSale, ProductCode, Type,
-RCA_Product__c, Description, Configurable_Product__c, AvailabilityDate`
+**06 Product2:** `Name, IsActive, DisplayUrl, ConfigureDuringSale, Product_Family_ROD__c,
+ProductCode, Type, RCA_Product__c, Internal_Product_Description__c, Description,
+Configurable_Product__c, AvailabilityDate, Product_Owner__r.Email, BasedOn.Code`
 (dates in `YYYY-MM-DD`)
 
 **08 ProductClassificationAttr:** `Name, AttributeCategory.Code, IsPriceImpacting,
@@ -56,7 +61,9 @@ string); only the internal `Code` key gets prefixed.
 touch `Code` or `Value`.
 
 Produce a separate `*_FIXES.csv` of only the corrected failed rows for re-import.
-Use `scripts/fix_picklist_values.py`.
+Use `scripts/fix_picklist_values.py`. It prefixes codes that appear in more than one
+picklist in the file. Codes the org rejects because they already exist elsewhere
+can't be seen from the file, so pass those with `--collide codes.txt` (one per line).
 
 ## Manual fields to complete before go-live
 - `06_Product2.csv` → `Product_Owner__r.Email`, `Product_Family_ROD__c`

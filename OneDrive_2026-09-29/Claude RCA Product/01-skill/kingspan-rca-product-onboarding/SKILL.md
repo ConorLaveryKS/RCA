@@ -79,9 +79,12 @@ Naming convention (the CSVs and CML depend on it):
 - **Picklist Code:** `ECO Throat Width` (prefix + spaces)
 
 ### Phase 3 — Generate the Salesforce import CSVs
-Run `scripts/generate_import_csvs.py`. See `references/csv_import_reference.md` for
+Run `scripts/generate_import_csvs.py TEMPLATE.xlsx OUT_DIR PREFIX`. Add
+`--outputs OUTPUT_ATTRS.csv` (calculated attributes in AttributeDefinition-sheet layout)
+to also emit 02b/04b/08b. See `references/csv_import_reference.md` for
 the full object list and the strict import order. Fix any import errors with
-`scripts/fix_picklist_values.py`.
+`scripts/fix_picklist_values.py` (use `--collide` for codes the org rejected).
+On the ECO template the script reproduces the imported 01–11 files byte-for-byte.
 
 ### Phase 4 — Write the CML constraint model
 **Read `references/cml_syntax_rules.md` first** — CML is not a general expression

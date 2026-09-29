@@ -1,0 +1,13 @@
+Name,CurrencyIsoCode,UnitOfMeasureId,Label,Description,DataType,IsActive,IsRequired,DefaultValue,SourceSystemIdentifier,ValueDescription,Picklist.Code,DefaultHelpText,Code,DeveloperName
+Number of Louvres,EUR,,Number of Louvres,Calculated number of louvre blades. Formula: (ThroatLength_mm - 40) / 133,Number,TRUE,FALSE,,,,,,ECO_NumLouvres,ECO_NumLouvres
+Geometric Area Av,EUR,,Geometric Area Av (m²),Gross geometric opening area in m². Source: aerodynamic!C365,Number,TRUE,FALSE,,,,,,ECO_GeomAreaAv,ECO_GeomAreaAv
+Aerodynamic Area Aa,EUR,,Aerodynamic Area Aa (m²),Net aerodynamic area after Cv coefficient and guard correction. Source: aerodynamic!B388,Number,TRUE,FALSE,,,,,,ECO_AeroAreaAa,ECO_AeroAreaAa
+Snow Load,EUR,,Snow Load (N/m²),Certified snow load class. Source: snow loads!AA513. May be 'X' if not certified.,Text,TRUE,FALSE,,,,,,ECO_SnowLoad,ECO_SnowLoad
+Wind Load,EUR,,Wind Load (N/m²),Certified wind load class: 1500 / 3000 / 4000 / X. Source: wind loads!AE136,Text,TRUE,FALSE,,,,,,ECO_WindLoad,ECO_WindLoad
+Ambient Temperature Class,EUR,,Ambient Temperature Class,Certified ambient temperature class: X / T(-05) / T(-15) / T(-25). Source: T(xx)!E72,Text,TRUE,FALSE,,,,,,ECO_AmbientTempClass,ECO_AmbientTempClass
+Release Temperature,EUR,,Release Temperature (°C),Thermal release activation temperature in °C. 0 = no release (FX). Source: CO2-bottles!D7,Number,TRUE,FALSE,,,,,,ECO_ReleaseTemp,ECO_ReleaseTemp
+Opening Pressure Ventilation,EUR,,Opening Pressure – Ventilation (bar),"Daily ventilation opening pressure: MAX(2, table). 'X' = not applicable. Source: Input!C49",Text,TRUE,FALSE,,,,,,ECO_OpenPressVent,ECO_OpenPressVent
+Opening Pressure Smoke,EUR,,Opening Pressure – Smoke/RWA (bar),"Smoke/RWA opening pressure: MAX(2, table). 'X' = not applicable. Source: Input!C50",Text,TRUE,FALSE,,,,,,ECO_OpenPressSmoke,ECO_OpenPressSmoke
+CO2 Bottle,EUR,,CO2 Bottle (g),Required CO2 bottle size in grams: X / 20 / 28 / 40. Source: CO2-bottles!AF109,Text,TRUE,FALSE,,,,,,ECO_CO2Bottle,ECO_CO2Bottle
+Weight,EUR,,Weight (kg),Total unit weight in kg (base + insulation + control). 'X' = size not in table. Source: weight!C352,Text,TRUE,FALSE,,,,,,ECO_Weight,ECO_Weight
+U-Value,EUR,,U-Value (W/(m²K)),Thermal transmittance. 'X' = not certified (CB* bases). Source: U-values!K79,Text,TRUE,FALSE,,,,,,ECO_UValue,ECO_UValue
