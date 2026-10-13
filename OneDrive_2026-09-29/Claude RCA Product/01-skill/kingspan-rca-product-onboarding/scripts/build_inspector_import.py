@@ -98,8 +98,9 @@ for row in r:
     row[h.index("Product_Owner__c")] = "<User Id of product owner>"
     row[h.index("AvailabilityDate")] = row[h.index("AvailabilityDate")] or "<YYYY-MM-DDT00:00:00.000Z>"
 tab("06 Product2", h, r, "Insert",
-    "Fill yellow cells. Product_Owner__c needs the owner's User Id starting 005, not an alias or e-mail (Data Export: SELECT Id FROM User WHERE Email = '...'). "
-    "AvailabilityDate is a date/time field: enter it as text, e.g. 2026-01-01T00:00:00.000Z (type a leading apostrophe in Excel so it is not reformatted to 01/01/2026). BasedOn links the product to the classification so it inherits the attributes.",
+    "Fill yellow cells. Product_Owner__c = owner's User Id (starts 005, not alias/e-mail). "
+    "AvailabilityDate is a date/time: type 2026-01-01T00:00:00.000Z exactly, NO apostrophe (cells are Text). "
+    "Product_Family_ROD__c optional – use an existing value. BasedOn links the product to the classification so it inherits the attributes.",
     fill_cols=("Product_Owner__c", "AvailabilityDate", "Product_Family_ROD__c"))
 
 # 07 AttributeCategoryAttribute
@@ -131,8 +132,8 @@ tab("08 ProductClassificationAttr", h, r, "Insert",
 # 09 ProductCategoryProduct
 tab("09 ProductCategoryProduct", ["ProductId", "ProductCategoryId"],
     [["<Product2 Id from step 06>", "<ProductCategory Id>"]], "Insert",
-    "ProductId = the Id Inspector returns in step 06. ProductCategoryId: Data Export "
-    "SELECT Id, Name FROM ProductCategory WHERE Name = '<category from the Product sheet>'.",
+    "Object = ProductCategoryProduct (Inspector keeps the last object selected – change it!). "
+    "Both columns need record Ids (01t… / 0ZG…), not names – see the Data Export queries on the Import Steps tab.",
     fill_cols=("ProductId", "ProductCategoryId"))
 
 # 10 / 11 pricing – not yet
@@ -145,14 +146,41 @@ tab("11 Attribute_Pricing__c", ["Product__c", "Attribute__c", "Cost__c", "Factor
     "Skip until prices are known (see the template's Configurable Product Pricing tab).",
     fill_cols=("Product__c", "Attribute__c", "Cost__c", "Attribute_Value__c"))
 
+# Data Export (SOQL) queries to find the Ids / values each step needs
+Q = {
+    "06 Product2": [
+        ("Product owner User Id (005…)", "SELECT Id, Name, Alias, Email FROM User WHERE Alias = '<alias>' OR Email = '<e-mail>'"),
+        ("Existing product family values", "SELECT Product_Family_ROD__c, COUNT(Id) FROM Product2 WHERE Product_Family_ROD__c != null GROUP BY Product_Family_ROD__c"),
+    ],
+    "07 AttributeCategoryAttr": [
+        ("Check all attributes from step 02 exist", f"SELECT Code, Name, DataType FROM AttributeDefinition WHERE Code LIKE '{P}_%' ORDER BY Code"),
+    ],
+    "09 ProductCategoryProduct": [
+        ("ProductId (01t…) – the product from step 06", "SELECT Id, Name, ProductCode FROM Product2 WHERE ProductCode = '<product code>'"),
+        ("ProductCategoryId (0ZG…) with its catalog", "SELECT Id, Name, Catalog.Name, CatalogId FROM ProductCategory WHERE Name LIKE '%<category>%' ORDER BY Catalog.Name, Name"),
+        ("Which category/catalog a similar product uses", "SELECT ProductCategoryId, ProductCategory.Name, ProductCategory.Catalog.Name FROM ProductCategoryProduct WHERE Product.ProductCode = '<similar product code>'"),
+    ],
+    "10 PricebookEntry": [
+        ("Pricebook2Id", "SELECT Id, Name, IsStandard FROM Pricebook2 WHERE IsActive = true"),
+    ],
+}
+pc = r_prod_code = None
+for ws_ in wb.worksheets:
+    if ws_.title == "06 Product2":
+        hdr = [c.value for c in ws_[1]]
+        r_prod_code = ws_.cell(2, hdr.index("ProductCode") + 1).value
+for k in Q:
+    Q[k] = [(d, q.replace("<product code>", r_prod_code or "<product code>")) for d, q in Q[k]]
+
 # Overview tab
 ws = wb["Sheet"]
 ws.title = "Import Steps"
-ws.append(["Step", "Inspector action", "Rows", "Notes"])
+ws.append(["Step", "Inspector action", "Rows", "Notes", "Data Export query to find the Ids for this step"])
 for c in ws[1]:
     c.font = Font(name="Arial", size=10, bold=True, color="FFFFFF"); c.fill = HDR
 for s in steps:
-    ws.append(list(s))
+    qs = Q.get(s[0], [])
+    ws.append(list(s) + ["\n\n".join(f"{d}:\n{q}" for d, q in qs)])
 ws.append([])
 ws.append(["How", "Salesforce Inspector Reloaded → Data Import. For each tab in order: pick the object, "
            "action Insert, copy the whole tab (incl. header row) and paste into the data box, check the field "
@@ -161,6 +189,7 @@ for row in ws.iter_rows(min_row=2):
     for c in row:
         c.font = F; c.alignment = Alignment(wrap_text=True, vertical="top")
 ws.column_dimensions["A"].width = 30; ws.column_dimensions["B"].width = 18
-ws.column_dimensions["C"].width = 8; ws.column_dimensions["D"].width = 110
+ws.column_dimensions["C"].width = 8; ws.column_dimensions["D"].width = 70
+ws.column_dimensions["E"].width = 90
 wb.save(out)
 print("\n".join(f"{t}: {n} rows" for t, _, n, _ in steps))

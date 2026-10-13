@@ -103,6 +103,13 @@ For import with **Salesforce Inspector Reloaded**, build the workbook with
 `scripts/build_inspector_import.py <csv_dir> <Product>_RCA_Import_Inspector.xlsx PREFIX` and follow
 "Importing with Salesforce Inspector Reloaded" in `references/csv_import_reference.md`.
 
+> **When giving the user import instructions, list the steps in sequence and, for each step that
+> needs an Id or org value, give the exact Data Export (SOQL) query to find it**: owner User Id and
+> product family (step 06), attribute check (07/08), Product2 Id and ProductCategory Id **with catalog**
+> (09), Pricebook2 Id (10). The queries are in `references/csv_import_reference.md` → "Data Export
+> queries to run before each step", and on the workbook's Import Steps tab. Also remind the user to
+> change the Inspector **Object** before every run.
+
 ### Phase 4 — Write the CML constraint model
 **Read `references/cml_syntax_rules.md` first** — CML is not a general expression
 language and several intuitive patterns fail (`action()` can't set values,

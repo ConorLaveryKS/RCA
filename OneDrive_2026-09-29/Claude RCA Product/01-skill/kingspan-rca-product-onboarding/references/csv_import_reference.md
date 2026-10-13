@@ -89,6 +89,25 @@ Build the workbook: `scripts/build_inspector_import.py <csv_dir> <Product>_RCA_I
 One object per run – copy one tab (with header), Data Import → object, Insert, paste, check mapping, Run;
 re-run only failed rows before moving to the next tab.
 
+### Data Export queries to run before each step
+
+Run these in Inspector → Data Export and paste the Ids into the yellow cells. Always give these
+queries alongside the import steps, in sequence (the import workbook's Import Steps tab lists them too).
+
+| Before step | Need | Query |
+|---|---|---|
+| 06 Product2 | `Product_Owner__c` (User Id, `005…`) | `SELECT Id, Name, Alias, Email FROM User WHERE Alias = '<alias>' OR Email = '<e-mail>'` |
+| 06 Product2 | `Product_Family_ROD__c` value | `SELECT Product_Family_ROD__c, COUNT(Id) FROM Product2 WHERE Product_Family_ROD__c != null GROUP BY Product_Family_ROD__c` |
+| 07 / 08 | check step 02 created every attribute | `SELECT Code, Name, DataType FROM AttributeDefinition WHERE Code LIKE '<PREFIX>_%' ORDER BY Code` |
+| 09 ProductCategoryProduct | `ProductId` (`01t…`) | `SELECT Id, Name, ProductCode FROM Product2 WHERE ProductCode = '<code>'` |
+| 09 ProductCategoryProduct | `ProductCategoryId` (`0ZG…`) + catalog | `SELECT Id, Name, Catalog.Name, CatalogId FROM ProductCategory WHERE Name LIKE '%<category>%' ORDER BY Catalog.Name, Name` |
+| 09 ProductCategoryProduct | category/catalog of a similar product | `SELECT ProductCategoryId, ProductCategory.Name, ProductCategory.Catalog.Name FROM ProductCategoryProduct WHERE Product.ProductCode = '<similar code, e.g. CO>'` |
+| 10 PricebookEntry | `Pricebook2Id` | `SELECT Id, Name, IsStandard FROM Pricebook2 WHERE IsActive = true` |
+
+Also: **check the Object box before every run** – Inspector keeps the last object selected
+(tab 09 pasted into ProductClassificationAttr gives `No such column 'ProductId'`).
+Id fields need record Ids, never names (`MALFORMED_ID: … id value of incorrect type`).
+
 Lessons from the Airlite import:
 - **Lookup headers** use `Field:Object:ExternalId`, e.g. `Picklist:AttributePicklist:Code`,
   `AttributeDefinition:AttributeDefinition:Code`, `BasedOn:ProductClassification:Code`.
