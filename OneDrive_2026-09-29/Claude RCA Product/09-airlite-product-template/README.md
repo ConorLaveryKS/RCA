@@ -16,3 +16,12 @@ same 10-sheet KLAW Germany Product Price Template structure used for ECO CO, plu
 Rebuild: `python build_airlite_template.py ../02-product-template/ECOTech_ProductPriceTemplate.xlsx "Airlite Tech. Configurator(1).xlsm" Airlite_ProductPriceTemplate.xlsx`
 
 Generate import CSVs: `python ../01-skill/kingspan-rca-product-onboarding/scripts/generate_import_csvs.py Airlite_ProductPriceTemplate.xlsx <out_dir> AIR`
+
+## Import workbook (Salesforce Inspector Reloaded)
+
+`Airlite_RCA_Import_Inspector.xlsx` – one tab per import step (01–11) plus an `Import Steps` overview.
+Lookups use Inspector's `Field:Object:ExternalId` headers; picklist value Codes are prefixed
+`AIR_<Picklist>_<Value>` so they can't clash with ECO codes already in the org. Yellow cells to fill
+(Product owner User Id, availability date, Ids for step 09). Tabs 10–11 wait for factory prices.
+
+Rebuild: generate the CSVs, then `python build_inspector_import.py <csv_dir> Airlite_RCA_Import_Inspector.xlsx AIR`.
