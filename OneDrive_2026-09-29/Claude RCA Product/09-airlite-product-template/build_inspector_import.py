@@ -90,10 +90,10 @@ h, r = keep(h, r, cols, {"Product_Owner__r.Email": "Product_Owner__c", "BasedOn.
 for row in r:
     row[h.index("BasedOn:ProductClassification:Code")] = cls_code
     row[h.index("Product_Owner__c")] = "<User Id of product owner>"
-    row[h.index("AvailabilityDate")] = row[h.index("AvailabilityDate")] or "<YYYY-MM-DD>"
+    row[h.index("AvailabilityDate")] = row[h.index("AvailabilityDate")] or "<YYYY-MM-DDT00:00:00.000Z>"
 tab("06 Product2", h, r, "Insert",
     "Fill yellow cells. Product_Owner__c needs the owner's User Id (Data Export: SELECT Id FROM User WHERE Email = '...'). "
-    "AvailabilityDate as YYYY-MM-DD. BasedOn links the product to the classification so it inherits the attributes.",
+    "AvailabilityDate is a date/time field: enter it as text, e.g. 2026-01-01T00:00:00.000Z (type a leading apostrophe in Excel so it is not reformatted to 01/01/2026). BasedOn links the product to the classification so it inherits the attributes.",
     fill_cols=("Product_Owner__c", "AvailabilityDate", "Product_Family_ROD__c"))
 
 # 07 AttributeCategoryAttribute
