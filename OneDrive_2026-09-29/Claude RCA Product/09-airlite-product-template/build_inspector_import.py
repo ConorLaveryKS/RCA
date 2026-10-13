@@ -57,7 +57,11 @@ h, r = read("02_AttributeDefinition.csv")
 h, r = keep(h, r, ["Name", "CurrencyIsoCode", "Label", "Description", "DataType", "IsActive", "IsRequired",
                    "DefaultValue", "Picklist.Code", "Code", "DeveloperName"],
             {"Picklist.Code": "Picklist:AttributePicklist:Code"})
-tab("02 AttributeDefinition", h, r, "Insert", "Includes the 12 calculated output attributes (Description starts 'Calculated').")
+for row in r:  # Name must be unique org-wide (ECO already has Version, Insulation, ...)
+    row[0] = f"{P} {row[0]}"
+tab("02 AttributeDefinition", h, r, "Insert",
+    f"Name is prefixed '{P} ' because AttributeDefinition Name must be unique across the org; Label (shown to users) "
+    "is unchanged. Includes the 12 calculated output attributes (Description starts 'Calculated').")
 
 # 03 AttributePicklistValue – Code made unique across the org: <PREFIX>_<picklist>_<value>
 h, r = read("03_AttributePicklistValue.csv")
