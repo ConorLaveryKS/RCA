@@ -33,6 +33,8 @@ Kingspan product.
 4. **CML constraint model** (`.cml`) — validated against the Salesforce CML User Guide.
 
 Work in a scratch dir, copy final files to the outputs dir, and present them.
+Finished templates go to `C:\Users\conor.lavery\OneDrive - Kingspan\Commercial\RCA\Claud\Configurator templates`
+(save there directly when running locally; from a cloud session commit to the repo, send the file, and ask the user to save it there; see the repo `CLAUDE.md`).
 
 ## Folder contents
 
