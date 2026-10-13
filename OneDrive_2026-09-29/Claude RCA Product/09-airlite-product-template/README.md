@@ -24,4 +24,5 @@ Lookups use Inspector's `Field:Object:ExternalId` headers; picklist value Codes 
 `AIR_<Picklist>_<Value>` so they can't clash with ECO codes already in the org. Yellow cells to fill
 (Product owner User Id, availability date, Ids for step 09). Tabs 10–11 wait for factory prices.
 
-Rebuild: generate the CSVs, then `python build_inspector_import.py <csv_dir> Airlite_RCA_Import_Inspector.xlsx AIR`.
+Rebuild: `generate_import_csvs.py` (org-unique names/codes are now the default), then
+`../01-skill/kingspan-rca-product-onboarding/scripts/build_inspector_import.py <csv_dir> Airlite_RCA_Import_Inspector.xlsx AIR`.

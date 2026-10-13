@@ -12,6 +12,8 @@ Usage:
     OUTPUT_DIR      directory to write the CSVs into
     PREFIX          attribute prefix, e.g. "ECO" (default: inferred from the
                     AttributeDefinition codes, e.g. "ECO_Version" -> "ECO")
+    --legacy        reproduce the ECO CO files exactly as first imported (no org-unique
+                    Name / Code prefixes – see below). Do NOT use for new products.
     --outputs FILE  optional CSV of calculated output attributes, laid out like
                     the template's AttributeDefinition sheet (header row "In RCA",
                     "Name ENG", "Label", ...). Emits 02b / 04b / 08b.
@@ -23,6 +25,11 @@ Product and Attributes. Columns are read by header name.
 Output matches the files imported for ECO CO: comma-separated, minimal quoting,
 CRLF line endings, UTF-8. ProductClassification codes follow
 "<PREFIX>_<ProductCode>_ProductClassification" (e.g. ECO_CO_ProductClassification).
+Org-unique keys (default, learned on Airlite): AttributeDefinition.Name and
+AttributePicklistValue.Code must be unique across the WHOLE org, and earlier products
+already use plain names/codes ("Version", "Insulation", "S", "X", "FS68", "N5" ...). So:
+  - AttributeDefinition Name  -> "<PREFIX> <Name>"            e.g. "AIR Version" (Label unchanged)
+  - AttributePicklistValue Code -> "<PREFIX>_<Picklist>_<Value>" e.g. "AIR_Coating_S" (Value unchanged)
 Placeholders to fill before go-live are written as "TO BE FILLED" or left blank.
 """
 import sys, os, csv, datetime
@@ -83,8 +90,21 @@ def write_csv(out_dir, filename, headers, rows):
     print(f"  {filename}: {len(rows)} rows")
 
 
-def attr_def_row(r):
-    return [s(r.get("Name ENG")), "EUR", "", s(r.get("Label")), s(r.get("Description")),
+def unique_name(name, prefix):
+    """Org-unique AttributeDefinition Name: '<PREFIX> <Name>' (idempotent)."""
+    if not prefix or not name or name.startswith(prefix + " "):
+        return name
+    return f"{prefix} {name}"
+
+
+def unique_code(picklist_code, value, prefix):
+    """Org-unique AttributePicklistValue Code: '<PREFIX>_<Picklist>_<Value>'."""
+    pl = picklist_code.split(" ", 1)[-1] if picklist_code.startswith(prefix + " ") else picklist_code
+    return f"{prefix}_{pl}_{value}".replace(" ", "")
+
+
+def attr_def_row(r, prefix=None):
+    return [unique_name(s(r.get("Name ENG")), prefix), "EUR", "", s(r.get("Label")), s(r.get("Description")),
             s(r.get("DataType")), s(r.get("IsActive")), s(r.get("IsRequired")),
             s(r.get("DefaultValue")), "", "", s(r.get("Picklist.Code")), "",
             s(r.get("Code")), s(r.get("DeveloperName (API Name)")) or s(r.get("Code"))]
@@ -102,6 +122,9 @@ PCA_HEADERS = ["Name", "AttributeCategory.Code", "IsPriceImpacting", "IsHidden",
 def main():
     args = sys.argv[1:]
     outputs_csv = None
+    legacy = "--legacy" in args
+    if legacy:
+        args.remove("--legacy")
     if "--outputs" in args:
         i = args.index("--outputs")
         outputs_csv = args[i + 1]
@@ -125,6 +148,7 @@ def main():
     ad = [r for r in table(sheet("AttributeDefinition"), 2) if s(r.get("Code"))]
     if not prefix:
         prefix = s(ad[0]["Code"]).split("_")[0]
+    uprefix = None if legacy else prefix   # prefix used for org-unique Name / Code
 
     # ---- 01 AttributePicklist ----
     apl = [r for r in table(sheet("AttributePicklist"), 2) if s(r.get("Code"))]
@@ -136,7 +160,7 @@ def main():
 
     # ---- 02 AttributeDefinition ----
     write_csv(out_dir, "02_AttributeDefinition.csv", ATTR_DEF_HEADERS,
-              [attr_def_row(r) for r in ad])
+              [attr_def_row(r, uprefix) for r in ad])
 
     # ---- 03 AttributePicklistValue ----
     defaults = {(s(r.get("Picklist.Code")), s(r.get("DefaultValue"))) for r in ad}
@@ -146,7 +170,8 @@ def main():
         if not pl or not val:
             continue
         is_def = "true" if (pl, val) in defaults else "false"
-        rows.append([label, "EUR", pl, val, "Active", val, label, is_def,
+        code = val if legacy else unique_code(pl, val, prefix)
+        rows.append([label, "EUR", pl, val, "Active", code, label, is_def,
                      s(r.get("Sequence")), val])
     write_csv(out_dir, "03_AttributePicklistValue.csv",
               ["Name", "CurrencyIsoCode", "Picklist.Code", "Abbreviation", "Status",
@@ -220,7 +245,7 @@ def main():
         write_csv(out_dir, "04b_AttributeCategory_OutputAttrs.csv", ["Name", "Code"],
                   [list(CATEGORY_OUTPUTS)])
         write_csv(out_dir, "02b_AttributeDefinition_OutputAttrs.csv", ATTR_DEF_HEADERS,
-                  [attr_def_row(r) for r in outs])
+                  [attr_def_row(r, uprefix) for r in outs])
         rows = []
         for cc in classifs.values():
             for r in outs:

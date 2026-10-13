@@ -70,3 +70,37 @@ can't be seen from the file, so pass those with `--collide codes.txt` (one per l
 - `09_ProductCategoryProduct.csv` → confirm `ProductCategory.Code` in the target org
 - `10_PricebookEntry.csv` → `Pricebook2.Name`, `UnitPrice` (from factory)
 - `08_ProductClassificationAttr.csv` → set `IsPriceImpacting=true` on price-driving attrs
+
+## Org-unique keys – apply to every new product
+
+`generate_import_csvs.py` does this by default (use `--legacy` only to reproduce ECO):
+
+| Field | Unique across | Format | Example |
+|---|---|---|---|
+| `AttributePicklist.Code` | org | `<PREFIX> <Picklist>` | `AIR Coating` |
+| `AttributeDefinition.Name` | org | `<PREFIX> <Name>` (Label unchanged) | `AIR Version` |
+| `AttributeDefinition.Code` | org | `<PREFIX>_<Name>` | `AIR_Version` |
+| `AttributePicklistValue.Code` | org | `<PREFIX>_<Picklist>_<Value>` (Value unchanged) | `AIR_Coating_S` |
+| `AttributeCategory.Code` | org, **shared** | plain | `Device_Configuration` – reuse; duplicate error is fine |
+
+## Importing with Salesforce Inspector Reloaded
+
+Build the workbook: `scripts/build_inspector_import.py <csv_dir> <Product>_RCA_Import_Inspector.xlsx PREFIX`.
+One object per run – copy one tab (with header), Data Import → object, Insert, paste, check mapping, Run;
+re-run only failed rows before moving to the next tab.
+
+Lessons from the Airlite import:
+- **Lookup headers** use `Field:Object:ExternalId`, e.g. `Picklist:AttributePicklist:Code`,
+  `AttributeDefinition:AttributeDefinition:Code`, `BasedOn:ProductClassification:Code`.
+- **`Product2.AvailabilityDate` is a dateTime** in this org: `2026-01-01T00:00:00.000Z`. Excel turns
+  dates into `01/01/2026` (rejected); the workbook cells are Text, so type the value **without** an
+  apostrophe (in a Text cell the apostrophe is kept and also rejected).
+- **`Product_Owner__c` needs the User Id** (starts `005`), not an alias or e-mail:
+  `SELECT Id FROM User WHERE Alias = '...'` (MALFORMED_ID otherwise).
+- **`Product_Family_ROD__c`**: optional; use an existing value
+  (`SELECT Product_Family_ROD__c, COUNT(Id) FROM Product2 GROUP BY Product_Family_ROD__c`).
+- **`ProductCategoryProduct`** needs `ProductId` (returned by the Product2 run) and `ProductCategoryId`.
+- If one step fails, every later step that looks it up fails with
+  `Foreign key external ID … not found` – fix the earliest failing step first, then re-run the rest.
+- Picklist-attribute `DefaultValue`s point at values created in step 03; if step 02 rejects them,
+  clear the default and rely on `ProductClassificationAttr.DefaultValue` (step 08).

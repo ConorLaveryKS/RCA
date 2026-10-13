@@ -44,6 +44,7 @@ kingspan-rca-product-onboarding/
 ├── scripts/
 │   ├── generate_import_csvs.py     ← Product Price Template .xlsx → 11 numbered CSVs
 │   ├── fix_picklist_values.py      ← dedupe Codes + truncate Names (import-error fixer)
+│   ├── build_inspector_import.py   ← CSVs → Salesforce Inspector Reloaded import workbook (1 tab per step)
 │   └── generate_cml_tables.py      ← pre-computed area/Aa table constraints (avoids search limit)
 ├── references/
 │   ├── cml_syntax_rules.md         ← the CML gotchas — READ BEFORE WRITING CML
@@ -86,7 +87,21 @@ Run `scripts/generate_import_csvs.py TEMPLATE.xlsx OUT_DIR PREFIX`. Add
 to also emit 02b/04b/08b. See `references/csv_import_reference.md` for
 the full object list and the strict import order. Fix any import errors with
 `scripts/fix_picklist_values.py` (use `--collide` for codes the org rejected).
-On the ECO template the script reproduces the imported 01–11 files byte-for-byte.
+Names and codes are made **org-unique by default** (see the rule below); `--legacy`
+reproduces the ECO CO files byte-for-byte as they were first imported.
+
+> **Rule – org-unique keys (always, for every new product).** Salesforce enforces these
+> across the WHOLE org, and earlier products already use the plain values:
+> - `AttributeDefinition.Name` → `<PREFIX> <Name>` (e.g. `AIR Version`); `Label` stays clean.
+> - `AttributePicklistValue.Code` → `<PREFIX>_<Picklist>_<Value>` (e.g. `AIR_Coating_S`); `Value` stays the real code.
+> - `AttributePicklist.Code` and `AttributeDefinition.Code` already carry the prefix (`AIR Coating`, `AIR_Coating`).
+> - `AttributeCategory` codes are shared between products: a DUPLICATE_VALUE there is expected and fine.
+> Skipping this caused DUPLICATE_VALUE on Airlite (`Name duplicates value on record …`) and a
+> knock-on `Foreign key external ID … not found` on every later step that referenced those attributes.
+
+For import with **Salesforce Inspector Reloaded**, build the workbook with
+`scripts/build_inspector_import.py <csv_dir> <Product>_RCA_Import_Inspector.xlsx PREFIX` and follow
+"Importing with Salesforce Inspector Reloaded" in `references/csv_import_reference.md`.
 
 ### Phase 4 — Write the CML constraint model
 **Read `references/cml_syntax_rules.md` first** — CML is not a general expression

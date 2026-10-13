@@ -1,5 +1,5 @@
 """Turn generate_import_csvs.py output into a Salesforce Inspector Reloaded import workbook.
-Usage: python -I build_import_wb.py CSV_DIR OUT.xlsx PREFIX
+Usage: python build_inspector_import.py CSV_DIR OUT.xlsx PREFIX
 One tab per import step, lookups as Field:Object:ExternalId, picklist value codes made org-unique.
 """
 import sys, csv, os
@@ -58,7 +58,8 @@ h, r = keep(h, r, ["Name", "CurrencyIsoCode", "Label", "Description", "DataType"
                    "DefaultValue", "Picklist.Code", "Code", "DeveloperName"],
             {"Picklist.Code": "Picklist:AttributePicklist:Code"})
 for row in r:  # Name must be unique org-wide (ECO already has Version, Insulation, ...)
-    row[0] = f"{P} {row[0]}"
+    if not row[0].startswith(P + " "):
+        row[0] = f"{P} {row[0]}"
 tab("02 AttributeDefinition", h, r, "Insert",
     f"Name is prefixed '{P} ' because AttributeDefinition Name must be unique across the org; Label (shown to users) "
     "is unchanged. Includes the 12 calculated output attributes (Description starts 'Calculated').")
@@ -68,7 +69,8 @@ h, r = read("03_AttributePicklistValue.csv")
 ipl, icode = h.index("Picklist.Code"), h.index("Code")
 for row in r:
     pl = row[ipl].split(" ", 1)[1].replace(" ", "")
-    row[icode] = f"{P}_{pl}_{row[icode]}".replace(" ", "")
+    if not row[icode].startswith(P + "_"):
+        row[icode] = f"{P}_{pl}_{row[icode]}".replace(" ", "")
 h[ipl] = "Picklist:AttributePicklist:Code"
 tab("03 AttributePicklistValue", h, r, "Insert",
     f"Code is prefixed ({P}_<Picklist>_<Value>) so it can't clash with ECO codes already in the org; Value is unchanged.")
@@ -77,7 +79,7 @@ tab("03 AttributePicklistValue", h, r, "Insert",
 h, r = read("04_AttributeCategory.csv")
 r.append(["Calculated Outputs", "Calculated_Outputs"])
 tab("04 AttributeCategory", h, r, "Insert",
-    "Several categories may already exist from ECO (Device_Configuration, Filling, Control_and_Drive, Base_and_Flange, "
+    "Several categories may already exist from earlier products, e.g. ECO (Device_Configuration, Filling, Control_and_Drive, Base_and_Flange, "
     "Options, Finish, Calculated_Outputs). A DUPLICATE_VALUE error on those rows is fine – they are reused.")
 
 # 05 ProductClassification
@@ -96,7 +98,7 @@ for row in r:
     row[h.index("Product_Owner__c")] = "<User Id of product owner>"
     row[h.index("AvailabilityDate")] = row[h.index("AvailabilityDate")] or "<YYYY-MM-DDT00:00:00.000Z>"
 tab("06 Product2", h, r, "Insert",
-    "Fill yellow cells. Product_Owner__c needs the owner's User Id (Data Export: SELECT Id FROM User WHERE Email = '...'). "
+    "Fill yellow cells. Product_Owner__c needs the owner's User Id starting 005, not an alias or e-mail (Data Export: SELECT Id FROM User WHERE Email = '...'). "
     "AvailabilityDate is a date/time field: enter it as text, e.g. 2026-01-01T00:00:00.000Z (type a leading apostrophe in Excel so it is not reformatted to 01/01/2026). BasedOn links the product to the classification so it inherits the attributes.",
     fill_cols=("Product_Owner__c", "AvailabilityDate", "Product_Family_ROD__c"))
 
@@ -128,9 +130,9 @@ tab("08 ProductClassificationAttr", h, r, "Insert",
 
 # 09 ProductCategoryProduct
 tab("09 ProductCategoryProduct", ["ProductId", "ProductCategoryId"],
-    [["<Product2 Id from step 06>", "<Id of Natural Ventilation>"]], "Insert",
+    [["<Product2 Id from step 06>", "<ProductCategory Id>"]], "Insert",
     "ProductId = the Id Inspector returns in step 06. ProductCategoryId: Data Export "
-    "SELECT Id, Name FROM ProductCategory WHERE Name = 'Natural Ventilation'.",
+    "SELECT Id, Name FROM ProductCategory WHERE Name = '<category from the Product sheet>'.",
     fill_cols=("ProductId", "ProductCategoryId"))
 
 # 10 / 11 pricing – not yet
