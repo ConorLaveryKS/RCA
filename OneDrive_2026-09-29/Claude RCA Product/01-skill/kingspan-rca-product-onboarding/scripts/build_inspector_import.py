@@ -181,7 +181,17 @@ ws.title = "Import Steps"
 ws.append(["Step", "Inspector action", "Rows", "Notes", "Data Export query to find the Ids for this step"])
 for c in ws[1]:
     c.font = Font(name="Arial", size=10, bold=True, color="FFFFFF"); c.fill = HDR
+# Non-import steps get letters, never a tab number, and sit between tab 09 and the pricing tabs
+EXTRA = [
+    ("CML – Constraint model", "Constraint Builder", "",
+     "Not an Inspector import. Create the constraint model for the product, paste the .cml file, Validate, Activate.", ""),
+    ("TEST – Quote", "Quote", "",
+     "Create a quote, add the product, configure. Check dropdowns, rules and calculated outputs.", ""),
+]
 for s in steps:
+    if s[0].startswith("10 "):
+        for e in EXTRA:
+            ws.append(list(e))
     qs = Q.get(s[0], [])
     ws.append(list(s) + ["\n\n".join(f"{d}:\n{q}" for d, q in qs)])
 ws.append([])

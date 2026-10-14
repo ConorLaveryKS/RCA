@@ -109,6 +109,9 @@ For import with **Salesforce Inspector Reloaded**, build the workbook with
 > (09), Pricebook2 Id (10). The queries are in `references/csv_import_reference.md` → "Data Export
 > queries to run before each step", and on the workbook's Import Steps tab. Also remind the user to
 > change the Inspector **Object** before every run.
+> Number the steps exactly as the workbook tabs (01–11). Steps that are not imports get a label,
+> never a number: **CML** (constraint model, Constraint Builder) and **TEST** (quote) come after
+> tab 09 and before the pricing tabs 10–11 (which wait for factory prices).
 
 ### Phase 4 — Write the CML constraint model
 **Read `references/cml_syntax_rules.md` first** — CML is not a general expression
