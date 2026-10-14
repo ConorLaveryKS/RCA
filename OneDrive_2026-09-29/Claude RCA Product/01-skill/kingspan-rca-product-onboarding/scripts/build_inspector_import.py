@@ -212,8 +212,10 @@ EXTRA = [
      f"The file declares 'type {ctype} : LineItem'. Save.", ""),
     ("CML-4 Link product", "Constraint Builder", "",
      f"REQUIRED before activation (else: 'We couldn't find any associations for constraint version …'). "
-     f"Associations tab → New: reference object = product {pcode}, tag = {ctype} (exactly the CML type name), "
-     f"tag type = Type. No UI? Insert ExpressionSetConstraintObj with Inspector: ExpressionSetId, ReferenceObjectId "
+     f"In the Constraint Builder this is 'New Type' (there is no 'Associations' tab; 'Add Labels' is unrelated): "
+     f"choose product {pcode} (or its classification), type name = {ctype} (exactly the CML type name). Then in the "
+     f"CML editor keep ONE 'type {ctype} : LineItem' block (delete any empty block the builder added, or rename ours "
+     f"to the builder's name) and keep 'type LineItem;'. Save, Validate, Activate. No product option? Insert ExpressionSetConstraintObj with Inspector: ExpressionSetId, ReferenceObjectId "
      f"(product Id), ConstraintModelTag = {ctype}, ConstraintModelTagType = Type. Copy the pattern from a working model.",
      f"How a working model (ECO) is linked:\nSELECT Id, ExpressionSet.Name, ReferenceObjectId, ReferenceObject.Name, "
      f"ConstraintModelTag, ConstraintModelTagType FROM ExpressionSetConstraintObj WHERE ExpressionSet.Name LIKE '%ECO%'\n\n"
