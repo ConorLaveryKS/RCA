@@ -149,6 +149,6 @@ Before importing, compare names with what is already in the org:
 | CML-1 | `SELECT AttributeDefinition.Code, IsReadOnly, DefaultValue FROM ProductClassificationAttr WHERE ProductClassification.Code = '<classification code>' ORDER BY Sequence` – every attribute used in the .cml must be there. A missing one makes validation fail. |
 | CML-2 | App Launcher → Constraint Models → New (one model per product); open its version in the Constraint Builder. |
 | CML-3 | CML editor: replace everything with the .cml file contents; save. |
-| CML-4 | Associate the `type <Name> : LineItem` declared in the file with the product. |
+| CML-4 | **Required** – without it activation fails with *"We couldn't find any associations for constraint version …"*. Associations tab → New: reference object = the product, tag = the CML `type` name (exact), tag type = Type. Without the UI: insert `ExpressionSetConstraintObj` (ExpressionSetId, ReferenceObjectId = product Id, ConstraintModelTag = type name, ConstraintModelTagType = Type). Copy a working model's pattern: `SELECT ExpressionSet.Name, ReferenceObject.Name, ConstraintModelTag, ConstraintModelTagType FROM ExpressionSetConstraintObj WHERE ExpressionSet.Name LIKE '%ECO%'` |
 | CML-5 | Validate; errors → `cml_syntax_rules.md`. |
 | CML-6 | Activate. Then TEST on a quote with the reference configuration. |

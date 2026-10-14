@@ -211,8 +211,14 @@ EXTRA = [
      f"Open the CML editor of that version, select all and replace with the full contents of {cml_name}. "
      f"The file declares 'type {ctype} : LineItem'. Save.", ""),
     ("CML-4 Link product", "Constraint Builder", "",
-     f"Associate the type {ctype} with product {pcode} (product / classification association in the model), "
-     f"so the model runs when {pcode} is configured.", ""),
+     f"REQUIRED before activation (else: 'We couldn't find any associations for constraint version …'). "
+     f"Associations tab → New: reference object = product {pcode}, tag = {ctype} (exactly the CML type name), "
+     f"tag type = Type. No UI? Insert ExpressionSetConstraintObj with Inspector: ExpressionSetId, ReferenceObjectId "
+     f"(product Id), ConstraintModelTag = {ctype}, ConstraintModelTagType = Type. Copy the pattern from a working model.",
+     f"How a working model (ECO) is linked:\nSELECT Id, ExpressionSet.Name, ReferenceObjectId, ReferenceObject.Name, "
+     f"ConstraintModelTag, ConstraintModelTagType FROM ExpressionSetConstraintObj WHERE ExpressionSet.Name LIKE '%ECO%'\n\n"
+     f"Model Id:\nSELECT Id, Name FROM ExpressionSet WHERE Name LIKE '%{pcode}%'\n\n"
+     f"Product Id:\nSELECT Id, Name FROM Product2 WHERE ProductCode = '{pcode}'"),
     ("CML-5 Validate", "Constraint Builder", "",
      "Validate / compile. On an error, note the message and line number – common causes are in "
      "references/cml_syntax_rules.md (unsupported annotation, string method, ROUND, decimal arithmetic → tree-node "
