@@ -56,7 +56,7 @@ kingspan-rca-product-onboarding/
     └── ECO_CO_ConstraintModel_example.cml  ← a full worked constraint model
 ```
 
-## The 6-phase workflow
+## The 7-phase workflow
 
 ### Phase 1 — Read the Excel configurator
 ```python
@@ -151,6 +151,43 @@ The sequence (always give it to the user in this order and with these labels):
 | **10 – 11** | Pricing – only once factory prices exist | Inspector → Data Import |
 
 Never number CML / TEST like tabs: tab 10 is PricebookEntry.
+
+## Troubleshooting – error → fix (from the Airlite import, Oct 2026)
+
+Look the message up here first. Fix the **earliest** failing step before re-running later ones:
+a failure in one step makes every later step that looks it up fail too.
+
+| Step | Error message (Inspector `__Errors`) | Cause | Fix |
+|---|---|---|---|
+| 02 | `DUPLICATE_VALUE: duplicate value found: Name duplicates value on record with id …` | `AttributeDefinition.Name` is unique org-wide; earlier products use plain names (Version, Insulation, RAL Colour, Snow Load, Wind Load, Aerodynamic Area Aa …) | `<PREFIX> <Name>` – default in `generate_import_csvs.py` |
+| 03 | `DUPLICATE_VALUE` on Code | Value `Code` is unique org-wide (S, X, FS68, N5 …) | `<PREFIX>_<Picklist>_<Value>` – default in the generator |
+| 01 re-run | `DUPLICATE_VALUE … Name` | The picklists already exist from the first run | Skip the tab; nothing to fix |
+| 04 | `DUPLICATE_VALUE` | Category already created by another product | Expected – categories are shared |
+| 06 | `'01/01/2026' is not a valid value for the type xsd:dateTime` | `AvailabilityDate` is a dateTime; Excel reformatted it | Type `2026-01-01T00:00:00.000Z` in the Text cell |
+| 06 | `''2026-…' is not a valid value for the type xsd:dateTime` | Apostrophe typed into a Text cell is kept | Remove the apostrophe |
+| 06 | `MALFORMED_ID: Product Owner: id value of incorrect type: <alias>` | Lookup needs the User Id | `SELECT Id FROM User WHERE Alias = '…'` (005…) |
+| 07 / 08 | `INVALID_FIELD: Foreign key external ID: <code> not found for field Code in entity AttributeDefinition` | That attribute was never created in step 02 | Fix step 02 first, then re-run only the failed rows |
+| 08 | `INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST: Display Type: bad value … Dropdown` | `DisplayType` is a restricted picklist | Leave blank (builder does this) |
+| 08 | `INVALID_INPUT: Enter a default value for an attribute that's visible and read-only` | Calculated outputs are read-only + visible | DefaultValue `0` (Number) / `X` (Text) (builder does this) |
+| 09 | `INVALID_FIELD: No such column 'ProductId' on entity 'ProductClassificationAttr'` | Inspector kept the previous object selected | Set Object = ProductCategoryProduct |
+| 09 | `MALFORMED_ID: Category ID: id value of incorrect type: <name>` | Name given instead of Id | `SELECT Id, Name, Catalog.Name FROM ProductCategory WHERE Name LIKE '%…%'` (0ZG…) |
+| CML-6 | `We couldn't find any associations for constraint version 9QL…` | No `ExpressionSetConstraintObj` linking the CML type to the product | Insert one (tab "CML-4 ExpressionSetConstrObj"). The `9QL…` Id in the message **is** the ExpressionSetId of the model |
+| CML-4 | Builder only offers "New Type" (Name + Parent type) / "Add Labels" | Neither creates the product association | Use the Inspector insert above |
+| Quote | Many attributes / options missing on the configured product | Steps 02/03/07/08 partly failed | Check with the CML-1 query; if many records are half-created, rebuild with a suffix (re-import set, e.g. `AIR2`) |
+
+**Delivering files to the user**
+- Re-sending a file with the same name: the user may open the old download. Use a new
+  name for every re-send (`…_v2.xlsx`, `…_v3.xlsx`).
+- Excel sheet names: max 31 characters (the builder asserts this).
+- Verify a calculated output against the configurator's own example before handing over
+  (Airlite: 1200 × 2100, A0 → Av 2.52, Aa 1.42).
+
+**Worked examples**
+- ECO CO: `../../03-salesforce-import-csvs/`, `../../04-cml-constraint-model/`, `../../08-eco-import-csvs-regenerated/`
+- Airlite (first attempt, partly failed): `../../09-airlite-product-template/` – template builder `build_airlite_template.py`
+- Airlite re-import set AIR2 (all fixes applied): `../../10-airlite2-product-template/` – includes
+  `build_airlite_cml.py`, a CML generator (picklists, Av/Aa tables with interpolation, rules,
+  numeric messages, flange limits) to copy for the next product.
 
 ## Regression test after every build
 Load one known configuration into a sandbox and confirm the outputs. For ECO CO:
