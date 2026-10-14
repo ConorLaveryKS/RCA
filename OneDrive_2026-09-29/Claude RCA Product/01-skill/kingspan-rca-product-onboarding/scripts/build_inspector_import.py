@@ -43,6 +43,7 @@ steps = []
 
 
 def tab(title, header, rows, action, notes, fill_cols=()):
+    assert len(title) <= 31, f"Excel sheet names max 31 chars: {title!r}"
     ws = wb.create_sheet(title)
     ws.append(header)
     for r in rows:
@@ -155,7 +156,7 @@ tab("09 ProductCategoryProduct", ["ProductId", "ProductCategoryId"],
 
 # CML-4 association (only when --cml is given) – confirmed against ECO's ExpressionSetConstraintObj rows
 if cml_type:
-    tab("CML-4 ExpressionSetConstraintObj",
+    tab("CML-4 ExpressionSetConstrObj",
         ["ExpressionSetId", "ReferenceObjectId", "ConstraintModelTag", "ConstraintModelTagType"],
         [["<constraint model Id 9QL… (shown in the activation error)>", "<Product2 Id 01t…>", cml_type, "Type"]],
         "Insert",
@@ -223,7 +224,7 @@ EXTRA = [
     ("CML-4 Link product", "Constraint Builder", "",
      f"REQUIRED before activation (else: 'We couldn't find any associations for constraint version 9QL…'). "
      f"Not done in the Constraint Builder UI ('New Type' only adds a CML type; 'Add Labels' is unrelated). "
-     f"Inspector → Data Import, Object ExpressionSetConstraintObj, Insert the tab 'CML-4 ExpressionSetConstraintObj': "
+     f"Inspector → Data Import, Object ExpressionSetConstraintObj, Insert the tab 'CML-4 ExpressionSetConstrObj': "
      f"ExpressionSetId = model Id (9QL…), ReferenceObjectId = product {pcode} Id (01t…), ConstraintModelTag = {ctype}, "
      f"ConstraintModelTagType = Type. Then refresh the builder and continue.",
      f"How a working model (ECO) is linked:\nSELECT Id, ExpressionSet.Name, ReferenceObjectId, ReferenceObject.Name, "

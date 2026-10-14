@@ -149,7 +149,7 @@ Before importing, compare names with what is already in the org:
 | CML-1 | `SELECT AttributeDefinition.Code, IsReadOnly, DefaultValue FROM ProductClassificationAttr WHERE ProductClassification.Code = '<classification code>' ORDER BY Sequence` – every attribute used in the .cml must be there. A missing one makes validation fail. |
 | CML-2 | App Launcher → Constraint Models → New (one model per product); open its version in the Constraint Builder. |
 | CML-3 | CML editor: replace everything with the .cml file contents; save. |
-| CML-4 | **Required** – without it activation fails with *"We couldn't find any associations for constraint version …"*. It is **not** done with the builder's "New Type" (that only adds a CML type: Name + Parent type) or "Add Labels". Insert one **`ExpressionSetConstraintObj`** with Inspector (workbook tab "CML-4 ExpressionSetConstraintObj"):
+| CML-4 | **Required** – without it activation fails with *"We couldn't find any associations for constraint version …"*. It is **not** done with the builder's "New Type" (that only adds a CML type: Name + Parent type) or "Add Labels". Insert one **`ExpressionSetConstraintObj`** with Inspector (workbook tab "CML-4 ExpressionSetConstrObj"):
 
 | Field | Value | Example (ECO, from the org) |
 |---|---|---|
