@@ -549,36 +549,39 @@ type AirliteAIR2 : LineItem {
             "Coated units: the shorter side must not be larger than 1900 mm.", "Warning");
 
     // ══════════════════════════════════════════════════════════════════════
-    //  6.  FLANGE DIMENSION LIMITS (Flanges sheet) – warnings, as in the configurator
+    //  6.  FLANGE DIMENSION LIMITS (Flanges sheet) – warnings, only once both flange sizes are entered
     // ══════════════════════════════════════════════════════════════════════
-    message((AIR_FlangeType2 == "N1-16" || AIR_FlangeType2 == "N1-24") && (AIR_FlangeWidth2 < AIR_Width_mm2 + 150 || AIR_FlangeWidth2 > AIR_Width_mm2 + 200 || AIR_FlangeLength2 < AIR_Length_mm2 + 150 || AIR_FlangeLength2 > AIR_Length_mm2 + 500),
+    message(AIR_FlangeWidth2 <= 0 || AIR_FlangeLength2 <= 0,
+            "Enter flange width and length in mm (configurator default for N5: width + 250 / length + 250).", "Info");
+
+    message(AIR_FlangeWidth2 > 0 && AIR_FlangeLength2 > 0 && (AIR_FlangeType2 == "N1-16" || AIR_FlangeType2 == "N1-24") && (AIR_FlangeWidth2 < AIR_Width_mm2 + 150 || AIR_FlangeWidth2 > AIR_Width_mm2 + 200 || AIR_FlangeLength2 < AIR_Length_mm2 + 150 || AIR_FlangeLength2 > AIR_Length_mm2 + 500),
             "N1 flange: width +150…+200 mm, length +150…+500 mm. Check with the GPTS.", "Warning");
 
-    message((AIR_FlangeType2 == "N2" || AIR_FlangeType2 == "N3" || AIR_FlangeType2 == "N4" || AIR_FlangeType2 == "N7" || AIR_FlangeType2 == "NS") && (AIR_FlangeWidth2 < AIR_Width_mm2 + 150 || AIR_FlangeLength2 < AIR_Length_mm2 + 150),
+    message(AIR_FlangeWidth2 > 0 && AIR_FlangeLength2 > 0 && (AIR_FlangeType2 == "N2" || AIR_FlangeType2 == "N3" || AIR_FlangeType2 == "N4" || AIR_FlangeType2 == "N7" || AIR_FlangeType2 == "NS") && (AIR_FlangeWidth2 < AIR_Width_mm2 + 150 || AIR_FlangeLength2 < AIR_Length_mm2 + 150),
             "Flange must be at least +150 mm on width and length. Check with the GPTS.", "Warning");
 
-    message(AIR_FlangeType2 == "N5" && AIR_BaseDesign2 != "E" && (AIR_FlangeWidth2 < AIR_Width_mm2 + 150 || AIR_FlangeWidth2 > AIR_Width_mm2 + 500 || AIR_FlangeLength2 < AIR_Length_mm2 + 150 || AIR_FlangeLength2 > AIR_Length_mm2 + 500),
+    message(AIR_FlangeWidth2 > 0 && AIR_FlangeLength2 > 0 && AIR_FlangeType2 == "N5" && AIR_BaseDesign2 != "E" && (AIR_FlangeWidth2 < AIR_Width_mm2 + 150 || AIR_FlangeWidth2 > AIR_Width_mm2 + 500 || AIR_FlangeLength2 < AIR_Length_mm2 + 150 || AIR_FlangeLength2 > AIR_Length_mm2 + 500),
             "N5 flange: +150…+500 mm on width and length. Check with the GPTS.", "Warning");
 
-    message(AIR_FlangeType2 == "N5" && AIR_BaseDesign2 == "E" && (AIR_FlangeWidth2 != AIR_Width_mm2 + 250 || AIR_FlangeLength2 != AIR_Length_mm2 + 250),
+    message(AIR_FlangeWidth2 > 0 && AIR_FlangeLength2 > 0 && AIR_FlangeType2 == "N5" && AIR_BaseDesign2 == "E" && (AIR_FlangeWidth2 != AIR_Width_mm2 + 250 || AIR_FlangeLength2 != AIR_Length_mm2 + 250),
             "N5 flange with base E: flange must be exactly +250 mm. Check with the GPTS.", "Warning");
 
-    message((AIR_FlangeType2 == "N6 - L" || AIR_FlangeType2 == "N6 - R" || AIR_FlangeType2 == "N6 - LR" || AIR_FlangeType2 == "N6 - T" || AIR_FlangeType2 == "N6 - B" || AIR_FlangeType2 == "N6 - TB") && AIR_BaseDesign2 == "S" && (AIR_FlangeWidth2 < AIR_Width_mm2 + 300 || AIR_FlangeLength2 < AIR_Length_mm2 + 355),
+    message(AIR_FlangeWidth2 > 0 && AIR_FlangeLength2 > 0 && (AIR_FlangeType2 == "N6 - L" || AIR_FlangeType2 == "N6 - R" || AIR_FlangeType2 == "N6 - LR" || AIR_FlangeType2 == "N6 - T" || AIR_FlangeType2 == "N6 - B" || AIR_FlangeType2 == "N6 - TB") && AIR_BaseDesign2 == "S" && (AIR_FlangeWidth2 < AIR_Width_mm2 + 300 || AIR_FlangeLength2 < AIR_Length_mm2 + 355),
             "N6 flange with base S: min. width +300 mm, length +355 mm. Check with the GPTS.", "Warning");
 
-    message((AIR_FlangeType2 == "N6 - L" || AIR_FlangeType2 == "N6 - R" || AIR_FlangeType2 == "N6 - LR" || AIR_FlangeType2 == "N6 - T" || AIR_FlangeType2 == "N6 - B" || AIR_FlangeType2 == "N6 - TB") && AIR_BaseDesign2 == "H" && (AIR_FlangeWidth2 < AIR_Width_mm2 + 250 || AIR_FlangeLength2 < AIR_Length_mm2 + 330),
+    message(AIR_FlangeWidth2 > 0 && AIR_FlangeLength2 > 0 && (AIR_FlangeType2 == "N6 - L" || AIR_FlangeType2 == "N6 - R" || AIR_FlangeType2 == "N6 - LR" || AIR_FlangeType2 == "N6 - T" || AIR_FlangeType2 == "N6 - B" || AIR_FlangeType2 == "N6 - TB") && AIR_BaseDesign2 == "H" && (AIR_FlangeWidth2 < AIR_Width_mm2 + 250 || AIR_FlangeLength2 < AIR_Length_mm2 + 330),
             "N6 flange with base H: min. width +250 mm, length +330 mm. Check with the GPTS.", "Warning");
 
-    message((AIR_FlangeType2 == "N6 - L" || AIR_FlangeType2 == "N6 - R" || AIR_FlangeType2 == "N6 - LR" || AIR_FlangeType2 == "N6 - T" || AIR_FlangeType2 == "N6 - B" || AIR_FlangeType2 == "N6 - TB") && AIR_BaseDesign2 == "E" && (AIR_FlangeWidth2 < AIR_Width_mm2 + 300 || AIR_FlangeLength2 < AIR_Length_mm2 + 300),
+    message(AIR_FlangeWidth2 > 0 && AIR_FlangeLength2 > 0 && (AIR_FlangeType2 == "N6 - L" || AIR_FlangeType2 == "N6 - R" || AIR_FlangeType2 == "N6 - LR" || AIR_FlangeType2 == "N6 - T" || AIR_FlangeType2 == "N6 - B" || AIR_FlangeType2 == "N6 - TB") && AIR_BaseDesign2 == "E" && (AIR_FlangeWidth2 < AIR_Width_mm2 + 300 || AIR_FlangeLength2 < AIR_Length_mm2 + 300),
             "N6 flange with base E: min. +300 mm. Check with the GPTS.", "Warning");
 
-    message((AIR_FlangeType2 == "N8 - L" || AIR_FlangeType2 == "N8 - R" || AIR_FlangeType2 == "N8 - LR" || AIR_FlangeType2 == "N8 - T" || AIR_FlangeType2 == "N8 - B" || AIR_FlangeType2 == "N8 - TB") && AIR_BaseDesign2 == "S" && (AIR_FlangeWidth2 < AIR_Width_mm2 + 350 || AIR_FlangeLength2 < AIR_Length_mm2 + 380),
+    message(AIR_FlangeWidth2 > 0 && AIR_FlangeLength2 > 0 && (AIR_FlangeType2 == "N8 - L" || AIR_FlangeType2 == "N8 - R" || AIR_FlangeType2 == "N8 - LR" || AIR_FlangeType2 == "N8 - T" || AIR_FlangeType2 == "N8 - B" || AIR_FlangeType2 == "N8 - TB") && AIR_BaseDesign2 == "S" && (AIR_FlangeWidth2 < AIR_Width_mm2 + 350 || AIR_FlangeLength2 < AIR_Length_mm2 + 380),
             "N8 flange with base S: min. width +350 mm, length +380 mm. Check with the GPTS.", "Warning");
 
-    message((AIR_FlangeType2 == "N8 - L" || AIR_FlangeType2 == "N8 - R" || AIR_FlangeType2 == "N8 - LR" || AIR_FlangeType2 == "N8 - T" || AIR_FlangeType2 == "N8 - B" || AIR_FlangeType2 == "N8 - TB") && AIR_BaseDesign2 == "H" && (AIR_FlangeWidth2 < AIR_Width_mm2 + 250 || AIR_FlangeLength2 < AIR_Length_mm2 + 330),
+    message(AIR_FlangeWidth2 > 0 && AIR_FlangeLength2 > 0 && (AIR_FlangeType2 == "N8 - L" || AIR_FlangeType2 == "N8 - R" || AIR_FlangeType2 == "N8 - LR" || AIR_FlangeType2 == "N8 - T" || AIR_FlangeType2 == "N8 - B" || AIR_FlangeType2 == "N8 - TB") && AIR_BaseDesign2 == "H" && (AIR_FlangeWidth2 < AIR_Width_mm2 + 250 || AIR_FlangeLength2 < AIR_Length_mm2 + 330),
             "N8 flange with base H: min. width +250 mm, length +330 mm. Check with the GPTS.", "Warning");
 
-    message((AIR_FlangeType2 == "N8 - L" || AIR_FlangeType2 == "N8 - R" || AIR_FlangeType2 == "N8 - LR" || AIR_FlangeType2 == "N8 - T" || AIR_FlangeType2 == "N8 - B" || AIR_FlangeType2 == "N8 - TB") && AIR_BaseDesign2 == "E" && (AIR_FlangeWidth2 < AIR_Width_mm2 + 300 || AIR_FlangeLength2 < AIR_Length_mm2 + 300),
+    message(AIR_FlangeWidth2 > 0 && AIR_FlangeLength2 > 0 && (AIR_FlangeType2 == "N8 - L" || AIR_FlangeType2 == "N8 - R" || AIR_FlangeType2 == "N8 - LR" || AIR_FlangeType2 == "N8 - T" || AIR_FlangeType2 == "N8 - B" || AIR_FlangeType2 == "N8 - TB") && AIR_BaseDesign2 == "E" && (AIR_FlangeWidth2 < AIR_Width_mm2 + 300 || AIR_FlangeLength2 < AIR_Length_mm2 + 300),
             "N8 flange with base E: min. +300 mm. Check with the GPTS.", "Warning");
 
 

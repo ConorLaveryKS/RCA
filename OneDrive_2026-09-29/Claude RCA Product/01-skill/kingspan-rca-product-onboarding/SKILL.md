@@ -148,7 +148,7 @@ The sequence (always give it to the user in this order and with these labels):
 | **CML-5** | Validate; fix errors via `references/cml_syntax_rules.md` | Constraint Builder |
 | **CML-6** | Activate | Constraint Builder |
 | **10** | PricebookEntry in **both org price books** – `01s0Y000004WPyFQAW` (standard, first) and `01sAP000003qiEXYAY` (second) – with **UnitPrice 0** placeholder – standard price book first, then the quote's price book, per currency. **Required before TEST**: without it the product is not in the quote's product picker | Inspector → Data Import |
-| **TEST** | Quote with the reference configuration, check outputs | Quote |
+| **TEST** | Quote with the **complete** reference configuration (every input, taken from the configurator's own example), check outputs and that no warnings appear | Quote |
 | **11** | Attribute pricing – once factory prices exist (then also update the 10 UnitPrice) | Inspector → Data Import |
 
 Never number CML / TEST like tabs: tab 10 is PricebookEntry. Order: 01–09 → CML-1…6 → 10 → TEST → 11.

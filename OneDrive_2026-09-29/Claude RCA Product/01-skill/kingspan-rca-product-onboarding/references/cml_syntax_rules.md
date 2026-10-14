@@ -108,3 +108,8 @@ constraint(ECO_Coverage != "X" -> ECO_Finish != "X", "msg");
   ProductClassificationAttr (0 / X), and `rule(true, "disable", "attribute", "<code>")` in the model.
 - Every attribute name in the .cml must equal the AttributeDefinition **Code** (incl. any re-import
   suffix, e.g. `AIR_Version2`).
+- **Guard checks on optional numeric inputs**: a message like `FW != WM + 250` fires while the
+  field is still empty. Prefix with `FW > 0 && FL > 0 &&` and add one Info message asking for the
+  value. (Airlite: "N5 flange with base E …" appeared on a test with empty flange fields.)
+- **TEST with the configurator's complete example** (every input, not only the ones that drive the
+  output), otherwise unrelated rules fire on defaults/empties.
