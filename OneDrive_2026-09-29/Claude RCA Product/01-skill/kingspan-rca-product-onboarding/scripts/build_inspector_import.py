@@ -119,15 +119,18 @@ dtype = {row[h2.index("Code")]: row[h2.index("DataType")] for row in r2}
 ia = h.index("AttributeDefinition.Code")
 for row in r:
     code = row[ia]
-    if code in outs:
+    if code in outs:  # visible + read-only needs a default value (INVALID_INPUT otherwise)
         row[h.index("IsReadOnly")] = "true"
-    if dtype.get(code) != "Picklist":
-        row[h.index("DisplayType")] = ""
+        if not row[h.index("DefaultValue")]:
+            row[h.index("DefaultValue")] = "0" if dtype.get(code) == "Number" else "X"
+    row[h.index("DisplayType")] = ""  # restricted picklist; "Dropdown" is rejected – blank = type default
 h = [{"AttributeCategory.Code": "AttributeCategory:AttributeCategory:Code",
       "AttributeDefinition.Code": "AttributeDefinition:AttributeDefinition:Code",
       "ProductClassification.Code": "ProductClassification:ProductClassification:Code"}.get(c, c) for c in h]
 tab("08 ProductClassificationAttr", h, r, "Insert",
-    "Calculated outputs are IsReadOnly = true. DisplayType is only set (Dropdown) for picklists.")
+    "Calculated outputs are IsReadOnly = true with a default (0 for numbers, X for text) – required for "
+    "visible read-only attributes; the constraint model overwrites them. DisplayType left blank "
+    "(restricted picklist – 'Dropdown' is rejected; blank uses the attribute type's default).")
 
 # 09 ProductCategoryProduct
 tab("09 ProductCategoryProduct", ["ProductId", "ProductCategoryId"],

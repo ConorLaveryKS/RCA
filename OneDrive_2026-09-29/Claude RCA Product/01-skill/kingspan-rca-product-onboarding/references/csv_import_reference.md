@@ -121,6 +121,13 @@ Lessons from the Airlite import:
 - **`ProductCategoryProduct`** needs `ProductId` (returned by the Product2 run) and `ProductCategoryId`.
 - If one step fails, every later step that looks it up fails with
   `Foreign key external ID … not found` – fix the earliest failing step first, then re-run the rest.
+- **`ProductClassificationAttr.DisplayType` is a restricted picklist** – `Dropdown` is rejected
+  (`INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST`). Leave it blank (the attribute type's default display).
+  To see the allowed values: `SELECT Value, Label FROM PicklistValueInfo WHERE
+  EntityParticle.EntityDefinition.QualifiedApiName = 'ProductClassificationAttr' AND EntityParticle.QualifiedApiName = 'DisplayType'`
+- **Visible read-only attributes need a `DefaultValue`** on `ProductClassificationAttr`
+  (`INVALID_INPUT: Enter a default value for an attribute that's visible and read-only`).
+  Calculated outputs get `0` (Number) or `X` (Text); the constraint model overwrites them.
 - Picklist-attribute `DefaultValue`s point at values created in step 03; if step 02 rejects them,
   clear the default and rely on `ProductClassificationAttr.DefaultValue` (step 08).
 
