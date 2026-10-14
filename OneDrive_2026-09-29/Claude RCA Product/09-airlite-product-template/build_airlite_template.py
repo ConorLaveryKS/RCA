@@ -1,5 +1,9 @@
 """Build the Airlite Product Price Template from the ECO template structure.
-Usage: python -I build_airlite.py ECO_TEMPLATE.xlsx AIRLITE_CONFIGURATOR.xlsm OUT.xlsx
+Usage: python -I build_airlite.py ECO_TEMPLATE.xlsx AIRLITE_CONFIGURATOR.xlsm OUT.xlsx [SUFFIX]
+SUFFIX (e.g. "2") makes a re-import set that cannot clash with an earlier, partly imported one:
+it is appended to every picklist / attribute code and name and to the product code. With a SUFFIX,
+Width becomes a 50 mm-step picklist (needed for the Av / Aa tables in the constraint model) and
+picklist defaults are set only on Product and Attributes (not on AttributeDefinition).
 """
 import sys, copy, warnings
 import openpyxl
@@ -8,9 +12,10 @@ from openpyxl.comments import Comment
 
 warnings.filterwarnings("ignore")
 eco_path, cfg_path, out_path = sys.argv[1:4]
+SUFFIX = sys.argv[4] if len(sys.argv) > 4 else ""
 
-PFX, PCODE = "AIR", "AIR"
-PNAME = "Airlite Smoke and Heat Ventilator AIR"
+PFX, PCODE = "AIR", "AIR" + SUFFIX
+PNAME = f"Airlite Smoke and Heat Ventilator {PCODE}"
 CLASSIF = f"{PNAME} - Product Classification"
 YELLOW = PatternFill("solid", fgColor="FFFF00")
 
@@ -56,6 +61,8 @@ deliveries = dropdown(31, range(M, M + 2))
 PL = {}
 PL["Version"] = [(v, *lbl(v, (5, 6))) for v in versions]
 PL["Length"] = [(str(v), f"{v} mm", f"{v} mm") for v in lengths]
+WIDTHS = list(range(500, 2001, 50))
+PL["Width"] = [(str(v), f"{v} mm", f"{v} mm") for v in WIDTHS]
 PL["Insulation"] = [("I", *lbl("I", (9, 9)))]
 PL["Louvre"] = [(v, *lbl(v, (12, 17))) for v in louvres]
 PL["Controls"] = [(v, *lbl(v, (20, 33))) for v in controls]
@@ -74,6 +81,7 @@ PL["Ambient Temp"] = [("T(-15)", "Ambient air temperature class T(-15)", "Umgebu
 PL_DESC = {  # picklist code suffix -> (description, German name)
     "Version": ("Device version (EN / Standard)", "Geräteausführung"),
     "Length": ("Opening length in mm (300 mm louvre steps)", "Öffnungslänge"),
+    "Width": ("Opening width in mm (50 mm steps)", "Öffnungsbreite"),
     "Insulation": ("Insulation", "Isolation"),
     "Louvre": ("Louvre / filling type", "Lamellentyp"),
     "Controls": ("Actuation / drive type", "Antrieb"),
@@ -134,7 +142,11 @@ OUT_ATTRS = [  # calculated outputs (read-only); source cell in configurator
 ]
 
 # ------------------------------------------------------------- constraints
-C = lambda s: f"{PFX}_{s}"
+C = lambda s: f"{PFX}_{s}{SUFFIX}"
+PLC = lambda pl: f"{PFX} {pl}{SUFFIX}"
+if SUFFIX:  # Width as 50 mm picklist so Av / Aa can be pre-computed tables in CML
+    CFG_ATTRS[1] = ("Width", "Width (mm)", "Opening width in mm, 50 mm steps 500–2000; min. 700 with 2 actuators",
+                    "Picklist", "TRUE", None, "Width", "Width", "Öffnungsbreite", "Device Configuration")
 P2 = [c for c in controls if c[1] == "2"]
 PNEU = [c for c in controls if c.startswith("P")]
 ELEC = [c for c in controls if c.startswith("M")]
@@ -225,13 +237,14 @@ ws["P6"].fill = YELLOW; ws["P6"].comment = Comment("Fill in: availability date (
 ws = wb["AttributeDefinition"]
 rows, seq = [], 10
 for name, label, desc, dt, req, dflt, pl, code, ger, cat in CFG_ATTRS:
-    rows.append(["X", name, label, desc, str(seq), dt, "TRUE", req, dflt,
-                 f"{PFX} {pl}" if pl else None, C(code), C(code), ger])
+    ad_default = None if (SUFFIX and dt == "Picklist") else dflt
+    rows.append(["X", name + SUFFIX, label, desc, str(seq), dt, "TRUE", req, ad_default,
+                 PLC(pl) if pl else None, C(code), C(code), ger])
     seq += 10
 out_first = len(rows)
 seq = 300
 for name, label, desc, dt, code, ger in OUT_ATTRS:
-    rows.append(["X", name, label, f"Calculated (read-only). {desc}", str(seq), dt, "TRUE", "FALSE",
+    rows.append(["X", name + SUFFIX, label, f"Calculated (read-only). {desc}", str(seq), dt, "TRUE", "FALSE",
                  None, None, C(code), C(code), ger])
     seq += 10
 clear(ws, 3)
@@ -254,7 +267,7 @@ put(ws, 3, rows, 3, 8)
 # AttributePicklist
 ws = wb["AttributePicklist"]
 used = [a[6] for a in CFG_ATTRS if a[6]]
-rows = [[f"{PFX} {pl}", f"{PFX} {pl}", PL_DESC[pl][0], "Active", "Text", None, PL_DESC[pl][1]] for pl in used]
+rows = [[PLC(pl), PLC(pl), PL_DESC[pl][0], "Active", "Text", None, PL_DESC[pl][1]] for pl in used]
 clear(ws, 3)
 put(ws, 3, rows, 3, 7)
 
@@ -263,7 +276,7 @@ ws = wb["AttributePicklistValue"]
 rows = []
 for pl in used:
     for i, (v, en, de) in enumerate(PL[pl]):
-        rows.append([f"{PFX} {pl}", v, en, de, 10 + i, "TRUE"])
+        rows.append([PLC(pl), v, en, de, 10 + i, "TRUE"])
 clear(ws, 3)
 put(ws, 3, rows, 3, 6)
 ws.freeze_panes = "A3"

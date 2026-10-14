@@ -164,6 +164,11 @@ def main():
 
     # ---- 03 AttributePicklistValue ----
     defaults = {(s(r.get("Picklist.Code")), s(r.get("DefaultValue"))) for r in ad}
+    pl_of = {s(r.get("Code")): s(r.get("Picklist.Code")) for r in ad}
+    for r in table(sheet("Product and Attributes"), 2):   # defaults set per product (step 08)
+        code, dv = s(r.get("AttributeDefinition Code")), s(r.get("Default Picklist Value"))
+        if dv and pl_of.get(code):
+            defaults.add((pl_of[code], dv))
     rows = []
     for r in table(sheet("AttributePicklistValue"), 2):
         pl, val, label = s(r.get("Picklist.Code")), s(r.get("Value (Code)")), s(r.get("Label ENG"))

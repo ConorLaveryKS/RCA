@@ -123,3 +123,14 @@ Lessons from the Airlite import:
   `Foreign key external ID … not found` – fix the earliest failing step first, then re-run the rest.
 - Picklist-attribute `DefaultValue`s point at values created in step 03; if step 02 rejects them,
   clear the default and rely on `ProductClassificationAttr.DefaultValue` (step 08).
+
+## Re-importing after a partly failed import – use a suffix
+
+Records from a failed run stay in the org (picklists, some attributes, the product) and block a
+clean re-run with DUPLICATE_VALUE. Instead of deleting, rebuild the whole set with a **suffix**
+(e.g. `2`): appended to every picklist / attribute code and name, value codes, the classification
+and the product code (Airlite: `AIR2`, see `10-airlite2-product-template/`). Deactivate the old
+product afterwards. Set picklist defaults only on step 08, not on step 02.
+
+Before importing, compare names with what is already in the org:
+`SELECT Name, Code FROM AttributeDefinition WHERE Name IN ('<name1>', '<name2>', ...)`
