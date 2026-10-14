@@ -1,12 +1,26 @@
 """Turn generate_import_csvs.py output into a Salesforce Inspector Reloaded import workbook.
-Usage: python build_inspector_import.py CSV_DIR OUT.xlsx PREFIX
+Usage: python build_inspector_import.py CSV_DIR OUT.xlsx PREFIX [--cml MODEL.cml] [--test "expected result"]
 One tab per import step, lookups as Field:Object:ExternalId, picklist value codes made org-unique.
+The Import Steps tab lists the tabs 01-09, then the labelled non-import steps CML-1..CML-6 (constraint
+model) and TEST, then the pricing tabs 10-11. --cml names the model file and reads its `type` line;
+--test is the reference configuration and expected outputs shown on the TEST step.
 """
 import sys, csv, os
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
 
-csv_dir, out, P = sys.argv[1:4]
+args = sys.argv[1:]
+def opt(name):
+    if name in args:
+        i = args.index(name); v = args[i + 1]; del args[i:i + 2]; return v
+cml_file, test_text = opt("--cml"), opt("--test")
+csv_dir, out, P = args[0:3]
+cml_type = None
+if cml_file and os.path.exists(cml_file):
+    import re
+    m = re.findall(r"^type\s+(\w+)\s*:\s*LineItem", open(cml_file, encoding="utf-8").read(), re.M)
+    cml_type = m[0] if m else None
+cml_name = os.path.basename(cml_file) if cml_file else "<Product>_ConstraintModel.cml"
 HDR = PatternFill("solid", fgColor="1F4E79")
 YEL = PatternFill("solid", fgColor="FFFF00")
 F = Font(name="Arial", size=10)
@@ -182,11 +196,34 @@ ws.append(["Step", "Inspector action", "Rows", "Notes", "Data Export query to fi
 for c in ws[1]:
     c.font = Font(name="Arial", size=10, bold=True, color="FFFFFF"); c.fill = HDR
 # Non-import steps get letters, never a tab number, and sit between tab 09 and the pricing tabs
+pcode = r_prod_code or "<product code>"
+ctype = cml_type or "<type name from the .cml file>"
 EXTRA = [
-    ("CML – Constraint model", "Constraint Builder", "",
-     "Not an Inspector import. Create the constraint model for the product, paste the .cml file, Validate, Activate.", ""),
+    ("CML-1 Check attributes", "Data Export", "",
+     "Before loading the model, every attribute named in the .cml must exist and be linked to the classification "
+     "(tabs 02 and 08 fully succeeded). Expect all configurable + output attributes.",
+     f"SELECT AttributeDefinition.Code, IsReadOnly, DefaultValue FROM ProductClassificationAttr "
+     f"WHERE ProductClassification.Code = '{cls_code}' ORDER BY Sequence"),
+    ("CML-2 Create model", "Constraint Builder", "",
+     f"Not an Inspector import. App Launcher → Constraint Models → New. Name it after the product "
+     f"(e.g. {pcode} Constraint Model) and create / open its first version in the Constraint Builder.", ""),
+    ("CML-3 Paste CML", "Constraint Builder", "",
+     f"Open the CML editor of that version, select all and replace with the full contents of {cml_name}. "
+     f"The file declares 'type {ctype} : LineItem'. Save.", ""),
+    ("CML-4 Link product", "Constraint Builder", "",
+     f"Associate the type {ctype} with product {pcode} (product / classification association in the model), "
+     f"so the model runs when {pcode} is configured.", ""),
+    ("CML-5 Validate", "Constraint Builder", "",
+     "Validate / compile. On an error, note the message and line number – common causes are in "
+     "references/cml_syntax_rules.md (unsupported annotation, string method, ROUND, decimal arithmetic → tree-node "
+     "search limit). Fix the .cml, paste again, re-validate.", ""),
+    ("CML-6 Activate", "Constraint Builder", "",
+     "Activate the version. Only one active version per model.", ""),
     ("TEST – Quote", "Quote", "",
-     "Create a quote, add the product, configure. Check dropdowns, rules and calculated outputs.", ""),
+     "Create a quote, add the product, configure. Check: every attribute shows, dropdown values are right, "
+     "invalid combinations are blocked with the rule message, calculated outputs fill in. "
+     + (f"Reference configuration: {test_text}" if test_text else "Use the configurator's own example as reference."),
+     ""),
 ]
 for s in steps:
     if s[0].startswith("10 "):

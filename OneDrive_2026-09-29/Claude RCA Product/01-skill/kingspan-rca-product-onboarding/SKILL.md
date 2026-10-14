@@ -129,6 +129,29 @@ table constraints (this is the fix for the tree-node search limit).
 Every rule in the Excel `data` sheet column E becomes a
 `constraint(condition -> restriction, "message")`.
 
+### Phase 7 — Import, load the constraint model, test (sequence)
+Build the import workbook with the model file and the reference test so the Import Steps tab
+carries the full sequence:
+```
+python scripts/build_inspector_import.py <csv_dir> <Product>_RCA_Import_Inspector.xlsx PREFIX \
+    --cml <Product>_ConstraintModel.cml --test "W 1200 / L 2100 / A0 → Av 2.52, Aa 1.42"
+```
+The sequence (always give it to the user in this order and with these labels):
+
+| Step | What | Where |
+|---|---|---|
+| **01 – 09** | Data imports, one tab per object (queries for Ids on the Import Steps tab) | Inspector → Data Import |
+| **CML-1** | Check every attribute in the .cml exists and is linked (tabs 02 + 08 all succeeded) | Data Export |
+| **CML-2** | Create the constraint model + version | Constraint Builder |
+| **CML-3** | Paste the whole .cml into the CML editor, save | Constraint Builder |
+| **CML-4** | Associate the CML `type` with the product | Constraint Builder |
+| **CML-5** | Validate; fix errors via `references/cml_syntax_rules.md` | Constraint Builder |
+| **CML-6** | Activate | Constraint Builder |
+| **TEST** | Quote with the reference configuration, check outputs | Quote |
+| **10 – 11** | Pricing – only once factory prices exist | Inspector → Data Import |
+
+Never number CML / TEST like tabs: tab 10 is PricebookEntry.
+
 ## Regression test after every build
 Load one known configuration into a sandbox and confirm the outputs. For ECO CO:
 > Width `15` · Length `15` · Louvre `POR` · Control `P1BD` · Release `FS68`
@@ -137,7 +160,7 @@ Expected: Av = 1.64 m², Aa ≈ 1.02 m², louvres = 9, SL = 1618 N/m², CO2 = 20
 ## Definition of done
 - [ ] All 11 CSVs import cleanly in numbered order in a sandbox
 - [ ] `AttributePicklistValue` FIXES applied (no DUPLICATE_VALUE / STRING_TOO_LONG)
-- [ ] CML activates in the Constraint Builder with no syntax errors
+- [ ] CML-1…CML-6 done: attributes checked, model created, pasted, linked to the product, validated, activated
 - [ ] Reference configuration produces the expected output values
 - [ ] `Product_Owner__r.Email`, `Product_Family`, `Pricebook2.Name` filled in
 - [ ] Pricing received from factory and loaded

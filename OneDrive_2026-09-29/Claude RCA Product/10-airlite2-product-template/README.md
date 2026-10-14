@@ -25,6 +25,6 @@ Rebuild:
 ```
 python ../09-airlite-product-template/build_airlite_template.py ../02-product-template/ECOTech_ProductPriceTemplate.xlsx "Airlite Tech. Configurator(1).xlsm" Airlite2_ProductPriceTemplate.xlsx 2
 python ../01-skill/kingspan-rca-product-onboarding/scripts/generate_import_csvs.py Airlite2_ProductPriceTemplate.xlsx <csv_dir> AIR
-python ../01-skill/kingspan-rca-product-onboarding/scripts/build_inspector_import.py <csv_dir> Airlite2_RCA_Import_Inspector.xlsx AIR
+python ../01-skill/kingspan-rca-product-onboarding/scripts/build_inspector_import.py <csv_dir> Airlite2_RCA_Import_Inspector.xlsx AIR --cml Airlite2_ConstraintModel.cml --test "AIR2, Width 1200, Length 2100, Installation A0, Wind baffle WM → Av 2.52 m², Aa 1.42 m²"
 python build_airlite_cml.py Airlite2_ProductPriceTemplate.xlsx "Airlite Tech. Configurator(1).xlsm" Airlite2_ConstraintModel.cml 2
 ```

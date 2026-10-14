@@ -94,3 +94,17 @@ constraint(ECO_Coverage != "X" -> ECO_Finish != "X", "msg");
   `decimal(0) ECO_ThroatWidth_mm;` with no annotation.
 - A code→value mapping and a two-input→output calculation are both best done as
   `constraint(table(...))`; a conditional string assignment is best as implication.
+
+## Lessons from Airlite (AIR2)
+- **Free numeric inputs** (pressures, angles, flange sizes, loads): check them with
+  `message(cond, "text", "Error"|"Warning")`, not `constraint(...)` – a hard constraint on an
+  unset free number can push the engine into the search-tree limit.
+- **Interpolated outputs** (Aa from a width × length grid with linear interpolation): make the
+  free dimension a picklist in fixed steps (Airlite: width 50 mm) and pre-compute the whole table
+  in Python with the configurator's own formula (incl. Excel ROUND half-up). Verify a known
+  configuration against the configurator before handing over.
+- Prefer an explicit `||` list over negation `!( … )` – only constructs proven in the ECO model.
+- Calculated outputs are visible + read-only attributes: they need a `DefaultValue` on
+  ProductClassificationAttr (0 / X), and `rule(true, "disable", "attribute", "<code>")` in the model.
+- Every attribute name in the .cml must equal the AttributeDefinition **Code** (incl. any re-import
+  suffix, e.g. `AIR_Version2`).
