@@ -153,6 +153,16 @@ tab("09 ProductCategoryProduct", ["ProductId", "ProductCategoryId"],
     "Both columns need record Ids (01t… / 0ZG…), not names – see the Data Export queries on the Import Steps tab.",
     fill_cols=("ProductId", "ProductCategoryId"))
 
+# CML-4 association (only when --cml is given) – confirmed against ECO's ExpressionSetConstraintObj rows
+if cml_type:
+    tab("CML-4 ExpressionSetConstraintObj",
+        ["ExpressionSetId", "ReferenceObjectId", "ConstraintModelTag", "ConstraintModelTagType"],
+        [["<constraint model Id 9QL… (shown in the activation error)>", "<Product2 Id 01t…>", cml_type, "Type"]],
+        "Insert",
+        "Run at step CML-4, after the .cml is pasted and saved. Object = ExpressionSetConstraintObj. "
+        "ExpressionSetId starts 9QL (the Id in 'We couldn't find any associations for constraint version …').",
+        fill_cols=("ExpressionSetId", "ReferenceObjectId"))
+
 # 10 / 11 pricing – not yet
 tab("10 PricebookEntry", ["Pricebook2Id", "Product2Id", "UnitPrice", "IsActive", "CurrencyIsoCode"],
     [["<Standard Price Book Id>", "<Product2 Id>", "<price>", "true", "EUR"]], "Insert – LATER",
@@ -211,13 +221,14 @@ EXTRA = [
      f"Open the CML editor of that version, select all and replace with the full contents of {cml_name}. "
      f"The file declares 'type {ctype} : LineItem'. Save.", ""),
     ("CML-4 Link product", "Constraint Builder", "",
-     f"REQUIRED before activation (else: 'We couldn't find any associations for constraint version …'). "
-     f"NOT 'New Type' (that only adds a CML type – Name + Parent type) and not 'Add Labels'. UNCONFIRMED route: "
-     f"copy a working model's association (query) and Insert ExpressionSetConstraintObj with Inspector: ExpressionSetId, ReferenceObjectId "
-     f"(product Id), ConstraintModelTag = {ctype}, ConstraintModelTagType = Type. Copy the pattern from a working model.",
+     f"REQUIRED before activation (else: 'We couldn't find any associations for constraint version 9QL…'). "
+     f"Not done in the Constraint Builder UI ('New Type' only adds a CML type; 'Add Labels' is unrelated). "
+     f"Inspector → Data Import, Object ExpressionSetConstraintObj, Insert the tab 'CML-4 ExpressionSetConstraintObj': "
+     f"ExpressionSetId = model Id (9QL…), ReferenceObjectId = product {pcode} Id (01t…), ConstraintModelTag = {ctype}, "
+     f"ConstraintModelTagType = Type. Then refresh the builder and continue.",
      f"How a working model (ECO) is linked:\nSELECT Id, ExpressionSet.Name, ReferenceObjectId, ReferenceObject.Name, "
      f"ConstraintModelTag, ConstraintModelTagType FROM ExpressionSetConstraintObj WHERE ExpressionSet.Name LIKE '%ECO%'\n\n"
-     f"Model Id:\nSELECT Id, Name FROM ExpressionSet WHERE Name LIKE '%{pcode}%'\n\n"
+     f"Model Id (9QL…):\nSELECT Id, Name FROM ExpressionSet WHERE Name LIKE '%{pcode}%'\n\n"
      f"Product Id:\nSELECT Id, Name FROM Product2 WHERE ProductCode = '{pcode}'"),
     ("CML-5 Validate", "Constraint Builder", "",
      "Validate / compile. On an error, note the message and line number – common causes are in "
@@ -232,6 +243,8 @@ EXTRA = [
      ""),
 ]
 for s in steps:
+    if s[0].startswith("CML"):
+        continue  # its own tab, described by the CML-4 row
     if s[0].startswith("10 "):
         for e in EXTRA:
             ws.append(list(e))
