@@ -144,7 +144,7 @@ The sequence (always give it to the user in this order and with these labels):
 | **CML-1** | Check every attribute in the .cml exists and is linked (tabs 02 + 08 all succeeded) | Data Export |
 | **CML-2** | Create the constraint model + version | Constraint Builder |
 | **CML-3** | Paste the whole .cml into the CML editor, save | Constraint Builder |
-| **CML-4** | **Required before activation**: association CML `type` → product: Constraint Builder **New Type** → pick the product, name = the CML `type` name; keep one `type` block in the editor (or insert `ExpressionSetConstraintObj` via Inspector) | Constraint Builder |
+| **CML-4** | **Required before activation**: association CML `type` → product. *Not* "New Type" (that only adds a CML type). Unconfirmed: copy ECO's `ExpressionSetConstraintObj` rows and insert one for the product via Inspector – see csv_import_reference.md | Constraint Builder |
 | **CML-5** | Validate; fix errors via `references/cml_syntax_rules.md` | Constraint Builder |
 | **CML-6** | Activate | Constraint Builder |
 | **TEST** | Quote with the reference configuration, check outputs | Quote |
