@@ -161,3 +161,13 @@ Before importing, compare names with what is already in the org:
 See existing associations: `SELECT ExpressionSet.Name, ReferenceObjectId, ConstraintModelTag, ConstraintModelTagType FROM ExpressionSetConstraintObj` Without the UI: insert `ExpressionSetConstraintObj` (ExpressionSetId, ReferenceObjectId = product Id, ConstraintModelTag = type name, ConstraintModelTagType = Type). Copy a working model's pattern: `SELECT ExpressionSet.Name, ReferenceObject.Name, ConstraintModelTag, ConstraintModelTagType FROM ExpressionSetConstraintObj WHERE ExpressionSet.Name LIKE '%ECO%'` |
 | CML-5 | Validate; errors → `cml_syntax_rules.md`. |
 | CML-6 | Activate. Then tab 10 (PricebookEntry, UnitPrice 0 placeholder – without it the product is not in the quote's product picker), then TEST on a quote with the reference configuration. |
+
+## Org price books (tab 10)
+
+Every product needs an active PricebookEntry in **both** (standard first), otherwise it is not in the
+quote's product picker. The builder fills them in by default (`--pricebooks id1,id2` to override):
+
+| Pricebook2Id | Role |
+|---|---|
+| `01s0Y000004WPyFQAW` | Standard price book – import this row first |
+| `01sAP000003qiEXYAY` | Price book used by the quotes – second |

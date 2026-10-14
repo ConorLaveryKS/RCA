@@ -16,3 +16,8 @@ The user's destination for every Configurator / Product Price Template is:
   user, and tell them to save it into the folder above.
 
 File naming: `<Product>_ProductPriceTemplate.xlsx` (e.g. `Airlite_ProductPriceTemplate.xlsx`).
+
+## Org price books
+
+Every product needs a PricebookEntry (tab 10) in both, standard first:
+`01s0Y000004WPyFQAW` (standard price book) and `01sAP000003qiEXYAY` (quote price book).

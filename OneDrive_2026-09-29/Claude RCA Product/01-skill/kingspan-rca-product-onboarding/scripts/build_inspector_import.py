@@ -14,6 +14,12 @@ def opt(name):
     if name in args:
         i = args.index(name); v = args[i + 1]; del args[i:i + 2]; return v
 cml_file, test_text = opt("--cml"), opt("--test")
+# Org price books (confirmed by the user, Oct 2026) – every product needs an entry in both (tab 10)
+PRICEBOOKS = [("01s0Y000004WPyFQAW", "Standard price book – first"),
+              ("01sAP000003qiEXYAY", "Quote price book – second")]
+pb = opt("--pricebooks")
+if pb:
+    PRICEBOOKS = [(x.strip(), "") for x in pb.split(",")]
 csv_dir, out, P = args[0:3]
 cml_type = None
 if cml_file and os.path.exists(cml_file):
@@ -166,14 +172,14 @@ if cml_type:
 
 # 10 / 11 pricing – not yet
 tab("10 PricebookEntry", ["Pricebook2Id", "Product2Id", "UnitPrice", "IsActive", "CurrencyIsoCode", "UseStandardPrice"],
-    [["<Standard Price Book Id>", "<Product2 Id>", "0", "true", "EUR", "false"],
-     ["<Quote's price book Id>", "<Product2 Id>", "0", "true", "EUR", "false"]],
+    [[pid, "<Product2 Id>", "0", "true", "EUR", "false"] for pid, _ in PRICEBOOKS],
     "Insert (price 0 placeholder)",
     "REQUIRED before TEST: a product only appears in a quote's product picker with an active entry in the quote's "
     "price book and currency. Load now with UnitPrice 0, update when factory prices arrive. Standard Price Book row "
-    "first (Salesforce requires it), then the quote's price book (skip row 2 if that is the standard one). "
+    f"first (Salesforce requires it), then the quote's price book. Org price books: "
+    f"{'; '.join(f'{i} = {d}' for i, d in PRICEBOOKS)}. "
     "One pair per currency the quotes use – copy the pattern of a similar product (query on Import Steps).",
-    fill_cols=("Pricebook2Id", "Product2Id"))
+    fill_cols=("Product2Id",))
 tab("11 Attribute_Pricing__c", ["Product__c", "Attribute__c", "Cost__c", "Factor__c", "Attribute_Value__c"],
     [["<Product2 Id>", "<attribute>", "<cost>", "", "<value>"]], "Insert – LATER",
     "Skip until prices are known (see the template's Configurable Product Pricing tab).",
