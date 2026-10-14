@@ -160,4 +160,4 @@ Before importing, compare names with what is already in the org:
 
 See existing associations: `SELECT ExpressionSet.Name, ReferenceObjectId, ConstraintModelTag, ConstraintModelTagType FROM ExpressionSetConstraintObj` Without the UI: insert `ExpressionSetConstraintObj` (ExpressionSetId, ReferenceObjectId = product Id, ConstraintModelTag = type name, ConstraintModelTagType = Type). Copy a working model's pattern: `SELECT ExpressionSet.Name, ReferenceObject.Name, ConstraintModelTag, ConstraintModelTagType FROM ExpressionSetConstraintObj WHERE ExpressionSet.Name LIKE '%ECO%'` |
 | CML-5 | Validate; errors → `cml_syntax_rules.md`. |
-| CML-6 | Activate. Then TEST on a quote with the reference configuration. |
+| CML-6 | Activate. Then tab 10 (PricebookEntry, UnitPrice 0 placeholder – without it the product is not in the quote's product picker), then TEST on a quote with the reference configuration. |

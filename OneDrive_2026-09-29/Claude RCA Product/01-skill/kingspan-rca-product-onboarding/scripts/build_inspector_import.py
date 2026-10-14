@@ -165,10 +165,15 @@ if cml_type:
         fill_cols=("ExpressionSetId", "ReferenceObjectId"))
 
 # 10 / 11 pricing – not yet
-tab("10 PricebookEntry", ["Pricebook2Id", "Product2Id", "UnitPrice", "IsActive", "CurrencyIsoCode"],
-    [["<Standard Price Book Id>", "<Product2 Id>", "<price>", "true", "EUR"]], "Insert – LATER",
-    "Skip until the factory supplies prices. Standard Price Book entry first, then the KLAW price book.",
-    fill_cols=("Pricebook2Id", "Product2Id", "UnitPrice"))
+tab("10 PricebookEntry", ["Pricebook2Id", "Product2Id", "UnitPrice", "IsActive", "CurrencyIsoCode", "UseStandardPrice"],
+    [["<Standard Price Book Id>", "<Product2 Id>", "0", "true", "EUR", "false"],
+     ["<Quote's price book Id>", "<Product2 Id>", "0", "true", "EUR", "false"]],
+    "Insert (price 0 placeholder)",
+    "REQUIRED before TEST: a product only appears in a quote's product picker with an active entry in the quote's "
+    "price book and currency. Load now with UnitPrice 0, update when factory prices arrive. Standard Price Book row "
+    "first (Salesforce requires it), then the quote's price book (skip row 2 if that is the standard one). "
+    "One pair per currency the quotes use – copy the pattern of a similar product (query on Import Steps).",
+    fill_cols=("Pricebook2Id", "Product2Id"))
 tab("11 Attribute_Pricing__c", ["Product__c", "Attribute__c", "Cost__c", "Factor__c", "Attribute_Value__c"],
     [["<Product2 Id>", "<attribute>", "<cost>", "", "<value>"]], "Insert – LATER",
     "Skip until prices are known (see the template's Configurable Product Pricing tab).",
@@ -189,7 +194,10 @@ Q = {
         ("Which category/catalog a similar product uses", "SELECT ProductCategoryId, ProductCategory.Name, ProductCategory.Catalog.Name FROM ProductCategoryProduct WHERE Product.ProductCode = '<similar product code>'"),
     ],
     "10 PricebookEntry": [
-        ("Pricebook2Id", "SELECT Id, Name, IsStandard FROM Pricebook2 WHERE IsActive = true"),
+        ("Price books (standard + active)", "SELECT Id, Name, IsStandard, IsActive FROM Pricebook2 WHERE IsActive = true OR IsStandard = true"),
+        ("Price book + currency of recent quotes", "SELECT Id, Name, Pricebook2Id, Pricebook2.Name, CurrencyIsoCode FROM Quote ORDER BY CreatedDate DESC LIMIT 5"),
+        ("Pattern of a similar product", "SELECT Pricebook2.Name, Pricebook2.IsStandard, CurrencyIsoCode, UnitPrice, IsActive, UseStandardPrice FROM PricebookEntry WHERE Product2.ProductCode = '<similar product code>'"),
+        ("Check after import", "SELECT Pricebook2.Name, CurrencyIsoCode, UnitPrice, IsActive FROM PricebookEntry WHERE Product2.ProductCode = '<product code>'"),
     ],
 }
 pc = r_prod_code = None
@@ -237,17 +245,22 @@ EXTRA = [
      "search limit). Fix the .cml, paste again, re-validate.", ""),
     ("CML-6 Activate", "Constraint Builder", "",
      "Activate the version. Only one active version per model.", ""),
-    ("TEST – Quote", "Quote", "",
+    ("TEST – Quote", "Quote", "",  # placed after tab 10 (needs the price book entry)
      "Create a quote, add the product, configure. Check: every attribute shows, dropdown values are right, "
      "invalid combinations are blocked with the rule message, calculated outputs fill in. "
      + (f"Reference configuration: {test_text}" if test_text else "Use the configurator's own example as reference."),
      ""),
 ]
+CML_ROWS = [e for e in EXTRA if e[0].startswith("CML")]
+TEST_ROWS = [e for e in EXTRA if e[0].startswith("TEST")]
 for s in steps:
     if s[0].startswith("CML"):
         continue  # its own tab, described by the CML-4 row
     if s[0].startswith("10 "):
-        for e in EXTRA:
+        for e in CML_ROWS:
+            ws.append(list(e))
+    if s[0].startswith("11 "):
+        for e in TEST_ROWS:
             ws.append(list(e))
     qs = Q.get(s[0], [])
     ws.append(list(s) + ["\n\n".join(f"{d}:\n{q}" for d, q in qs)])

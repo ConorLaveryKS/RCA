@@ -147,10 +147,11 @@ The sequence (always give it to the user in this order and with these labels):
 | **CML-4** | **Required before activation**: association CML `type` → product: Inspector Insert **`ExpressionSetConstraintObj`** (ExpressionSetId 9QL…, ReferenceObjectId = product, ConstraintModelTag = CML type, ConstraintModelTagType = Type) – workbook tab "CML-4 ExpressionSetConstrObj". Not the "New Type" button | Constraint Builder |
 | **CML-5** | Validate; fix errors via `references/cml_syntax_rules.md` | Constraint Builder |
 | **CML-6** | Activate | Constraint Builder |
+| **10** | PricebookEntry with **UnitPrice 0** placeholder – standard price book first, then the quote's price book, per currency. **Required before TEST**: without it the product is not in the quote's product picker | Inspector → Data Import |
 | **TEST** | Quote with the reference configuration, check outputs | Quote |
-| **10 – 11** | Pricing – only once factory prices exist | Inspector → Data Import |
+| **11** | Attribute pricing – once factory prices exist (then also update the 10 UnitPrice) | Inspector → Data Import |
 
-Never number CML / TEST like tabs: tab 10 is PricebookEntry.
+Never number CML / TEST like tabs: tab 10 is PricebookEntry. Order: 01–09 → CML-1…6 → 10 → TEST → 11.
 
 ## Troubleshooting – error → fix (from the Airlite import, Oct 2026)
 
@@ -173,6 +174,7 @@ a failure in one step makes every later step that looks it up fail too.
 | 09 | `MALFORMED_ID: Category ID: id value of incorrect type: <name>` | Name given instead of Id | `SELECT Id, Name, Catalog.Name FROM ProductCategory WHERE Name LIKE '%…%'` (0ZG…) |
 | CML-6 | `We couldn't find any associations for constraint version 9QL…` | No `ExpressionSetConstraintObj` linking the CML type to the product | Insert one (tab "CML-4 ExpressionSetConstrObj"). The `9QL…` Id in the message **is** the ExpressionSetId of the model |
 | CML-4 | Builder only offers "New Type" (Name + Parent type) / "Add Labels" | Neither creates the product association | Use the Inspector insert above |
+| Quote | Product not found in the quote's product picker | No active PricebookEntry in the quote's price book / currency | Tab 10 with UnitPrice 0 (standard price book first); check product IsActive and the tab 09 category |
 | Quote | Many attributes / options missing on the configured product | Steps 02/03/07/08 partly failed | Check with the CML-1 query; if many records are half-created, rebuild with a suffix (re-import set, e.g. `AIR2`) |
 
 **Delivering files to the user**
